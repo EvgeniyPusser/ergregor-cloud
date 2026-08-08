@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Egregor Cloud</title>
+    <meta
+      name="description"
+      content="Egregor Cloud is a living online laboratory for houses, vehicles, materials, and future organisms that learn together."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top">
+          <span class="brand-mark">EC</span>
+          <span class="brand-copy">
+            <strong>Egregor Cloud</strong>
+            <small>Online Laboratory for Living Things</small>
+          </span>
+        </a>
+        <nav class="site-nav">
+          <a href="#manifesto">Manifesto</a>
+          <a href="#models">Models</a>
+          <a href="#lab">Cloud Lab</a>
+          <a href="#join">Join</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">A new ecosystem starts with a first signal</p>
+            <h1>
+              A cloud where living houses, machines, ships, and future organisms
+              can grow together.
+            </h1>
+            <p class="hero-text">
+              Egregor Cloud is not a file archive. It is a public seed of a new
+              world: a place where models, thoughts, collaborators, and future
+              prototypes gather into a shared evolutionary memory.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#models">Explore seed models</a>
+              <a class="button button-secondary" href="#join">Enter the lab</a>
+            </div>
+          </div>
+          <div class="hero-panel">
+            <div class="signal-card">
+              <span class="signal-label">Current signal</span>
+              <strong>Stage 1: Public cloud nucleus</strong>
+              <p>
+                Show the vision, collect first participants, preserve model
+                history, and let every new branch connect to a shared genome.
+              </p>
+            </div>
+            <div class="metrics-grid">
+              <article>
+                <strong id="model-count">0</strong>
+                <span>seed models</span>
+              </article>
+              <article>
+                <strong id="track-count">0</strong>
+                <span>system tracks</span>
+              </article>
+              <article>
+                <strong>1</strong>
+                <span>living cloud nucleus</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="manifesto" id="manifesto">
+          <div class="section-heading">
+            <p class="eyebrow">Manifesto</p>
+            <h2>Simple enough to enter. Big enough to change civilization.</h2>
+          </div>
+          <div class="manifesto-grid">
+            <article>
+              <h3>Not storage. Evolution.</h3>
+              <p>
+                Every model is a living branch with memory, not a dead file in a
+                folder.
+              </p>
+            </article>
+            <article>
+              <h3>Not isolation. Contact.</h3>
+              <p>
+                People enter with ideas, leave traces of thought, and discover
+                others building similar organisms.
+              </p>
+            </article>
+            <article>
+              <h3>Not one object. Ecosphere.</h3>
+              <p>
+                Houses are only the beginning. The same genome can later expand
+                into machines, ships, materials, and whole habitats.
+              </p>
+            </article>
+            <article>
+              <h3>Not hype. Accumulating intelligence.</h3>
+              <p>
+                The cloud learns from every branch, mutation, failure, and
+                collaboration.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="models" id="models">
+          <div class="section-heading">
+            <p class="eyebrow">Seed Library</p>
+            <h2>First models extracted from your existing project worlds</h2>
+          </div>
+          <div class="toolbar">
+            <label class="search">
+              <span>Search</span>
+              <input id="search-input" type="search" placeholder="living house, sensors, blueprint..." />
+            </label>
+            <div class="filters" id="filters"></div>
+          </div>
+          <div class="card-grid" id="model-grid"></div>
+        </section>
+
+        <section class="model-runtime" id="runtime">
+          <div class="section-heading">
+            <p class="eyebrow">Model Runtime</p>
+            <h2>How one living house can already work inside the cloud</h2>
+          </div>
+          <div class="runtime-layout">
+            <article class="runtime-main">
+              <div class="runtime-topline">
+                <span class="runtime-kicker">Selected model</span>
+                <span class="runtime-status" id="runtime-status">Ready</span>
+              </div>
+              <h3 id="runtime-title">Choose a model from the library</h3>
+              <p id="runtime-summary">
+                Click a card above to open its cloud nucleus. The first useful
+                test is the living house branch.
+              </p>
+              <figure class="runtime-figure" id="runtime-figure">
+                <img id="runtime-image" alt="" />
+                <figcaption id="runtime-caption"></figcaption>
+              </figure>
+              <div class="runtime-grid">
+                <div class="runtime-block">
+                  <h4>Current genome</h4>
+                  <ul id="runtime-genome"></ul>
+                </div>
+                <div class="runtime-block">
+                  <h4>Linked systems</h4>
+                  <div class="linked-systems" id="runtime-links"></div>
+                </div>
+              </div>
+            </article>
+
+            <aside class="runtime-side">
+              <div class="thought-panel">
+                <h3>Thought stream</h3>
+                <p class="thought-copy">
+                  This simulates the first lab behavior: a person studies a
+                  model and leaves a new mutation, note, or branch idea.
+                </p>
+                <div class="thought-list" id="thought-list"></div>
+                <form class="thought-form" id="thought-form">
+                  <label>
+                    <span>Your new thought</span>
+                    <textarea
+                      id="thought-input"
+                      rows="4"
+                      placeholder="Example: connect the house core with a water metabolism branch and vibration sensors."
+                    ></textarea>
+                  </label>
+                  <button class="button button-primary" type="submit">
+                    Add to local cloud memory
+                  </button>
+                </form>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="lab" id="lab">
+          <div class="section-heading">
+            <p class="eyebrow">Cloud Lab</p>
+            <h2>The minimum viable laboratory</h2>
+          </div>
+          <div class="lab-layout">
+            <article class="lab-panel">
+              <h3>How the first online lab works</h3>
+              <ol>
+                <li>A visitor opens a model and sees its current genome.</li>
+                <li>The visitor studies linked systems, images, and source notes.</li>
+                <li>The visitor adds a hypothesis, contact, or new branch idea.</li>
+                <li>The cloud preserves the contribution as part of model history.</li>
+                <li>Future AI layers connect similar thoughts across the ecosystem.</li>
+              </ol>
+            </article>
+            <article class="lab-panel">
+              <h3>Platform rules to support autonomous growth</h3>
+              <ul>
+                <li>Every contribution must point to a model, system, or question.</li>
+                <li>Every branch keeps author trace and a visible evolution log.</li>
+                <li>Teams can build their own track without asking permission first.</li>
+                <li>Shared standards connect separate efforts into one genome.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="timeline">
+          <div class="section-heading">
+            <p class="eyebrow">Growth Path</p>
+            <h2>From public seed to autonomous ecosystem</h2>
+          </div>
+          <div class="timeline-grid">
+            <article>
+              <span>01</span>
+              <h3>Public signal</h3>
+              <p>Launch the portal, show the vision, and publish the first seed models.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Contribution layer</h3>
+              <p>Let people submit ideas, branches, collaborations, and offers of help.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Shared genome</h3>
+              <p>Connect models by rules, tags, needs, and evolving histories.</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>Micro-economy</h3>
+              <p>Introduce paid access, licensing, curation, and AI assistance without blocking entry.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="join" id="join">
+          <div class="section-heading">
+            <p class="eyebrow">Join the Ecosphere</p>
+            <h2>Make the first connection point visible now</h2>
+          </div>
+          <div class="join-layout">
+            <form class="join-form">
+              <label>
+                <span>Name</span>
+                <input type="text" placeholder="Your name" />
+              </label>
+              <label>
+                <span>Email or Telegram</span>
+                <input type="text" placeholder="How should the cloud reach you?" />
+              </label>
+              <label>
+                <span>Role</span>
+                <select>
+                  <option>Researcher</option>
+                  <option>Futurist</option>
+                  <option>Engineer</option>
+                  <option>Architect</option>
+                  <option>Supporter</option>
+                  <option>Potential funder</option>
+                </select>
+              </label>
+              <label>
+                <span>What living thing do you want to grow?</span>
+                <textarea rows="5" placeholder="House, material, ship, machine, sensor system, lab branch..."></textarea>
+              </label>
+              <button class="button button-primary" type="button">Submit interest</button>
+            </form>
+            <aside class="join-copy">
+              <h3>What a first visitor should feel</h3>
+              <p>
+                This is the beginning of a new world, and participation starts
+                before the full platform exists. The point is to gather signal,
+                memory, and the first aligned minds.
+              </p>
+              <div class="micro-economy">
+                <h4>Future micro-economy, without scaring people away</h4>
+                <ul>
+                  <li>Free entry and open inspiration at the start.</li>
+                  <li>Paid premium model packs later.</li>
+                  <li>Licensing of original model branches later.</li>
+                  <li>Small paid services: curation, AI analysis, matchmaking.</li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="connection" id="connection">
+          <div class="section-heading">
+            <p class="eyebrow">Cloud Connection</p>
+            <h2>Connect this local prototype to your Supabase project</h2>
+          </div>
+          <div class="connection-layout">
+            <form class="connection-form" id="connection-form">
+              <label>
+                <span>Project URL</span>
+                <input id="supabase-url" type="text" placeholder="https://your-project.supabase.co" />
+              </label>
+              <label>
+                <span>Publishable key</span>
+                <textarea id="supabase-key" rows="4" placeholder="Paste the Supabase publishable key here"></textarea>
+              </label>
+              <div class="connection-actions">
+                <button class="button button-primary" type="submit">Save connection</button>
+                <button class="button button-secondary" id="clear-connection" type="button">Clear</button>
+              </div>
+            </form>
+            <aside class="connection-copy">
+              <h3>What to paste</h3>
+              <p>
+                Use only the <strong>Project URL</strong> and the
+                <strong>Publishable key</strong> from Supabase Settings → API.
+                Do not paste secret or service role keys here.
+              </p>
+              <p class="connection-status" id="connection-status">
+                Local mode is active. The site is still using local seed data.
+              </p>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="model-card-template">
+      <article class="model-card">
+        <div class="model-card-top">
+          <span class="chip chip-type"></span>
+          <span class="chip chip-stage"></span>
+        </div>
+        <h3 class="model-title"></h3>
+        <p class="model-summary"></p>
+        <div class="model-meta">
+          <span class="model-track"></span>
+          <span class="model-origin"></span>
+        </div>
+        <div class="tag-list"></div>
+      </article>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase.config.js"></script>
+    <script src="./models.js"></script>
+    <script src="./app.js"></script>
+  </body>
+  </html>
