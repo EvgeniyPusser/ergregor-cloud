@@ -262,12 +262,27 @@ main {
 .focus-figure img {
   display: block;
   width: 100%;
+}
+
+.story-card img {
   height: 100%;
+}
+
+.story-card-wide .hero-visual {
+  max-height: 620px;
   object-fit: cover;
 }
 
-.story-card-wide img {
-  max-height: 620px;
+.diagram-visual {
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.material-visual {
+  max-height: 560px;
   object-fit: cover;
 }
 
