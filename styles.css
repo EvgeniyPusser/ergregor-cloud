@@ -150,6 +150,7 @@ main {
 .filters,
 .model-card-top,
 .model-meta,
+.panel-topline,
 .tag-list,
 .runtime-layout,
 .runtime-grid,
@@ -197,6 +198,7 @@ main {
 
 .hero-panel,
 .manifesto-grid article,
+.activity-panel,
 .model-card,
 .runtime-main,
 .thought-panel,
@@ -266,10 +268,209 @@ main {
 }
 
 .manifesto-grid,
+.audience-grid,
 .card-grid,
+.showcase-grid,
 .timeline-grid {
   display: grid;
   gap: 18px;
+}
+
+.showcase-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.city-intro {
+  max-width: 760px;
+  margin-bottom: 22px;
+}
+
+.city-intro p {
+  margin: 0;
+  color: #dbe8e3;
+  line-height: 1.65;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.city-card {
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.city-card img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+
+.city-copy {
+  padding: 20px;
+}
+
+.city-copy h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.18rem;
+}
+
+.city-copy p {
+  margin: 0;
+  color: #dbe8e3;
+  line-height: 1.55;
+}
+
+.showcase-card {
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  display: grid;
+}
+
+.showcase-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.showcase-copy {
+  padding: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.showcase-copy h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.showcase-copy p {
+  margin: 0;
+  color: #dbe8e3;
+  line-height: 1.55;
+}
+
+.activity-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+}
+
+.showcase-invite {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.invite-card {
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+}
+
+.invite-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.12rem;
+}
+
+.invite-card p {
+  margin: 0 0 16px;
+  color: #dbe8e3;
+  line-height: 1.55;
+}
+
+.activity-panel {
+  padding: 24px;
+}
+
+.panel-topline {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.panel-topline h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.panel-topline span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.activity-list,
+.idea-groups {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-item,
+.idea-group {
+  padding: 16px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.activity-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.activity-item p,
+.idea-group p {
+  margin: 0;
+  color: #dbe8e3;
+  line-height: 1.55;
+}
+
+.idea-group strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.idea-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.audience-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.audience-grid article {
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.audience-grid h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
 }
 
 .manifesto-grid {
@@ -472,6 +673,81 @@ main {
   display: none;
 }
 
+.runtime-flow {
+  display: none;
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(156, 255, 201, 0.2);
+  background: linear-gradient(180deg, rgba(156, 255, 201, 0.08), rgba(255, 255, 255, 0.03));
+}
+
+.runtime-flow.is-visible {
+  display: block;
+}
+
+.runtime-flow-header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.runtime-flow-header h4 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.runtime-flow-header p {
+  margin: 0;
+  color: #d2e0da;
+  line-height: 1.55;
+}
+
+.runtime-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.runtime-flow-card {
+  min-height: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(6, 19, 28, 0.52);
+}
+
+.runtime-flow-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.runtime-flow-card p {
+  margin: 0;
+  color: #eef6f2;
+  line-height: 1.55;
+}
+
+.runtime-flow-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.runtime-flow-chip {
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(156, 255, 201, 0.22);
+  background: rgba(156, 255, 201, 0.08);
+  color: #dff7eb;
+  font-size: 0.78rem;
+}
+
 .runtime-block {
   flex: 1 1 0;
   padding: 18px;
@@ -619,15 +895,24 @@ main {
 
 @media (max-width: 980px) {
   .hero,
+  .audience-grid,
   .manifesto-grid,
   .card-grid,
+  .showcase-grid,
+  .city-grid,
+  .showcase-invite,
   .timeline-grid,
+  .activity-layout,
   .runtime-grid,
   .lab-layout,
   .join-layout,
   .connection-layout {
     grid-template-columns: 1fr;
     flex-direction: column;
+  }
+
+  .runtime-flow-grid {
+    grid-template-columns: 1fr;
   }
 
   .site-header {

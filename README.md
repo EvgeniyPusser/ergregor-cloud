@@ -4,10 +4,21 @@ Static prototype for the first public nucleus of Egregor Cloud.
 
 ## What is included
 
-- `index.html` — landing page with manifesto, seed library, lab, and join flow
-- `styles.css` — visual language for the first public portal
-- `models.js` — seed data based on the current project folders
-- `app.js` — client-side filtering for the model library
+- `index.html` - landing page with manifesto, seed library, lab, and join flow
+- `styles.css` - visual language for the first public portal
+- `models.js` - seed data based on the current project folders
+- `app.js` - client-side filtering for the model library
+- `supabase.config.js` - optional cloud connection settings
+
+## Local launch
+
+Run:
+
+```bash
+npm run dev
+```
+
+Then open `http://127.0.0.1:4173`.
 
 ## Why static first
 
@@ -18,10 +29,24 @@ This version is intentionally simple:
 - easy to move later to Cloudflare Pages, Hostinger, or a framework app
 - gives a public face for outreach before the full cloud exists
 
+## Auto deploy from GitHub
+
+Recommended hosting: `Cloudflare Pages`.
+
+Use these settings:
+
+- Repository: `EvgeniyPusser/ergregor-cloud`
+- Branch: `main`
+- Framework preset: `None`
+- Build command: leave empty
+- Output directory: `.`
+
+After that, every push to `main` deploys automatically.
+
 ## Recommended next steps
 
 1. Add real images and links to source documents.
-2. Replace the fake join form with Supabase-backed submissions.
+2. Keep filling Supabase with real models and thoughts.
 3. Add a model detail page for each seed object.
 4. Add roles, access levels, and contribution history.
 5. Introduce payments only after trust and attention exist.

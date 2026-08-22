@@ -19,9 +19,9 @@ window.EGREGOR_MODELS = [
     origin: "Alive Things",
     summary:
       "A living house with a sensory core, adaptive shell, and connection to a shared cloud consciousness.",
-    image: "./assets/home-structure.png",
+    image: "./assets/living-house-hero-cozy.webp",
     imageCaption:
-      "First visible architecture of the house brain: sensors, feedback loops, memory, genome storage, metabolism, and actuators.",
+      "A warm living house with tree-like inner veins, a calm intelligent heart, regenerative surfaces, and a protective atmosphere for human life.",
     tags: ["house", "cloud", "core", "adaptive shell"],
     genome: [
       "Sensory core in walls, roof, foundation, and engineering arteries",
@@ -34,6 +34,50 @@ window.EGREGOR_MODELS = [
       "The house is not a product. It is a growing branch of a larger ecosystem.",
       "The cloud should preserve every design mutation, not only the final version."
     ]
+  },
+  {
+    id: "living-car-concept",
+    title: "Living Mobility Concept",
+    type: "Living Mobility",
+    stage: "Seed model",
+    track: "Living Mobility",
+    origin: "Egregor Cloud",
+    summary:
+      "A living mobility concept where movement, memory, parts, and adaptation form one coherent machine language.",
+    image: "./assets/living-mobility-hero-clean.webp",
+    imageCaption:
+      "A softened mobility organism on matte pink-lilac paper: cleaner, more tactile, and easier to read as a living system of movement and memory.",
+    tags: ["car", "vehicle", "mobility", "self-healing"],
+    genome: [
+      "Sensory skin for heat, vibration, pressure, and environment",
+      "Adaptive body with regenerative zones",
+      "AI driving core linked to memory and feedback loops",
+      "Metabolic energy logic instead of static mechanical consumption"
+    ],
+    links: ["House Egregor Concept", "Structural Sensor Network"],
+    thoughts: []
+  },
+  {
+    id: "living-aircraft-concept",
+    title: "Living Aircraft Concept",
+    type: "Living Aircraft",
+    stage: "Seed model",
+    track: "Living Mobility",
+    origin: "Egregor Cloud",
+    summary:
+      "A living aircraft with responsive surfaces, distributed sensing, self-repair, and intelligent flight behavior.",
+    image: "./assets/living-aircraft-hero-v3.webp",
+    imageCaption:
+      "A friendlier living aircraft: aerodynamic, intelligent, and almost creature-like, with a readable face and adaptive body.",
+    tags: ["aircraft", "flight", "mobility", "adaptive surfaces"],
+    genome: [
+      "Distributed sensing across wings and body",
+      "Self-repairing skin and adaptive aerodynamic surfaces",
+      "AI flight brain with memory and predictive control",
+      "Energy and airflow treated as part of a living metabolism"
+    ],
+    links: ["House Egregor Concept", "Structural Sensor Network"],
+    thoughts: []
   },
   {
     id: "housecloud",
