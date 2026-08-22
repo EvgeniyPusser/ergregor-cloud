@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>House Runtime | Egregor Cloud</title>
+    <meta
+      name="description"
+      content="A volumetric runtime view of how a living house sends signals, failures, feedback, and new mutations into Egregor Cloud."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell detail-shell">
+      <header class="site-header">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">EC</span>
+          <span class="brand-copy">
+            <strong>Egregor Cloud</strong>
+            <small>House Runtime</small>
+          </span>
+        </a>
+        <nav class="site-nav">
+          <a href="./index.html#models">Back to models</a>
+          <a href="#house-board">House board</a>
+          <a href="#feedback-loop">Feedback loop</a>
+        </nav>
+      </header>
+
+      <main class="detail-main">
+        <section class="detail-hero">
+          <div class="detail-copy">
+            <p class="eyebrow">Living House Runtime</p>
+            <h1>The model is not finished in the drawing. It becomes real when one built house starts reporting its life back to the cloud.</h1>
+            <p class="hero-text">
+              This page shows the first working imagination of the house branch:
+              where sensors sit, what events they send, how the cloud stores
+              behavior, and how a stronger version of the model is born from
+              repeated life cycles.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#house-board">See the runtime board</a>
+              <a class="button button-secondary" href="./index.html#runtime">Back to runtime</a>
+            </div>
+          </div>
+          <div class="detail-signal">
+            <div class="signal-card">
+              <span class="signal-label">Active branch</span>
+              <strong>House Egregor Concept / Telemetry Layer</strong>
+              <p>
+                One real house instance becomes a sensor organ for the whole
+                cloud. Its stress, water pulses, repairs, overrides, and
+                failures stop being private and start feeding the shared model.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="house-board" id="house-board">
+          <div class="section-heading">
+            <p class="eyebrow">Volumetric View</p>
+            <h2>Where the house senses, reacts, and sends life into the cloud</h2>
+          </div>
+          <div class="house-board-layout">
+            <article class="house-diagram-card">
+              <div class="house-diagram">
+                <img src="./assets/living-house-hero-cozy.webp" alt="Living house runtime diagram" />
+                <div class="sensor-node sensor-roof">
+                  <strong>Roof skin</strong>
+                  <span>Heat + rain load</span>
+                </div>
+                <div class="sensor-node sensor-wall">
+                  <strong>Wall veins</strong>
+                  <span>Vibration + cracks</span>
+                </div>
+                <div class="sensor-node sensor-water">
+                  <strong>Water artery</strong>
+                  <span>Flow + pressure</span>
+                </div>
+                <div class="sensor-node sensor-core">
+                  <strong>Core AI</strong>
+                  <span>Decision + memory</span>
+                </div>
+                <div class="sensor-node sensor-foundation">
+                  <strong>Foundation</strong>
+                  <span>Stress + shift</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="house-telemetry-card">
+              <h3>What gets fixed every minute</h3>
+              <div class="telemetry-stream">
+                <div class="telemetry-item">
+                  <span>09:14</span>
+                  <p>Roof skin detects overheating on the south face.</p>
+                </div>
+                <div class="telemetry-item">
+                  <span>09:15</span>
+                  <p>Water artery pressure falls below expected pattern.</p>
+                </div>
+                <div class="telemetry-item">
+                  <span>09:16</span>
+                  <p>Core AI opens cooling and flags a probable valve blockage.</p>
+                </div>
+                <div class="telemetry-item">
+                  <span>09:18</span>
+                  <p>Human repair closes the loop and confirms a weak joint.</p>
+                </div>
+                <div class="telemetry-item">
+                  <span>09:21</span>
+                  <p>Cloud stores this as a repeatable failure pattern for the next branch.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="feedback-loop" id="feedback-loop">
+          <div class="section-heading">
+            <p class="eyebrow">Feedback Loop</p>
+            <h2>How one built house changes the model for everyone else</h2>
+          </div>
+          <div class="feedback-grid">
+            <article class="feedback-card">
+              <strong>1. Built instance</strong>
+              <p>A family, school lab, or maker group assembles one real branch from the shared model.</p>
+            </article>
+            <article class="feedback-card">
+              <strong>2. Sensor events</strong>
+              <p>The house logs wall strain, humidity, valve motion, thermal stress, repairs, and human overrides.</p>
+            </article>
+            <article class="feedback-card">
+              <strong>3. Cloud history</strong>
+              <p>Egregor Cloud stores every event with model version, sensor origin, reaction, and outcome.</p>
+            </article>
+            <article class="feedback-card">
+              <strong>4. Mutation choice</strong>
+              <p>If a reinforcement, routing pattern, or response logic works better, it becomes a stronger branch.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cloud-schema">
+          <div class="section-heading">
+            <p class="eyebrow">Cloud Memory</p>
+            <h2>What the house actually sends into the shared model</h2>
+          </div>
+          <div class="schema-layout">
+            <article class="schema-card">
+              <h3>Event packet</h3>
+              <ul class="schema-list">
+                <li><strong>House instance:</strong> which built branch produced the signal</li>
+                <li><strong>Model version:</strong> what genome and routing logic it used</li>
+                <li><strong>Sensor origin:</strong> roof, wall, water artery, core, or foundation</li>
+                <li><strong>Event type:</strong> stress, leak, heat spike, vibration, manual override</li>
+                <li><strong>Reaction:</strong> what the house did in response</li>
+                <li><strong>Outcome:</strong> stable, degraded, failed, repaired, improved</li>
+              </ul>
+            </article>
+            <article class="schema-card">
+              <h3>Why this matters</h3>
+              <ul class="schema-list">
+                <li>The cloud sees repeated weak points across many houses.</li>
+                <li>It separates random accidents from structural patterns.</li>
+                <li>It compares one branch against another branch under similar conditions.</li>
+                <li>It promotes better material logic, better routing, and better reflexes into the next version.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="loop-systems">
+          <div class="section-heading">
+            <p class="eyebrow">Closed Loops</p>
+            <h2>Four feedback families the house sends back into the model</h2>
+          </div>
+          <div class="loop-grid">
+            <article class="loop-card">
+              <h3>Structural loop</h3>
+              <p>Cracks, vibration, load drift, and foundation movement train the shell and support genes.</p>
+            </article>
+            <article class="loop-card">
+              <h3>Metabolic loop</h3>
+              <p>Water, waste, and heat are tracked as living flows, not hidden utilities.</p>
+            </article>
+            <article class="loop-card">
+              <h3>Human loop</h3>
+              <p>Manual overrides, comfort complaints, repair notes, and unusual habits become part of the model memory.</p>
+            </article>
+            <article class="loop-card">
+              <h3>Evolution loop</h3>
+              <p>The cloud compares branches and pushes better routing, better materials, and better response logic forward.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="version-evolution">
+          <div class="section-heading">
+            <p class="eyebrow">Version Birth</p>
+            <h2>How the next house model appears</h2>
+          </div>
+          <div class="evolution-line">
+            <article class="evolution-step">
+              <span>V1</span>
+              <h3>Initial branch</h3>
+              <p>The first house is built from the published genome.</p>
+            </article>
+            <article class="evolution-step">
+              <span>Logs</span>
+              <h3>Observed life</h3>
+              <p>Weeks of stress, leaks, heat, repairs, and manual overrides are recorded.</p>
+            </article>
+            <article class="evolution-step">
+              <span>Compare</span>
+              <h3>Cloud judgment</h3>
+              <p>The cloud sees which reactions worked and which parts keep failing.</p>
+            </article>
+            <article class="evolution-step">
+              <span>V2</span>
+              <h3>Stronger branch</h3>
+              <p>The next builder receives a tougher shell, better routing, and a wiser reflex layer.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

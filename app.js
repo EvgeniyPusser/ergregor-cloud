@@ -67,7 +67,9 @@ const runtimeFlowScenarios = {
           "If one house survives better or learns a better response, the cloud keeps it as a stronger branch that the next builder can take."
       }
     ],
-    chips: ["sensor stream", "repair history", "behavior log", "branch mutation"]
+    chips: ["sensor stream", "repair history", "behavior log", "branch mutation"],
+    ctaLabel: "Open full house runtime",
+    ctaHref: "./house-runtime.html"
   }
 };
 
@@ -493,6 +495,10 @@ function renderRuntimeFlow(model) {
     .map((chip) => `<span class="runtime-flow-chip">${chip}</span>`)
     .join("");
 
+  const cta = scenario.ctaHref
+    ? `<div class="runtime-flow-action"><a class="button button-secondary" href="${scenario.ctaHref}">${scenario.ctaLabel || "Open runtime"}</a></div>`
+    : "";
+
   runtimeFlow.innerHTML = `
     <div class="runtime-flow-header">
       <h4>${scenario.title}</h4>
@@ -500,6 +506,7 @@ function renderRuntimeFlow(model) {
     </div>
     <div class="runtime-flow-grid">${cards}</div>
     <div class="runtime-flow-meta">${chips}</div>
+    ${cta}
   `;
   runtimeFlow.classList.add("is-visible");
 }
