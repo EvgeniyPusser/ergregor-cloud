@@ -320,7 +320,7 @@ function renderRuntime() {
     const detailLink = document.createElement("a");
     detailLink.className = "button button-secondary";
     detailLink.href = model.detailUrl;
-    detailLink.textContent = "Open full house runtime";
+    detailLink.textContent = "Open living house lab";
     runtimeActions.appendChild(detailLink);
   }
 
