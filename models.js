@@ -22,6 +22,7 @@ window.EGREGOR_MODELS = [
     image: "./assets/living-house-hero-cozy.webp",
     imageCaption:
       "A warm living house with tree-like inner veins, a calm intelligent heart, regenerative surfaces, and a protective atmosphere for human life.",
+    detailUrl: "./house-runtime.html",
     tags: ["house", "cloud", "core", "adaptive shell"],
     genome: [
       "Sensory core in walls, roof, foundation, and engineering arteries",

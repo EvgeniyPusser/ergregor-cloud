@@ -14,6 +14,7 @@ const runtimeStatus = document.querySelector("#runtime-status");
 const runtimeFigure = document.querySelector("#runtime-figure");
 const runtimeImage = document.querySelector("#runtime-image");
 const runtimeCaption = document.querySelector("#runtime-caption");
+const runtimeActions = document.querySelector("#runtime-actions");
 const thoughtList = document.querySelector("#thought-list");
 const thoughtForm = document.querySelector("#thought-form");
 const thoughtInput = document.querySelector("#thought-input");
@@ -258,6 +259,7 @@ async function initializeSupabase() {
     summary: entry.summary,
     image: entry.image_url || "",
     imageCaption: entry.image_caption || "",
+    detailUrl: entry.detail_url || "",
     genome: entry.genome || [],
     links: entry.links || [],
     tags: entry.tags || [],
@@ -312,6 +314,15 @@ function renderRuntime() {
     item.textContent = point;
     runtimeGenome.appendChild(item);
   });
+
+  runtimeActions.innerHTML = "";
+  if (model.detailUrl) {
+    const detailLink = document.createElement("a");
+    detailLink.className = "button button-secondary";
+    detailLink.href = model.detailUrl;
+    detailLink.textContent = "Open full house runtime";
+    runtimeActions.appendChild(detailLink);
+  }
 
   runtimeLinks.innerHTML = "";
   (model.links || []).forEach((link) => {
