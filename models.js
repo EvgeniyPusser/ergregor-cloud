@@ -1,215 +1,78 @@
 window.EGREGOR_MODELS = [
   {
-    id: "living-civilization-blueprint",
-    title: "Living Civilization Blueprint",
-    type: "Manifesto",
-    stage: "Vision",
-    track: "NooSpere",
-    origin: "CLOSED NooSpere",
+    id: "heat-where-it-goes",
+    title: "Heat: finding where it actually goes",
+    type: "Heat",
+    stage: "Open problem",
+    track: "Energy",
+    origin: "Egregor Cloud",
     summary:
-      "A civilization-scale blueprint where architecture becomes a living intelligence linked through Egregor Cloud.",
-    tags: ["cloud", "civilization", "genome", "living architecture"]
-  },
-  {
-    id: "house-egregor-concept",
-    title: "House Egregor Concept",
-    type: "Living House",
-    stage: "Seed model",
-    track: "Alive Things",
-    origin: "Alive Things",
-    summary:
-      "A living house with a sensory core, adaptive shell, and connection to a shared cloud consciousness.",
-    image: "./assets/living-house-hero-cozy.webp",
-    imageCaption:
-      "A warm living house with tree-like inner veins, a calm intelligent heart, regenerative surfaces, and a protective atmosphere for human life.",
-    detailUrl: "./house-runtime.html",
-    tags: ["house", "cloud", "core", "adaptive shell"],
+      "A building pays a heating bill without knowing which share is envelope loss, which is overheating, and which is schedule. Four sensors separate the three.",
+    tags: ["heat", "energy", "cheap entry", "first step"],
     genome: [
-      "Sensory core in walls, roof, foundation, and engineering arteries",
-      "Adaptive shell that can change around the core",
-      "Cloud connection that preserves memory and shares learning",
-      "Future branch for materials, microbiome, and user feedback loops"
+      "Indoor and outdoor temperature on the same clock",
+      "Supply and return temperature at the heating riser",
+      "One heating season of records, nothing installed, nothing changed",
+      "Only after that: a recommendation with a number attached"
     ],
-    links: ["Structural Sensor Network", "Living Water System", "Living Waste System"],
+    links: ["Comfort: what people actually complain about", "Structural sensors: minimal entry"],
+    sensors: [
+      { id: "t-out",    what: "Outdoor temperature",  unit: "°C", rate: "1/hour", where: "north facade, in shade",            why: "nothing else is comparable without it" },
+      { id: "t-in",     what: "Indoor temperature",   unit: "°C", rate: "1/hour", where: "three rooms, 1.5 m, different sides", why: "one room tells you nothing about the building" },
+      { id: "t-supply", what: "Supply temperature",   unit: "°C", rate: "1/hour", where: "heating riser, supply side",       why: "separates overheating from envelope loss" },
+      { id: "t-return", what: "Return temperature",   unit: "°C", rate: "1/hour", where: "heating riser, return side",       why: "the supply-return gap is how much the building actually took" }
+    ],
+    metrics: [
+      { id: "heat-per-m2",  name: "Heat used per square metre per season", unit: "kWh / m²", better: "lower" },
+      { id: "overheat-hrs", name: "Hours above 24 °C in heating season", unit: "hours", better: "lower" },
+      { id: "spread",       name: "Spread between warmest and coldest room", unit: "°C", better: "lower" }
+    ],
+    conditions: {
+      climate: "Any climate with a heating season",
+      size: "From a single block of flats upward",
+      use: "Residential, office, institutional",
+      occupancy: "Recorded, not assumed",
+      notes: "No refurbishment required. Measurement only in the first season."
+    },
+    lineage: { parent: "", version: "1.0", changed: [] },
+    instances: [],
     thoughts: [
-      "The house is not a product. It is a growing branch of a larger ecosystem.",
-      "The cloud should preserve every design mutation, not only the final version."
+      "The most common finding in the first season is not poor insulation. It is overheating with the windows open.",
+      "A prediction has to be written down before the season starts, or the whole record is worthless afterwards."
     ]
   },
   {
-    id: "living-car-concept",
-    title: "Living Mobility Concept",
-    type: "Living Mobility",
-    stage: "Seed model",
-    track: "Living Mobility",
-    origin: "Egregor Cloud",
-    summary:
-      "A living mobility concept where movement, memory, parts, and adaptation form one coherent machine language.",
-    image: "./assets/living-mobility-hero-clean.webp",
-    imageCaption:
-      "A softened mobility organism on matte pink-lilac paper: cleaner, more tactile, and easier to read as a living system of movement and memory.",
-    tags: ["car", "vehicle", "mobility", "self-healing"],
-    genome: [
-      "Sensory skin for heat, vibration, pressure, and environment",
-      "Adaptive body with regenerative zones",
-      "AI driving core linked to memory and feedback loops",
-      "Metabolic energy logic instead of static mechanical consumption"
-    ],
-    links: ["House Egregor Concept", "Structural Sensor Network"],
-    thoughts: []
-  },
-  {
-    id: "living-aircraft-concept",
-    title: "Living Aircraft Concept",
-    type: "Living Aircraft",
-    stage: "Seed model",
-    track: "Living Mobility",
-    origin: "Egregor Cloud",
-    summary:
-      "A living aircraft with responsive surfaces, distributed sensing, self-repair, and intelligent flight behavior.",
-    image: "./assets/living-aircraft-hero-v3.webp",
-    imageCaption:
-      "A friendlier living aircraft: aerodynamic, intelligent, and almost creature-like, with a readable face and adaptive body.",
-    tags: ["aircraft", "flight", "mobility", "adaptive surfaces"],
-    genome: [
-      "Distributed sensing across wings and body",
-      "Self-repairing skin and adaptive aerodynamic surfaces",
-      "AI flight brain with memory and predictive control",
-      "Energy and airflow treated as part of a living metabolism"
-    ],
-    links: ["House Egregor Concept", "Structural Sensor Network"],
-    thoughts: []
-  },
-  {
-    id: "housecloud",
-    title: "HouseCloud",
-    type: "Platform",
-    stage: "System concept",
-    track: "Alive Things",
-    origin: "Alive Things",
-    summary:
-      "A blockchain-linked ecosystem where living houses share experience with a metabrain and evolve together.",
-    tags: ["platform", "metabrain", "blockchain", "ecosystem"]
-  },
-  {
-    id: "structural-sensors",
-    title: "Structural Sensor Network",
-    type: "Sensor System",
-    stage: "Technical branch",
-    track: "Construction",
-    origin: "Alive Things/Конструкция",
-    summary:
-      "A sensor layer for load-bearing structures that captures vibration, humidity, stress, and other vital signals.",
-    tags: ["sensors", "structure", "monitoring", "signals"],
-    genome: [
-      "Detect vibration and stress",
-      "Track humidity and structural risk",
-      "Feed signal into house memory"
-    ],
-    links: ["House Egregor Concept"],
-    thoughts: ["Sensors give the house its first nervous system."]
-  },
-  {
-    id: "water-system",
-    title: "Living Water System",
-    type: "Infrastructure",
-    stage: "Draft",
-    track: "Water",
-    origin: "Alive Things/Водопровод",
-    summary:
-      "An early branch for turning water circulation into part of a living house metabolism.",
-    tags: ["water", "metabolism", "circulation", "house"],
-    genome: [
-      "Water becomes part of the house metabolism",
-      "Flow is observed, not hidden",
-      "Future closed-loop use"
-    ],
-    links: ["House Egregor Concept"],
-    thoughts: ["Water should behave like an artery, not a separate utility."]
-  },
-  {
-    id: "waste-system",
-    title: "Living Waste System",
-    type: "Infrastructure",
-    stage: "Draft",
-    track: "Waste",
-    origin: "Alive Things/Канализование",
-    summary:
-      "A closed-loop sanitation concept where waste becomes a resource inside a regenerative architecture.",
-    tags: ["waste", "closed loop", "regeneration", "infrastructure"],
-    genome: [
-      "Waste becomes a tracked resource",
-      "Closed-loop sanitation branch",
-      "Future regenerative cycles"
-    ],
-    links: ["House Egregor Concept"],
-    thoughts: ["The house must learn from its outputs as well as its inputs."]
-  },
-  {
-    id: "code-growing",
-    title: "Code Growing",
-    type: "Method",
-    stage: "Thought stream",
-    track: "NooSpere",
-    origin: "CLOSED NooSpere",
-    summary:
-      "The idea that code can evolve into a guiding genome for future living matter and architecture.",
-    tags: ["code", "genome", "growth", "method"]
-  },
-  {
-    id: "funds-message",
-    title: "Message to Funds",
-    type: "Outreach",
-    stage: "Activation",
-    track: "Funding",
-    origin: "CLOSED NooSpere",
-    summary:
-      "A first fundraising layer aimed at aligning the project with grants, labs, and future backers.",
-    tags: ["funding", "outreach", "grants", "partners"]
-  },
-  {
-    id: "weizmann-collaboration",
-    title: "Weizmann Collaboration Concept",
-    type: "Research",
-    stage: "Partner track",
-    track: "Research",
-    origin: "Alive Things",
-    summary:
-      "A collaboration concept for biomaterials and self-assembling systems as a scientific basis for living architecture.",
-    tags: ["science", "biomaterials", "research", "collaboration"]
-  },
-  {
     id: "structural-sensors-minimal",
-    title: "Structural Sensors — Minimal Entry",
-    type: "Sensor System",
-    stage: "Technical branch",
-    track: "Construction",
+    title: "Structural sensors: minimal entry",
+    type: "Structure",
+    stage: "Being tested",
+    track: "Structure",
     origin: "Egregor Cloud",
     summary:
-      "Five points on one building: vibration, wall humidity, crack opening, two temperatures. One year of records. The cheapest way to start accumulating experience.",
-    tags: ["sensors", "structure", "first step", "draft"],
+      "Five points on one building: vibration, wall humidity, crack opening, two temperatures. One year of records. The cheapest way to start accumulating evidence.",
+    tags: ["sensors", "structure", "first step"],
     genome: [
       "Five measurement points on load-bearing elements",
       "Autonomous power, one upload per day",
-      "Records tied to conditions, not stored bare",
+      "Records tied to conditions, never stored bare",
       "Observation only — no control at this stage"
     ],
-    links: ["House Egregor Concept"],
+    links: ["Structural sensors 1.1: after the first year"],
     sensors: [
-      { id: "vib-1", what: "Floor slab vibration", unit: "mm/s", rate: "1/min", where: "mid-span, 2nd floor", why: "movement grows before cracks appear" },
-      { id: "hum-1", what: "Humidity inside wall", unit: "%", rate: "1/hour", where: "north wall, +1.0 m", why: "freezing and mould start here" },
-      { id: "def-1", what: "Crack opening", unit: "mm", rate: "1/day", where: "on an existing crack", why: "direct sign of structural movement" },
-      { id: "t-out", what: "Outdoor temperature", unit: "\u00b0C", rate: "1/hour", where: "north facade, in shade", why: "nothing else is comparable without it" },
-      { id: "t-in", what: "Indoor temperature", unit: "\u00b0C", rate: "1/hour", where: "living space, 1.5 m", why: "the gradient explains wall behaviour" }
+      { id: "vib-1", what: "Floor slab vibration",  unit: "mm/s", rate: "1/min",  where: "mid-span, 2nd floor",    why: "movement grows before cracks appear" },
+      { id: "hum-1", what: "Humidity inside wall",  unit: "%",    rate: "1/hour", where: "north wall, +1.0 m",     why: "freezing and mould start here" },
+      { id: "def-1", what: "Crack opening",         unit: "mm",   rate: "1/day",  where: "on an existing crack",   why: "direct sign of structural movement" },
+      { id: "t-out", what: "Outdoor temperature",   unit: "°C", rate: "1/hour", where: "north facade, in shade", why: "nothing else is comparable without it" },
+      { id: "t-in",  what: "Indoor temperature",    unit: "°C", rate: "1/hour", where: "living space, 1.5 m",    why: "the gradient explains wall behaviour" }
     ],
     metrics: [
-      { id: "vib-growth", name: "Vibration growth per year", unit: "% / year", better: "lower" },
-      { id: "wet-days", name: "Days above 80 % wall humidity", unit: "days", better: "lower" },
-      { id: "crack-rate", name: "Crack opening rate", unit: "mm / year", better: "lower" }
+      { id: "vib-growth", name: "Vibration growth per year",        unit: "% / year", better: "lower" },
+      { id: "wet-days",   name: "Days above 80 % wall humidity",    unit: "days",     better: "lower" },
+      { id: "crack-rate", name: "Crack opening rate",               unit: "mm / year", better: "lower" }
     ],
     conditions: {
       climate: "Hot dry, mild winter",
-      size: "4 floors, about 1800 m\u00b2",
+      size: "4 floors, about 1800 m²",
       use: "Residential",
       occupancy: "About 60 people",
       notes: "1970s building, no major refurbishment"
@@ -223,43 +86,43 @@ window.EGREGOR_MODELS = [
   },
   {
     id: "structural-sensors-v11",
-    title: "Structural Sensors 1.1 — After the First Year",
-    type: "Sensor System",
-    stage: "Technical branch",
-    track: "Construction",
+    title: "Structural sensors 1.1: after the first year",
+    type: "Structure",
+    stage: "Has instances",
+    track: "Structure",
     origin: "Egregor Cloud",
     summary:
-      "The same five points, corrected by one year of real records. Example of how a model inherits from its parent.",
-    tags: ["sensors", "structure", "inheritance", "draft"],
+      "The same points, corrected by one year of real records. A worked example of how a method inherits from its previous version.",
+    tags: ["sensors", "structure", "versions", "inheritance"],
     genome: [
       "Four measurement points instead of five",
       "Humidity sensor moved to the base of the wall",
       "Vibration sampled every 10 minutes, not every minute",
       "Observation only — still no control"
     ],
-    links: ["Structural Sensors \u2014 Minimal Entry", "House Egregor Concept"],
+    links: ["Structural sensors: minimal entry"],
     sensors: [
-      { id: "vib-1", what: "Floor slab vibration", unit: "mm/s", rate: "1/10 min", where: "mid-span, 2nd floor", why: "1/min produced noise, not signal" },
-      { id: "hum-1", what: "Humidity inside wall", unit: "%", rate: "1/hour", where: "north wall, +0.3 m", why: "moisture enters at the base, not mid-height" },
-      { id: "t-out", what: "Outdoor temperature", unit: "\u00b0C", rate: "1/hour", where: "north facade, in shade", why: "nothing else is comparable without it" },
-      { id: "t-in", what: "Indoor temperature", unit: "\u00b0C", rate: "1/hour", where: "living space, 1.5 m", why: "the gradient explains wall behaviour" }
+      { id: "vib-1", what: "Floor slab vibration", unit: "mm/s", rate: "1/10 min", where: "mid-span, 2nd floor",     why: "1/min produced noise, not signal" },
+      { id: "hum-1", what: "Humidity inside wall", unit: "%",    rate: "1/hour",   where: "north wall, +0.3 m",      why: "moisture enters at the base, not mid-height" },
+      { id: "t-out", what: "Outdoor temperature",  unit: "°C", rate: "1/hour", where: "north facade, in shade",  why: "nothing else is comparable without it" },
+      { id: "t-in",  what: "Indoor temperature",   unit: "°C", rate: "1/hour", where: "living space, 1.5 m",     why: "the gradient explains wall behaviour" }
     ],
     metrics: [
-      { id: "wet-days", name: "Days above 80 % wall humidity", unit: "days", better: "lower" },
-      { id: "vib-growth", name: "Vibration growth per year", unit: "% / year", better: "lower" }
+      { id: "wet-days",   name: "Days above 80 % wall humidity", unit: "days",     better: "lower" },
+      { id: "vib-growth", name: "Vibration growth per year",     unit: "% / year", better: "lower" }
     ],
     conditions: {
       climate: "Hot dry, mild winter",
-      size: "4 floors, about 1800 m\u00b2",
+      size: "4 floors, about 1800 m²",
       use: "Residential",
       occupancy: "About 60 people",
-      notes: "Same building type as the parent model"
+      notes: "Same building type as the previous version"
     },
     lineage: {
       parent: "structural-sensors-minimal",
       version: "1.1",
       changed: [
-        "Crack sensor removed \u2014 no crack moved measurably in twelve months",
+        "Crack sensor removed — no crack moved measurably in twelve months",
         "Humidity sensor moved from +1.0 m to +0.3 m",
         "Vibration rate reduced from 1/min to 1/10 min",
         "Crack opening rate dropped as a metric"
@@ -273,12 +136,134 @@ window.EGREGOR_MODELS = [
         status: "Recording",
         months: 12,
         result: "All five points survived a year. Data volume turned out far smaller than expected.",
-        surprise: "The crack never moved. But wall humidity at floor level was double the value at +1.0 m \u2014 the sensor had been in the wrong place all along."
+        surprise: "The crack never moved. But wall humidity at floor level was double the value at +1.0 m — the sensor had been in the wrong place all along."
       }
     ],
     thoughts: [
       "Version 1.1 exists only because one building was actually instrumented. Nothing here could have been guessed."
     ]
+  },
+  {
+    id: "control-transfer",
+    title: "Does a trained controller transfer to another building?",
+    type: "Operations",
+    stage: "Open problem",
+    track: "Operations",
+    origin: "Egregor Cloud",
+    summary:
+      "Training an operating policy for one facility is expensive. Published work reaches near-optimal performance for a single facility after roughly 9.8 million training steps. The question is how much of that a second building has to pay again.",
+    tags: ["control", "transfer", "reinforcement learning", "cost"],
+    genome: [
+      "Building A trains from scratch, record the steps to threshold",
+      "Building B trains from scratch, record the steps to threshold",
+      "Building B starts warm from A's policy, record the steps again",
+      "Vary the difference in configuration between A and B and repeat",
+      "Look for where the saving vanishes, and where it goes negative"
+    ],
+    links: ["Heat: finding where it actually goes"],
+    sensors: [
+      { id: "steps",  what: "Training steps to threshold", unit: "steps", rate: "per run", where: "simulation log",     why: "this is the cost being saved or wasted" },
+      { id: "perf",   what: "Performance at threshold",    unit: "% of optimum", rate: "per run", where: "simulation log", why: "a faster result at a worse level is not a saving" },
+      { id: "confdist", what: "Configuration distance A to B", unit: "index", rate: "per pair", where: "defined per building pair", why: "the axis the whole answer sits on" }
+    ],
+    metrics: [
+      { id: "saving",   name: "Saving from warm start, 1 − M/N", unit: "share",  better: "higher" },
+      { id: "negshare", name: "Share of pairs with negative transfer", unit: "%",   better: "lower" },
+      { id: "breakpt",  name: "Configuration distance where saving reaches zero", unit: "index", better: "higher" }
+    ],
+    conditions: {
+      climate: "Not a factor in simulation; becomes one in real buildings",
+      size: "Facilities of comparable scale in the first pass",
+      use: "Mission-critical facilities are the published case; ordinary buildings are the open question",
+      occupancy: "Modelled",
+      notes: "Existing work transfers a ventilation controller between similar offices. Whether that survives structurally different facilities is unanswered."
+    },
+    lineage: { parent: "", version: "1.0", changed: [] },
+    instances: [],
+    thoughts: [
+      "The interesting result is not that sharing helps. It is the distance at which it stops helping and starts harming.",
+      "This is the same question as inheritance between robots, with layout difference in place of body difference."
+    ]
+  },
+  {
+    id: "comfort-complaints",
+    title: "Comfort: what people actually complain about",
+    type: "Comfort",
+    stage: "Open problem",
+    track: "Comfort",
+    origin: "Egregor Cloud",
+    summary:
+      "Complaints about a building are treated as opinion. Logged against temperature, humidity and CO₂ at the same moment, they become the cheapest diagnostic instrument a building has.",
+    tags: ["comfort", "ergonomics", "air", "occupants"],
+    genome: [
+      "A one-tap complaint log: too hot, too cold, stuffy, draught, noise",
+      "Every entry stamped with time and place",
+      "Temperature, humidity and CO₂ recorded on the same clock",
+      "No survey, no questionnaire — those measure patience, not the building"
+    ],
+    links: ["Heat: finding where it actually goes"],
+    sensors: [
+      { id: "t-in",  what: "Indoor temperature", unit: "°C", rate: "1/10 min", where: "each zone with complaints", why: "the complaint is meaningless without it" },
+      { id: "rh-in", what: "Indoor humidity",    unit: "%",       rate: "1/10 min", where: "same point",                why: "same temperature feels different at different humidity" },
+      { id: "co2",   what: "CO₂",           unit: "ppm",     rate: "1/10 min", where: "breathing height",          why: "stuffiness is usually ventilation, not heat" },
+      { id: "cmpl",  what: "Complaint events",   unit: "count",   rate: "as they happen", where: "one tap, per zone",   why: "the only signal that comes from the people" }
+    ],
+    metrics: [
+      { id: "cmpl-rate",  name: "Complaints per person per month", unit: "count", better: "lower" },
+      { id: "co2-hours",  name: "Hours above 1000 ppm CO₂",   unit: "hours", better: "lower" },
+      { id: "explained",  name: "Share of complaints explained by a measured value", unit: "%", better: "higher" }
+    ],
+    conditions: {
+      climate: "Any",
+      size: "From one floor upward",
+      use: "Office, school, clinic, residential",
+      occupancy: "Must be known per zone",
+      notes: "The cheapest of all the problems here. No structural work at all."
+    },
+    lineage: { parent: "", version: "1.0", changed: [] },
+    instances: [],
+    thoughts: [
+      "The share of complaints that no measurement explains is itself a finding: it says the sensors are in the wrong places."
+    ]
+  },
+  {
+    id: "water-losses",
+    title: "Water: finding the loss nobody sees",
+    type: "Water",
+    stage: "Open problem",
+    track: "Water",
+    origin: "Egregor Cloud",
+    summary:
+      "A building's water bill is a single number at the end of the month. Split by riser and read at night, it separates real consumption from a leak that has been running for years.",
+    tags: ["water", "losses", "cheap entry"],
+    genome: [
+      "Meter at the inlet plus one per riser",
+      "Night minimum flow, between 02:00 and 04:00, as the key reading",
+      "Nothing replaced until a month of records exists",
+      "Only then a recommendation, with the expected saving stated in advance"
+    ],
+    links: ["Heat: finding where it actually goes"],
+    sensors: [
+      { id: "q-main",  what: "Inlet flow",       unit: "m³/h", rate: "1/15 min", where: "building inlet",        why: "the total everything is checked against" },
+      { id: "q-riser", what: "Flow per riser",   unit: "m³/h", rate: "1/15 min", where: "each riser",            why: "locates the loss instead of just proving it exists" },
+      { id: "p-in",    what: "Inlet pressure",   unit: "bar",       rate: "1/15 min", where: "after the inlet valve", why: "excess pressure produces losses on its own" }
+    ],
+    metrics: [
+      { id: "night-min", name: "Night minimum flow", unit: "m³/h", better: "lower" },
+      { id: "per-person", name: "Water per person per day", unit: "litres", better: "lower" },
+      { id: "unaccounted", name: "Share unaccounted for", unit: "%", better: "lower" }
+    ],
+    conditions: {
+      climate: "Any; matters most where water is expensive",
+      size: "From one block of flats upward",
+      use: "Residential, hotel, campus",
+      occupancy: "Required, otherwise per-person figures are meaningless",
+      notes: "Night minimum flow is the single most informative reading and the cheapest to obtain."
+    },
+    lineage: { parent: "", version: "1.0", changed: [] },
+    instances: [],
+    thoughts: [
+      "A night minimum that never reaches zero means a leak. The building has usually been paying for it for years."
+    ]
   }
-
 ];

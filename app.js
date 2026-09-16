@@ -41,7 +41,7 @@ const showcaseGrid = document.querySelector("#showcase-grid");
 
 let activeFilter = "All";
 let query = "";
-let selectedModelId = "house-egregor-concept";
+let selectedModelId = "heat-where-it-goes";
 let supabaseClient = null;
 let remoteEnabled = false;
 let remoteModels = null;
@@ -51,7 +51,7 @@ let selectedModelDbId = null;
 const configStorageKey = "egregor-supabase-config";
 
 const runtimeFlowScenarios = {
-  "house-egregor-concept": {
+  "heat-where-it-goes": {
     title: "How one physical house feeds the cloud",
     summary:
       "A person builds a simplified living house branch from this model. The house does not stay private and silent. Its behavior becomes part of the shared memory of the model.",
@@ -196,9 +196,9 @@ function renderModels() {
 function renderShowcase() {
   showcaseGrid.innerHTML = "";
   const featuredIds = [
-    "house-egregor-concept",
-    "living-car-concept",
-    "living-aircraft-concept"
+    "heat-where-it-goes",
+    "comfort-complaints",
+    "water-losses"
   ];
 
   featuredIds
@@ -224,11 +224,11 @@ function renderShowcase() {
       const audience = document.createElement("p");
       audience.className = "model-summary";
       audience.textContent =
-        model.id === "house-egregor-concept"
-          ? "Best first hook for schools, ecology groups, architects, and people dreaming about future habitats."
-          : model.id === "living-car-concept"
-            ? "Best hook for makers, Arduino circles, robotics clubs, and movement studies."
-            : "Best hook for futurists, aircraft dreamers, engineers, and AI mobility imagination.";
+        model.id === "heat-where-it-goes"
+          ? "Four sensors, one heating season, nothing installed. The cheapest way to find out where the money goes."
+          : model.id === "comfort-complaints"
+            ? "No structural work at all. A one-tap complaint log against temperature, humidity and CO2."
+            : "One meter per riser and a night reading. Usually finds a leak that has been running for years.";
 
       const button = document.createElement("button");
       button.type = "button";
