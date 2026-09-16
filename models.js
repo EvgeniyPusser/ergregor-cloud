@@ -177,5 +177,108 @@ window.EGREGOR_MODELS = [
     summary:
       "A collaboration concept for biomaterials and self-assembling systems as a scientific basis for living architecture.",
     tags: ["science", "biomaterials", "research", "collaboration"]
+  },
+  {
+    id: "structural-sensors-minimal",
+    title: "Structural Sensors — Minimal Entry",
+    type: "Sensor System",
+    stage: "Technical branch",
+    track: "Construction",
+    origin: "Egregor Cloud",
+    summary:
+      "Five points on one building: vibration, wall humidity, crack opening, two temperatures. One year of records. The cheapest way to start accumulating experience.",
+    tags: ["sensors", "structure", "first step", "draft"],
+    genome: [
+      "Five measurement points on load-bearing elements",
+      "Autonomous power, one upload per day",
+      "Records tied to conditions, not stored bare",
+      "Observation only — no control at this stage"
+    ],
+    links: ["House Egregor Concept"],
+    sensors: [
+      { id: "vib-1", what: "Floor slab vibration", unit: "mm/s", rate: "1/min", where: "mid-span, 2nd floor", why: "movement grows before cracks appear" },
+      { id: "hum-1", what: "Humidity inside wall", unit: "%", rate: "1/hour", where: "north wall, +1.0 m", why: "freezing and mould start here" },
+      { id: "def-1", what: "Crack opening", unit: "mm", rate: "1/day", where: "on an existing crack", why: "direct sign of structural movement" },
+      { id: "t-out", what: "Outdoor temperature", unit: "\u00b0C", rate: "1/hour", where: "north facade, in shade", why: "nothing else is comparable without it" },
+      { id: "t-in", what: "Indoor temperature", unit: "\u00b0C", rate: "1/hour", where: "living space, 1.5 m", why: "the gradient explains wall behaviour" }
+    ],
+    metrics: [
+      { id: "vib-growth", name: "Vibration growth per year", unit: "% / year", better: "lower" },
+      { id: "wet-days", name: "Days above 80 % wall humidity", unit: "days", better: "lower" },
+      { id: "crack-rate", name: "Crack opening rate", unit: "mm / year", better: "lower" }
+    ],
+    conditions: {
+      climate: "Hot dry, mild winter",
+      size: "4 floors, about 1800 m\u00b2",
+      use: "Residential",
+      occupancy: "About 60 people",
+      notes: "1970s building, no major refurbishment"
+    },
+    lineage: { parent: "", version: "1.0", changed: [] },
+    instances: [],
+    thoughts: [
+      "Start with observation, not control. There is nothing to control until there is something to compare.",
+      "The most valuable field is surprise. Expectations that came true teach nothing."
+    ]
+  },
+  {
+    id: "structural-sensors-v11",
+    title: "Structural Sensors 1.1 — After the First Year",
+    type: "Sensor System",
+    stage: "Technical branch",
+    track: "Construction",
+    origin: "Egregor Cloud",
+    summary:
+      "The same five points, corrected by one year of real records. Example of how a model inherits from its parent.",
+    tags: ["sensors", "structure", "inheritance", "draft"],
+    genome: [
+      "Four measurement points instead of five",
+      "Humidity sensor moved to the base of the wall",
+      "Vibration sampled every 10 minutes, not every minute",
+      "Observation only — still no control"
+    ],
+    links: ["Structural Sensors \u2014 Minimal Entry", "House Egregor Concept"],
+    sensors: [
+      { id: "vib-1", what: "Floor slab vibration", unit: "mm/s", rate: "1/10 min", where: "mid-span, 2nd floor", why: "1/min produced noise, not signal" },
+      { id: "hum-1", what: "Humidity inside wall", unit: "%", rate: "1/hour", where: "north wall, +0.3 m", why: "moisture enters at the base, not mid-height" },
+      { id: "t-out", what: "Outdoor temperature", unit: "\u00b0C", rate: "1/hour", where: "north facade, in shade", why: "nothing else is comparable without it" },
+      { id: "t-in", what: "Indoor temperature", unit: "\u00b0C", rate: "1/hour", where: "living space, 1.5 m", why: "the gradient explains wall behaviour" }
+    ],
+    metrics: [
+      { id: "wet-days", name: "Days above 80 % wall humidity", unit: "days", better: "lower" },
+      { id: "vib-growth", name: "Vibration growth per year", unit: "% / year", better: "lower" }
+    ],
+    conditions: {
+      climate: "Hot dry, mild winter",
+      size: "4 floors, about 1800 m\u00b2",
+      use: "Residential",
+      occupancy: "About 60 people",
+      notes: "Same building type as the parent model"
+    },
+    lineage: {
+      parent: "structural-sensors-minimal",
+      version: "1.1",
+      changed: [
+        "Crack sensor removed \u2014 no crack moved measurably in twelve months",
+        "Humidity sensor moved from +1.0 m to +0.3 m",
+        "Vibration rate reduced from 1/min to 1/10 min",
+        "Crack opening rate dropped as a metric"
+      ]
+    },
+    instances: [
+      {
+        id: "rehovot-01",
+        where: "Rehovot, first test building",
+        started: "2026-10",
+        status: "Recording",
+        months: 12,
+        result: "All five points survived a year. Data volume turned out far smaller than expected.",
+        surprise: "The crack never moved. But wall humidity at floor level was double the value at +1.0 m \u2014 the sensor had been in the wrong place all along."
+      }
+    ],
+    thoughts: [
+      "Version 1.1 exists only because one building was actually instrumented. Nothing here could have been guessed."
+    ]
   }
+
 ];
