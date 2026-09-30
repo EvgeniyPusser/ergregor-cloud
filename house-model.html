@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Living House — initial model</title>
+<meta name="description" content="What a client actually receives when they take the living-house model: the body, seven systems by response time, what to measure, what counts as success, and what is proven versus open." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#06131c; --panel:rgba(9,22,31,.84); --panel-strong:rgba(14,30,42,.96);
+  --text:#eef6f2; --muted:#99b4b2; --line:rgba(195,229,214,.14);
+  --accent:#9cffc9; --accent-strong:#4af3b2; --gold:#f4df9b;
+  --shadow:0 28px 80px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:"Space Grotesk",sans-serif; color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(100,255,195,.18), transparent 32%),
+    radial-gradient(circle at 80% 20%, rgba(244,223,155,.16), transparent 22%),
+    linear-gradient(180deg,#071017 0%,#081b27 48%,#06131c 100%);
+  min-height:100vh; line-height:1.55;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.7),transparent);
+}
+.shell{width:min(1100px,calc(100% - 32px)); margin:0 auto; padding-bottom:88px; position:relative}
+header.site{display:flex; justify-content:space-between; align-items:center; gap:20px; padding:18px 0;
+  position:sticky; top:0; z-index:10; backdrop-filter:blur(16px)}
+.brand{display:inline-flex; align-items:center; gap:14px; color:inherit; text-decoration:none}
+.brand-mark{display:grid; place-items:center; width:48px; height:48px; border-radius:14px;
+  border:1px solid var(--line); background:var(--panel); font-weight:700; letter-spacing:.06em}
+.brand strong{display:block; font-size:16px}
+.brand small{display:block; color:var(--muted); font-size:12px}
+.back{color:var(--muted); text-decoration:none; font-size:14px; border-bottom:1px solid transparent}
+.back:hover{color:var(--accent); border-bottom-color:var(--accent)}
+
+.eyebrow{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin:0 0 10px}
+h1{font-family:"Cormorant Garamond",serif; font-weight:600; font-size:clamp(34px,5.2vw,54px);
+  line-height:1.08; margin:0 0 16px}
+h2{font-family:"Cormorant Garamond",serif; font-weight:600; font-size:clamp(24px,3.2vw,32px); margin:0 0 6px}
+h3{font-size:17px; margin:0 0 4px; font-weight:600}
+p{margin:0 0 14px}
+.lead{font-size:clamp(16px,1.9vw,19px); color:#cfe6de; max-width:70ch}
+.muted{color:var(--muted)}
+section{margin-top:56px}
+.sec-head{margin-bottom:22px; max-width:78ch}
+.sec-head p{color:var(--muted); margin:0}
+
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:22px 24px;
+  box-shadow:var(--shadow)}
+.grid{display:grid; gap:16px}
+@media(min-width:760px){ .grid.two{grid-template-columns:1fr 1fr} .grid.three{grid-template-columns:repeat(3,1fr)} }
+
+.badge{display:inline-block; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  padding:4px 10px; border-radius:999px; border:1px solid var(--line); white-space:nowrap}
+.b-measured{color:#06131c; background:var(--accent-strong); border-color:transparent; font-weight:700}
+.b-proven{color:var(--accent); border-color:rgba(156,255,201,.4)}
+.b-lab{color:var(--gold); border-color:rgba(244,223,155,.35)}
+.b-open{color:var(--muted)}
+
+.body-card{display:grid; gap:18px}
+@media(min-width:820px){ .body-card{grid-template-columns:1.1fr 1fr} }
+dl.facts{margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 18px; font-size:15px}
+dl.facts dt{color:var(--muted)}
+dl.facts dd{margin:0}
+
+ol.ladder{list-style:none; margin:0; padding:0; display:grid; gap:14px}
+.step{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:20px 22px;
+  display:grid; gap:14px}
+@media(min-width:900px){ .step{grid-template-columns:150px 1fr} }
+.step-when{display:flex; flex-direction:column; gap:8px}
+.step-when .t{font-family:"Cormorant Garamond",serif; font-size:26px; line-height:1}
+.step-when .s{font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase}
+.step-body h3{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.rows{display:grid; gap:10px; margin-top:12px}
+@media(min-width:680px){ .rows{grid-template-columns:repeat(3,1fr)} }
+.row{border-left:2px solid rgba(156,255,201,.28); padding-left:12px}
+.row .k{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.row .v{font-size:14px}
+.step.on{border-color:rgba(156,255,201,.45); background:rgba(74,243,178,.05)}
+.note{margin-top:12px; font-size:14px; color:var(--muted); border-top:1px solid var(--line); padding-top:10px}
+
+table{width:100%; border-collapse:collapse; font-size:14px}
+th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+th{color:var(--muted); font-weight:500; font-size:12px; letter-spacing:.1em; text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums; white-space:nowrap}
+
+.callout{border:1px solid rgba(156,255,201,.3); background:rgba(74,243,178,.06);
+  border-radius:18px; padding:22px 24px}
+.callout h2{margin-bottom:10px}
+.big{display:flex; gap:28px; flex-wrap:wrap; margin:16px 0 4px}
+.big div{min-width:120px}
+.big .n{font-family:"Cormorant Garamond",serif; font-size:34px; line-height:1; color:var(--accent)}
+.big .l{font-size:12px; color:var(--muted); margin-top:6px; max-width:22ch}
+a.doi{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(156,255,201,.35); word-break:break-all}
+a.doi:hover{border-bottom-color:var(--accent)}
+
+.give{display:grid; gap:14px}
+@media(min-width:760px){ .give{grid-template-columns:1fr 1fr} }
+ul.plain{margin:0; padding-left:18px}
+ul.plain li{margin-bottom:8px}
+
+/* ---- детальные схемы ---- */
+figure.detail{margin:16px 0 0; padding:14px 14px 10px; border:1px solid var(--line);
+  border-radius:14px; background:rgba(6,19,28,.55)}
+figure.detail svg{width:100%; height:auto; display:block}
+figure.detail figcaption{margin-top:10px; font-size:12.5px; color:var(--muted); line-height:1.5}
+svg text.tiny{font-family:"Space Grotesk",sans-serif; font-size:10.5px; fill:#99b4b2}
+svg text.tinyA{font-family:"Space Grotesk",sans-serif; font-size:10.5px; fill:#9cffc9}
+svg text.tinyG{font-family:"Space Grotesk",sans-serif; font-size:10.5px; fill:#f4df9b}
+svg text.hd{font-family:"Space Grotesk",sans-serif; font-size:11px; fill:#eef6f2; letter-spacing:.06em}
+svg .dim{stroke:#99b4b2; stroke-opacity:.45}
+svg .lead{stroke:#99b4b2; stroke-opacity:.5; stroke-width:.8}
+
+footer.page{margin-top:64px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
+
+/* ---- разрез дома ---- */
+.fig-panel{margin-top:34px; display:grid; gap:20px}
+@media(min-width:960px){ .fig-panel{grid-template-columns:1.55fr 1fr; align-items:start} }
+.fig-panel figure{margin:0}
+.fig-panel svg{width:100%; height:auto; border-radius:14px; display:block}
+.fig-panel figcaption{margin-top:12px; font-size:13px; color:var(--muted); max-width:60ch}
+svg text.lbl{font-family:"Space Grotesk",sans-serif; font-size:12px}
+svg text.acc{fill:var(--accent)} svg text.gold{fill:var(--gold)} svg text.mut{fill:var(--muted)}
+svg circle.pin{fill:#06131c; stroke:var(--accent); stroke-width:1.6}
+svg text.num{font-family:"Space Grotesk",sans-serif; font-size:13px; font-weight:700; fill:var(--accent)}
+svg g.sys{transition:opacity .18s ease}
+#houseSvg.dim g.sys{opacity:.22}
+#houseSvg.dim g.sys.on{opacity:1}
+ul.legend{list-style:none; margin:0; padding:0; display:grid; gap:8px; align-self:center}
+ul.legend li{font-size:14px; color:var(--muted); padding:9px 12px; border:1px solid transparent;
+  border-radius:12px; cursor:default; transition:all .16s ease}
+ul.legend li b{display:inline-grid; place-items:center; width:22px; height:22px; margin-right:10px;
+  border-radius:50%; border:1px solid var(--line); color:var(--accent); font-size:12px}
+ul.legend li:hover,ul.legend li.on{color:var(--text); border-color:rgba(156,255,201,.35);
+  background:rgba(74,243,178,.06)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="site">
+  <a class="brand" href="./index.html">
+    <span class="brand-mark">EC</span>
+    <span>
+      <strong>Egregor Cloud</strong>
+      <small>Calculations tested on real buildings</small>
+    </span>
+  </a>
+  <a class="back" href="./index.html">← All models</a>
+</header>
+
+<main>
+
+  <p class="eyebrow">Living House · initial model · version 1.0</p>
+  <h1>A house that senses, redistributes, defends, heals and grows</h1>
+  <p class="lead">
+    This is what a client receives when they take this model: not a description of an
+    idea, but a contract. What gets built, what gets measured, what counts as success,
+    under which conditions, and what comes back to the library at the end of the first year.
+  </p>
+  <p class="lead muted">
+    Seven systems, ordered by how fast they answer — seconds for the nerves, hours for the
+    circulation, years for the bone. Each one is marked with what is already established and
+    what is still an open question. Nothing here is presented as finished that is not.
+  </p>
+
+  <!-- ================= WHO THIS IS FOR ================= -->
+  <section id="who" style="margin-top:38px">
+    <div class="grid three">
+      <div class="panel">
+        <p class="eyebrow" style="margin-bottom:8px">Research groups</p>
+        <h3>Take one row and break it</h3>
+        <p class="muted" style="font-size:14px;margin:0">
+          Every system below is written as a falsifiable claim with its own measurements and its own
+          failure mode. The inheritance result is already open — code, data and the full 8 000-pair
+          matrix — so the first thing you can do with it is try to overturn it.
+        </p>
+      </div>
+      <div class="panel">
+        <p class="eyebrow" style="margin-bottom:8px">Schools and courses</p>
+        <h3>A whole building in one page</h3>
+        <p class="muted" style="font-size:14px;margin:0">
+          The house is drawn once and read three ways: by time — seconds, hours, years; by function —
+          sense, move, defend, heal, grow; and by what is known versus what is guessed. The cheapest
+          real exercise is one wall and five sensors for one winter.
+        </p>
+      </div>
+      <div class="panel">
+        <p class="eyebrow" style="margin-bottom:8px">People building a house</p>
+        <h3>What you can have now, and what you cannot</h3>
+        <p class="muted" style="font-size:14px;margin:0">
+          Two of these systems are ordinary engineering you could order today. Two are laboratory
+          work. Three are open questions, and this page says which is which rather than selling all
+          seven as ready.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= THE HOUSE ITSELF ================= -->
+  <section id="drawing">
+    <div class="panel fig-panel">
+      <figure>
+        <svg viewBox="0 0 920 560" role="img" aria-label="Cross-section of the living house with its seven systems marked" id="houseSvg">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0b2230"/><stop offset="1" stop-color="#06131c"/>
+            </linearGradient>
+            <pattern id="rebar" width="16" height="16" patternUnits="userSpaceOnUse">
+              <path d="M0 8H16M8 0V16" stroke="#9cffc9" stroke-opacity=".5" stroke-width="1"/>
+            </pattern>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L10 5 L0 10 z" fill="#f4df9b"/>
+            </marker>
+          </defs>
+
+          <rect x="0" y="0" width="920" height="560" fill="url(#sky)"/>
+
+          <!-- ground -->
+          <line x1="20" y1="452" x2="900" y2="452" stroke="#99b4b2" stroke-opacity=".45"/>
+          <rect x="20" y="452" width="880" height="86" fill="#0a1c26" opacity=".7"/>
+
+          <!-- ===== 7 inheritance: the other house ===== -->
+          <g class="sys" data-sys="inherit">
+            <g opacity=".55">
+              <polygon points="756,150 812,118 868,150" fill="none" stroke="#f4df9b" stroke-width="1.4"/>
+              <rect x="768" y="150" width="88" height="64" fill="none" stroke="#f4df9b" stroke-width="1.4"/>
+              <text x="812" y="232" class="lbl gold" text-anchor="middle">a house that</text>
+              <text x="812" y="246" class="lbl gold" text-anchor="middle">already lived</text>
+              <text x="812" y="260" class="lbl gold" text-anchor="middle">a winter</text>
+            </g>
+            <path d="M764 200 C 660 250 560 300 440 308" stroke="#f4df9b" stroke-width="1.6"
+                  fill="none" stroke-dasharray="6 5" marker-end="url(#ar)"/>
+            <circle class="pin" cx="712" cy="166" r="13"/><text class="num" x="712" y="171" text-anchor="middle">7</text>
+          </g>
+
+          <!-- roof -->
+          <polygon points="128,196 400,96 672,196" fill="none" stroke="#eef6f2" stroke-opacity=".55" stroke-width="2"/>
+
+          <!-- ===== 1 nerves: walls with rebar ===== -->
+          <g class="sys" data-sys="nerves">
+            <rect x="150" y="196" width="34" height="256" fill="url(#rebar)" stroke="#9cffc9" stroke-opacity=".75" stroke-width="1.6"/>
+            <rect x="616" y="196" width="34" height="256" fill="url(#rebar)" stroke="#9cffc9" stroke-opacity=".75" stroke-width="1.6"/>
+            <circle class="pin" cx="167" cy="232" r="13"/><text class="num" x="167" y="237" text-anchor="middle">1</text>
+          </g>
+
+          <!-- shell outline -->
+          <rect x="150" y="196" width="500" height="256" fill="none" stroke="#eef6f2" stroke-opacity=".55" stroke-width="2"/>
+
+          <!-- ===== 3 skin: core and periphery ===== -->
+          <g class="sys" data-sys="skin">
+            <rect x="300" y="200" width="200" height="248" fill="#4af3b2" fill-opacity=".10"/>
+            <line x1="300" y1="200" x2="300" y2="448" stroke="#eef6f2" stroke-opacity=".35" stroke-dasharray="4 4"/>
+            <line x1="500" y1="200" x2="500" y2="448" stroke="#eef6f2" stroke-opacity=".35" stroke-dasharray="4 4"/>
+            <text x="400" y="240" class="lbl acc" text-anchor="middle">CORE — held</text>
+            <text x="242" y="240" class="lbl mut" text-anchor="middle">periphery</text>
+            <text x="242" y="254" class="lbl mut" text-anchor="middle">let go first</text>
+            <text x="558" y="240" class="lbl mut" text-anchor="middle">periphery</text>
+            <!-- closable air gap = piloerection -->
+            <rect x="184" y="210" width="10" height="232" fill="none" stroke="#9cffc9" stroke-opacity=".5" stroke-dasharray="3 4"/>
+            <rect x="606" y="210" width="10" height="232" fill="none" stroke="#9cffc9" stroke-opacity=".5" stroke-dasharray="3 4"/>
+            <!-- the store = brown fat -->
+            <rect x="370" y="392" width="60" height="30" rx="6" fill="#f4df9b" fill-opacity=".18" stroke="#f4df9b" stroke-opacity=".7"/>
+            <text x="400" y="412" class="lbl gold" text-anchor="middle">store</text>
+            <circle class="pin" cx="330" cy="268" r="13"/><text class="num" x="330" y="273" text-anchor="middle">3</text>
+          </g>
+
+          <!-- ===== the brain: where the policy lives ===== -->
+          <g class="sys" data-sys="net">
+            <g stroke="#9cffc9" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="3 4" fill="none">
+              <path d="M378 316 C 300 320 230 300 186 290"/>
+              <path d="M422 316 C 500 320 570 300 616 290"/>
+              <path d="M400 340 V 428"/>
+              <path d="M424 306 C 520 280 580 274 624 268"/>
+            </g>
+            <ellipse cx="400" cy="316" rx="30" ry="22" fill="#06131c" stroke="#9cffc9" stroke-width="1.8"/>
+            <path d="M386 308 c6 -8 22 -8 28 0 M386 324 c6 8 22 8 28 0 M400 304 v24"
+                  stroke="#9cffc9" stroke-opacity=".8" stroke-width="1.3" fill="none"/>
+            <text x="400" y="360" class="lbl acc" text-anchor="middle">the policy lives here</text>
+            <text x="400" y="374" class="lbl mut" text-anchor="middle">memory of past winters</text>
+          </g>
+
+          <!-- ===== 2 circulation: pipes in the slab and walls ===== -->
+          <g class="sys" data-sys="circ">
+            <rect x="150" y="428" width="500" height="24" fill="#9cffc9" fill-opacity=".08" stroke="#9cffc9" stroke-opacity=".45"/>
+            <g fill="none" stroke="#4af3b2" stroke-width="1.6" stroke-opacity=".85">
+              <circle cx="190" cy="440" r="4"/><circle cx="240" cy="440" r="4"/><circle cx="290" cy="440" r="4"/>
+              <circle cx="340" cy="440" r="4"/><circle cx="390" cy="440" r="4"/><circle cx="440" cy="440" r="4"/>
+              <circle cx="490" cy="440" r="4"/><circle cx="540" cy="440" r="4"/><circle cx="590" cy="440" r="4"/>
+            </g>
+            <path d="M120 440 H150" stroke="#4af3b2" stroke-width="2"/>
+            <rect x="62" y="418" width="58" height="44" rx="8" fill="#0a1c26" stroke="#4af3b2" stroke-opacity=".8"/>
+            <text x="91" y="444" class="lbl acc" text-anchor="middle">source</text>
+            <circle class="pin" cx="300" cy="440" r="13"/><text class="num" x="300" y="445" text-anchor="middle">2</text>
+          </g>
+
+          <!-- ===== 4 healing: the crack ===== -->
+          <g class="sys" data-sys="heal">
+            <path d="M633 262 l-9 22 l10 18 l-8 24 l9 20" stroke="#f4df9b" stroke-width="2.4" fill="none"/>
+            <circle cx="633" cy="262" r="20" fill="none" stroke="#f4df9b" stroke-opacity=".45" stroke-dasharray="3 4"/>
+            <circle class="pin" cx="676" cy="300" r="13"/><text class="num" x="676" y="305" text-anchor="middle">4</text>
+            <line x1="663" y1="300" x2="645" y2="300" stroke="#f4df9b" stroke-opacity=".6"/>
+          </g>
+
+          <!-- ===== 5 bone: growth at the loaded footing ===== -->
+          <g class="sys" data-sys="bone">
+            <rect x="140" y="452" width="54" height="40" fill="#0a1c26" stroke="#99b4b2" stroke-opacity=".6"/>
+            <rect x="606" y="452" width="54" height="40" fill="#0a1c26" stroke="#99b4b2" stroke-opacity=".6"/>
+            <path d="M606 492 h54 v-6 h8 v-28 h-8 v-6" fill="none" stroke="#9cffc9" stroke-width="2.6"/>
+            <text x="712" y="478" class="lbl acc">grown where</text>
+            <text x="712" y="492" class="lbl acc">the load presses</text>
+            <circle class="pin" cx="676" cy="472" r="13"/><text class="num" x="676" y="477" text-anchor="middle">5</text>
+          </g>
+
+          <!-- ===== 6 one network ===== -->
+          <g class="sys" data-sys="net">
+            <path d="M167 452 V500 H633 V452" fill="none" stroke="#9cffc9" stroke-width="1.6" stroke-opacity=".8" stroke-dasharray="7 5"/>
+            <path d="M400 500 V470" stroke="#9cffc9" stroke-width="1.4" stroke-opacity=".6" stroke-dasharray="4 4"/>
+            <text x="400" y="524" class="lbl acc" text-anchor="middle">one network: nerves, pipes, repair — all on the same wires</text>
+            <circle class="pin" cx="400" cy="500" r="13"/><text class="num" x="400" y="505" text-anchor="middle">6</text>
+          </g>
+
+          <!-- outdoor temperature = the trigger -->
+          <g opacity=".85">
+            <text x="880" y="404" class="lbl mut" text-anchor="end">outdoor temperature</text>
+            <text x="880" y="418" class="lbl mut" text-anchor="end">and how fast it is falling</text>
+            <path d="M876 424 v16" stroke="#99b4b2" stroke-opacity=".6" marker-end="url(#ar)"/>
+          </g>
+        </svg>
+        <figcaption>
+          One dwelling, seven systems. Hover a number to see which is which; each is described
+          below in the order it answers — seconds, hours, weeks, years.
+        </figcaption>
+      </figure>
+      <ul class="legend" id="legend">
+        <li data-sys="nerves"><b>1</b> Walls that feel — the reinforcement is the sensor</li>
+        <li data-sys="circ"><b>2</b> One circulation — pipes in the slab, zone by zone</li>
+        <li data-sys="skin"><b>3</b> Regulation like skin — hold the core, let the edges go, spend the store last</li>
+        <li data-sys="heal"><b>4</b> A crack that closes itself — and what the repair costs</li>
+        <li data-sys="bone"><b>5</b> Growth where the load presses — over years, not seconds</li>
+        <li data-sys="net"><b>6</b> One network doing all of it — and the brain at its centre, which is where an inherited policy lives</li>
+        <li data-sys="inherit"><b>7</b> A policy inherited from a house that already lived a winter</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= BODY ================= -->
+  <section>
+    <div class="sec-head">
+      <h2>The body</h2>
+      <p>One generalised dwelling, taken from the published US residential stock rather than designed. Your project replaces its fields and keeps its protocol: that is what makes two houses comparable, and comparability is the only reason experience can pass from one to the other.</p>
+    </div>
+    <div class="panel body-card">
+      <figure style="margin:0">
+        <svg viewBox="0 0 520 330" role="img" aria-label="The generalised dwelling and the fields the stock supplies">
+          <text class="hd" x="6" y="14">ONE GENERALISED DWELLING — EVERY FIELD COMES FROM THE RECORD</text>
+
+          <polygon points="150,96 260,44 370,96" fill="none" stroke="#eef6f2" stroke-opacity=".55" stroke-width="1.8"/>
+          <rect x="166" y="96" width="188" height="130" fill="none" stroke="#eef6f2" stroke-opacity=".55" stroke-width="1.8"/>
+          <line x1="166" y1="161" x2="354" y2="161" stroke="#eef6f2" stroke-opacity=".28"/>
+          <rect x="196" y="116" width="26" height="26" fill="none" stroke="#9cffc9" stroke-opacity=".6"/>
+          <rect x="298" y="116" width="26" height="26" fill="none" stroke="#9cffc9" stroke-opacity=".6"/>
+          <rect x="196" y="181" width="26" height="26" fill="none" stroke="#9cffc9" stroke-opacity=".6"/>
+          <rect x="298" y="181" width="26" height="26" fill="none" stroke="#9cffc9" stroke-opacity=".6"/>
+          <rect x="248" y="186" width="24" height="40" fill="none" stroke="#99b4b2" stroke-opacity=".6"/>
+          <rect x="166" y="226" width="188" height="22" fill="#0a1c26" stroke="#99b4b2" stroke-opacity=".5"/>
+          <line x1="120" y1="248" x2="400" y2="248" stroke="#99b4b2" stroke-opacity=".45"/>
+
+          <line class="lead" x1="260" y1="60"  x2="120" y2="52"/>
+          <line class="lead" x1="170" y1="120" x2="120" y2="104"/>
+          <line class="lead" x1="196" y1="129" x2="120" y2="156"/>
+          <line class="lead" x1="166" y1="200" x2="120" y2="208"/>
+          <text class="tinyA" x="116" y="56"  text-anchor="end">ceiling insulation</text>
+          <text class="tinyA" x="116" y="108" text-anchor="end">wall insulation</text>
+          <text class="tinyA" x="116" y="160" text-anchor="end">window type</text>
+          <text class="tinyA" x="116" y="212" text-anchor="end">air tightness</text>
+
+          <line class="lead" x1="354" y1="120" x2="404" y2="104"/>
+          <line class="lead" x1="354" y1="237" x2="404" y2="232"/>
+          <line class="lead" x1="272" y1="206" x2="404" y2="168"/>
+          <text class="tinyA" x="408" y="108">floor area, storeys</text>
+          <text class="tinyA" x="408" y="172">heating type and fuel</text>
+          <text class="tinyA" x="408" y="236">foundation type</text>
+
+          <text class="tinyG" x="260" y="276" text-anchor="middle">vintage · county · climate zone</text>
+          <text class="tiny"  x="260" y="294" text-anchor="middle">these three come with the record and are never separated from it</text>
+          <text class="tiny"  x="260" y="316" text-anchor="middle">the reference dwelling is deliberately ordinary — an existing house, not a design</text>
+        </svg>
+      </figure>
+      <div>
+        <h3>One reference house, adapted to every project</h3>
+        <p class="muted" style="font-size:15px">
+          The library keeps one generalised dwelling so that results can be compared at all. Your
+          house replaces its fields and keeps its protocol. What is measured, what counts as
+          success and the order of the responses do not change — otherwise two projects would not
+          be comparable and nothing could be inherited between them.
+        </p>
+        <div class="grid two" style="margin-top:14px">
+          <div>
+            <p class="eyebrow" style="margin-bottom:6px">Taken from your house</p>
+            <ul class="plain muted" style="font-size:13.5px;padding-left:16px">
+              <li>Vintage, county, climate zone</li>
+              <li>Floor area, storeys, foundation type</li>
+              <li>Wall and ceiling insulation</li>
+              <li>Window type</li>
+              <li>Air tightness</li>
+              <li>Heating type, fuel and efficiency</li>
+            </ul>
+          </div>
+          <div>
+            <p class="eyebrow" style="margin-bottom:6px">Fixed for everyone</p>
+            <ul class="plain muted" style="font-size:13.5px;padding-left:16px">
+              <li>Which quantities are measured, and how often</li>
+              <li>Where each sensor goes and why</li>
+              <li>Degree-hours and kWh as the outcome</li>
+              <li>The crisis: the coldest 72 hours of your own record, found by search</li>
+              <li>The order of the five responses</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note" style="margin-top:14px">
+          The fields above are the ones the published stock supplies for every dwelling in it; the
+          exact parameter names live in the project's housing-characteristics tables. A generator
+          produces the spread its author assumed. A published stock produces the spread that exists
+          — which is the only kind a client actually lives in.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LADDER ================= -->
+  <section>
+    <div class="sec-head">
+      <h2>Seven systems, by how fast they answer</h2>
+      <p>A body meets cold with a ladder of measures, cheap before expensive, each with its own
+      trigger. A building has the same measures available and uses none of them in order. That
+      ordering is the substance of this model.</p>
+    </div>
+
+    <ol class="ladder">
+
+      <!-- nerves -->
+      <li class="step" data-sys="nerves">
+        <div class="step-when">
+          <span class="t">seconds</span>
+          <span class="s">nerves</span>
+        </div>
+        <div class="step-body">
+          <h3>Walls that feel <span class="badge b-lab">laboratory</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            Concrete with conductive addition changes its resistance when it cracks, wets or is
+            loaded, and the reinforcement itself carries the measuring current. The wall becomes
+            its own sensor, with nothing mounted on it that a future cost cut can remove.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Built</span><span class="v">Conductive concrete; existing
+              rebar as the electrode pair; three sections plus one plain control</span></div>
+            <div class="row"><span class="k">Measured</span><span class="v">Section resistance, wall
+              temperature and moisture, strain; crack width by hand as ground truth</span></div>
+            <div class="row"><span class="k">Success</span><span class="v">Days of warning before a
+              visible crack · false alarms per year · drift of the control section</span></div>
+          </div>
+          <p class="note">Laboratory results are strong and consistent. What is not established is
+            how much signal survives several winters once temperature and moisture are removed from it.</p>
+<figure class="detail">
+<svg viewBox="0 0 880 300" role="img" aria-label="Wall section: where the sensors sit and how the measurement works">
+  <defs>
+    <marker id="d-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#9cffc9"/>
+    </marker>
+  </defs>
+
+  <text class="hd" x="8" y="16">WALL SECTION — WHERE THE SENSORS SIT</text>
+
+  <!-- слои стены -->
+  <rect x="30" y="40" width="26" height="200" fill="#0a1c26" stroke="#99b4b2" stroke-opacity=".5"/>
+  <rect x="56" y="40" width="96" height="200" fill="#0d2430" stroke="#9cffc9" stroke-opacity=".7"/>
+  <rect x="152" y="40" width="22" height="200" fill="none" stroke="#9cffc9" stroke-opacity=".4" stroke-dasharray="3 4"/>
+  <rect x="174" y="40" width="16" height="200" fill="#0a1c26" stroke="#99b4b2" stroke-opacity=".5"/>
+
+  <text class="tiny"  x="43"  y="140" text-anchor="middle" transform="rotate(-90 43 140)">render</text>
+  <text class="tinyA" x="66"  y="140" text-anchor="middle" transform="rotate(-90 66 140)">conductive concrete</text>
+  <text class="tiny"  x="163" y="140" text-anchor="middle" transform="rotate(-90 163 140)">air gap</text>
+  <text class="tiny"  x="182" y="140" text-anchor="middle" transform="rotate(-90 182 140)">inner leaf</text>
+  <text class="tiny"  x="30"  y="256">outside</text>
+  <text class="tiny"  x="190" y="256" text-anchor="end">inside</text>
+
+  <!-- арматура -->
+  <g stroke="#9cffc9" stroke-opacity=".85" stroke-width="2.4">
+    <line x1="76" y1="44" x2="76" y2="236"/>
+    <line x1="104" y1="44" x2="104" y2="236"/>
+    <line x1="132" y1="44" x2="132" y2="236"/>
+  </g>
+  <g stroke="#9cffc9" stroke-opacity=".35" stroke-width="1.2">
+    <line x1="60" y1="70" x2="148" y2="70"/><line x1="60" y1="120" x2="148" y2="120"/>
+    <line x1="60" y1="170" x2="148" y2="170"/><line x1="60" y1="220" x2="148" y2="220"/>
+  </g>
+  <text class="tinyA" x="30" y="284">the reinforcement already in the wall is the electrode pair</text>
+
+  <!-- точки датчиков -->
+  <g fill="#f4df9b">
+    <circle cx="104" cy="120" r="5"/><circle cx="104" cy="170" r="5"/>
+  </g>
+  <circle cx="163" cy="95" r="5" fill="#f4df9b"/>
+  <rect x="96" y="196" width="16" height="7" fill="none" stroke="#f4df9b" stroke-width="1.6"/>
+
+  <line class="lead" x1="112" y1="120" x2="250" y2="104"/>
+  <line class="lead" x1="112" y1="170" x2="250" y2="150"/>
+  <line class="lead" x1="170" y1="95" x2="250" y2="58"/>
+  <line class="lead" x1="114" y1="200" x2="250" y2="196"/>
+  <line class="lead" x1="80" y1="60"  x2="250" y2="242"/>
+
+  <text class="tinyG" x="256" y="62">moisture · mid-thickness · hourly</text>
+  <text class="tiny"  x="256" y="76">wet concrete conducts; without this, rain reads as damage</text>
+  <text class="tinyG" x="256" y="108">temperature in the wall · mid-thickness · hourly</text>
+  <text class="tiny"  x="256" y="122">resistance moves with temperature on its own</text>
+  <text class="tinyG" x="256" y="154">resistance across the section · hourly</text>
+  <text class="tiny"  x="256" y="168">the wall's own signal — this is the sensor</text>
+  <text class="tinyG" x="256" y="200">strain gauge · hourly</text>
+  <text class="tiny"  x="256" y="214">separates load from damage</text>
+  <text class="tinyG" x="256" y="246">crack width · by hand · monthly</text>
+  <text class="tiny"  x="256" y="260">the ground truth everything else is checked against</text>
+
+  <!-- четырёхточечная схема -->
+  <g transform="translate(600,40)">
+    <text class="hd" x="0" y="-8">HOW THE MEASUREMENT WORKS</text>
+    <rect x="0" y="10" width="250" height="90" fill="#0d2430" stroke="#9cffc9" stroke-opacity=".5"/>
+    <g stroke="#9cffc9" stroke-width="2.4">
+      <line x1="26" y1="10" x2="26" y2="100"/><line x1="86" y1="10" x2="86" y2="100"/>
+      <line x1="164" y1="10" x2="164" y2="100"/><line x1="224" y1="10" x2="224" y2="100"/>
+    </g>
+    <path d="M26 6 h198" stroke="#f4df9b" stroke-width="1.4" fill="none" marker-end="url(#d-ar)"/>
+    <text class="tinyG" x="125" y="2" text-anchor="middle">current in ← → out</text>
+    <path d="M86 108 h78" stroke="#9cffc9" stroke-width="1.4" fill="none"/>
+    <text class="tinyA" x="125" y="122" text-anchor="middle">voltage measured between the inner pair</text>
+    <text class="tiny" x="0" y="140">Four points, not two: the contact resistance of the outer</text>
+    <text class="tiny" x="0" y="154">pair drops out of the answer. Two-point readings drift with</text>
+    <text class="tiny" x="0" y="168">the contacts and would be mistaken for the wall changing.</text>
+
+    <!-- трещина удлиняет путь -->
+    <g transform="translate(0,182)">
+      <rect x="0" y="0" width="118" height="54" fill="#0d2430" stroke="#99b4b2" stroke-opacity=".4"/>
+      <path d="M8 27 h102" stroke="#9cffc9" stroke-width="1.6"/>
+      <text class="tiny" x="59" y="-6" text-anchor="middle">intact</text>
+      <rect x="132" y="0" width="118" height="54" fill="#0d2430" stroke="#99b4b2" stroke-opacity=".4"/>
+      <path d="M186 0 l-6 18 l7 16 l-6 20" stroke="#f4df9b" stroke-width="2"/>
+      <path d="M140 27 h34 l8 -14 h10 l8 14 h42" stroke="#9cffc9" stroke-width="1.6" fill="none"/>
+      <text class="tiny" x="191" y="-6" text-anchor="middle">cracked — it detours</text>
+      <text class="tinyA" x="0" y="72">longer path, higher resistance — that is the warning</text>
+    </g>
+  </g>
+</svg>
+<figcaption>
+  Nothing is mounted on the surface. The reinforcement already in the wall serves as the electrodes,
+  and the concrete between them is the sensing element. Temperature and moisture are measured beside
+  it because both move resistance on their own — without them the signal cannot be read.
+</figcaption>
+</figure>
+
+        </div>
+      </li>
+
+      <!-- circulation -->
+      <li class="step" data-sys="circ">
+        <div class="step-when">
+          <span class="t">hours</span>
+          <span class="s">circulation</span>
+        </div>
+        <div class="step-body">
+          <h3>One circulation for the whole house <span class="badge b-proven">established technology</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            Water circuits cast into the concrete already turn the building mass into a radiator
+            and a store. That part is ordinary engineering. What is not ordinary is that the same
+            network which senses the walls decides where the heat goes — not a thermostat in the hall.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Built</span><span class="v">Circuits per zone, core and
+              periphery declared in advance; a conventional loop kept as the comparison</span></div>
+            <div class="row"><span class="k">Measured</span><span class="v">Supply and return
+              temperature, flow, slab temperature, room temperature — per zone</span></div>
+            <div class="row"><span class="k">Success</span><span class="v">Spread between zones ·
+              hours of comfort with the source off · season energy against the conventional loop</span></div>
+          </div>
+          <p class="note">The claim under test is not that this works. It is that connecting it to
+            the sensing network is worth its cost.</p>
+<figure class="detail">
+<svg viewBox="0 0 880 300" role="img" aria-label="Slab section with the pipes, their spacing and the sensors on the circuit">
+  <text class="hd" x="8" y="16">SLAB SECTION — THE PIPES AND WHAT IS MEASURED ON THEM</text>
+
+  <!-- плита -->
+  <rect x="30" y="60" width="430" height="86" fill="#0d2430" stroke="#9cffc9" stroke-opacity=".55"/>
+  <rect x="30" y="146" width="430" height="16" fill="#0a1c26" stroke="#99b4b2" stroke-opacity=".45"/>
+  <text class="tiny" x="30" y="54">floor finish</text>
+  <text class="tiny" x="30" y="178">insulation</text>
+
+  <!-- трубы в разрезе -->
+  <g>
+    <circle cx="70"  cy="112" r="11" fill="#06131c" stroke="#4af3b2" stroke-width="2"/>
+    <circle cx="135" cy="112" r="11" fill="#06131c" stroke="#4af3b2" stroke-width="2"/>
+    <circle cx="200" cy="112" r="11" fill="#06131c" stroke="#4af3b2" stroke-width="2"/>
+    <circle cx="265" cy="112" r="11" fill="#06131c" stroke="#4af3b2" stroke-width="2"/>
+    <circle cx="330" cy="112" r="11" fill="#06131c" stroke="#4af3b2" stroke-width="2"/>
+    <circle cx="395" cy="112" r="11" fill="#06131c" stroke="#4af3b2" stroke-width="2"/>
+  </g>
+  <path d="M70 134 v18 M135 134 v18" stroke="#99b4b2" stroke-opacity=".5"/>
+  <path d="M70 148 h65" stroke="#99b4b2" stroke-opacity=".5" stroke-dasharray="3 3"/>
+  <text class="tiny" x="102" y="164" text-anchor="middle">spacing</text>
+  <path d="M18 60 v86" stroke="#99b4b2" stroke-opacity=".5"/>
+  <text class="tiny" x="14" y="106" text-anchor="end" transform="rotate(-90 14 106)">depth</text>
+
+  <text class="tinyA" x="245" y="40" text-anchor="middle">pipe holes cast into the slab, not laid on top of it</text>
+  <text class="tiny"  x="245" y="196" text-anchor="middle">the concrete between the pipes is the store; the lag is the asset, not a fault</text>
+
+  <!-- контур -->
+  <g transform="translate(520,36)">
+    <text class="hd" x="0" y="0">ONE ZONE OF THE CIRCUIT</text>
+    <rect x="0" y="18" width="330" height="120" fill="none" stroke="#99b4b2" stroke-opacity=".35"/>
+    <text class="tiny" x="165" y="34" text-anchor="middle">the slab of this zone</text>
+
+    <path d="M-1 60 h-40" stroke="#4af3b2" stroke-width="2.4"/>
+    <path d="M-1 100 h-40" stroke="#9cffc9" stroke-width="2.4" stroke-opacity=".6"/>
+    <text class="tinyG" x="-44" y="56" text-anchor="end">supply</text>
+    <text class="tiny"  x="-44" y="104" text-anchor="end">return</text>
+
+    <circle cx="-20" cy="60" r="5" fill="#f4df9b"/>
+    <circle cx="-20" cy="100" r="5" fill="#f4df9b"/>
+    <rect x="-34" y="70" width="28" height="18" fill="none" stroke="#f4df9b" stroke-width="1.4"/>
+    <text class="tinyG" x="-72" y="82" text-anchor="end">flow</text>
+
+    <circle cx="120" cy="78" r="5" fill="#f4df9b"/>
+    <text class="tinyG" x="132" y="82">slab temperature, mid-depth</text>
+    <circle cx="240" cy="30" r="5" fill="#f4df9b"/>
+    <text class="tinyG" x="252" y="34">room air, 1.5 m</text>
+
+    <text class="tiny" x="0" y="164">Supply minus return, times flow, is the heat that actually entered</text>
+    <text class="tiny" x="0" y="178">this slab. A temperature difference on its own is not energy, which</text>
+    <text class="tiny" x="0" y="192">is why the flow meter is not optional.</text>
+    <text class="tiny" x="0" y="212">Per zone, never one loop for the house: the whole point is that the</text>
+    <text class="tiny" x="0" y="226">core and the periphery are heated differently.</text>
+  </g>
+</svg>
+<figcaption>
+  Five quantities per zone: supply and return temperature, flow, the temperature inside the slab,
+  and the room air. The first three give the energy delivered, the fourth gives the store, and the
+  fifth is what a person actually feels — which is not the slab.
+</figcaption>
+</figure>
+
+        </div>
+      </li>
+
+      <!-- skin -->
+      <li class="step" data-sys="skin">
+        <div class="step-when">
+          <span class="t">hours</span>
+          <span class="s">skin · the ladder</span>
+        </div>
+        <div class="step-body">
+          <h3>A house that regulates like skin <span class="badge b-open">open question</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            Narrow the vessels, raise the hair, burn the reserve, shiver, and only then curl up.
+            Five steps, cheapest first, each with a trigger and a price fixed before the season
+            starts. The trigger is the outdoor temperature and the speed at which it is falling —
+            both available in every house today and used in none.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Built</span><span class="v">Hold the core and let the
+              periphery fall · a closable air gap · a store charged in advance · active heat last ·
+              close rooms and heat less volume</span></div>
+            <div class="row"><span class="k">Measured</span><span class="v">Outdoor temperature and
+              its rate of fall; core and periphery separately; charge left in the store; which step
+              is active</span></div>
+            <div class="row"><span class="k">Success</span><span class="v">Degree-hours lost in the
+              core · season energy · what the reserve costs outside the crisis · energy per
+              degree-hour avoided, step by step</span></div>
+          </div>
+          <p class="note">This system exists because of a defect found in the measured work below:
+            the house pays for its reserve all winter and is repaid in three days.</p>
+<figure class="detail">
+<svg viewBox="0 0 880 250" role="img" aria-label="The ladder of responses with its triggers and prices">
+  <text class="hd" x="8" y="16">THE LADDER — CHEAP MEASURES FIRST, EACH WITH A TRIGGER</text>
+
+  <line x1="40" y1="212" x2="840" y2="212" class="dim"/>
+  <text class="tiny" x="40" y="232">outdoor temperature falling, and how fast  →</text>
+  <text class="tiny" x="836" y="232" text-anchor="end">cost of the step  →</text>
+
+  <g>
+    <rect x="40"  y="176" width="140" height="28" rx="6" fill="rgba(74,243,178,.10)" stroke="#9cffc9" stroke-opacity=".5"/>
+    <text class="tinyA" x="110" y="194" text-anchor="middle">1 · hold the core</text>
+    <text class="tiny"  x="110" y="168" text-anchor="middle">let the corridor go</text>
+    <text class="tiny"  x="110" y="156" text-anchor="middle">free</text>
+
+    <rect x="196" y="146" width="140" height="28" rx="6" fill="rgba(74,243,178,.10)" stroke="#9cffc9" stroke-opacity=".5"/>
+    <text class="tinyA" x="266" y="164" text-anchor="middle">2 · close the air gap</text>
+    <text class="tiny"  x="266" y="138" text-anchor="middle">shutters, cavity</text>
+    <text class="tiny"  x="266" y="126" text-anchor="middle">almost free</text>
+
+    <rect x="352" y="116" width="140" height="28" rx="6" fill="rgba(244,223,155,.12)" stroke="#f4df9b" stroke-opacity=".6"/>
+    <text class="tinyG" x="422" y="134" text-anchor="middle">3 · spend the store</text>
+    <text class="tiny"  x="422" y="108" text-anchor="middle">charged in advance</text>
+    <text class="tiny"  x="422" y="96"  text-anchor="middle">paid for earlier</text>
+
+    <rect x="508" y="86"  width="140" height="28" rx="6" fill="rgba(244,223,155,.12)" stroke="#f4df9b" stroke-opacity=".6"/>
+    <text class="tinyG" x="578" y="104" text-anchor="middle">4 · active heat</text>
+    <text class="tiny"  x="578" y="78"  text-anchor="middle">the expensive one</text>
+    <text class="tiny"  x="578" y="66"  text-anchor="middle">full price</text>
+
+    <rect x="664" y="56"  width="140" height="28" rx="6" fill="rgba(244,223,155,.12)" stroke="#f4df9b" stroke-opacity=".6"/>
+    <text class="tinyG" x="734" y="74" text-anchor="middle">5 · close rooms</text>
+    <text class="tiny"  x="734" y="48" text-anchor="middle">heat less volume</text>
+    <text class="tiny"  x="734" y="36" text-anchor="middle">costs comfort</text>
+  </g>
+
+  <path d="M180 190 h16 M336 160 h16 M492 130 h16 M648 100 h16" stroke="#99b4b2" stroke-opacity=".5"/>
+</svg>
+<figcaption>
+  The order is the content of this model. Every step has a trigger written before the season and a
+  price that can be checked afterwards, and the trigger is the outdoor temperature and its rate of
+  fall — not the indoor temperature, which by the time it moves is already late.
+</figcaption>
+</figure>
+
+        </div>
+      </li>
+
+      <!-- healing -->
+      <li class="step" data-sys="heal">
+        <div class="step-when">
+          <span class="t">weeks</span>
+          <span class="s">healing</span>
+        </div>
+        <div class="step-body">
+          <h3>A wall that closes its own cracks <span class="badge b-lab">laboratory</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            Two routes side by side: channels carrying a healing agent that the crack itself tears
+            open, and mineral deposited into the crack by current through the reinforcement. Plus a
+            plain strip, so that the comparison is honest.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Built</span><span class="v">Three strips in one wall;
+              cracks induced under controlled load; the same crack reopened until the strip stops
+              recovering</span></div>
+            <div class="row"><span class="k">Measured</span><span class="v">Crack width,
+              permeability, recovered load capacity, agent remaining, charge passed — and the sign
+              of the reinforcement potential, continuously</span></div>
+            <div class="row"><span class="k">Success</span><span class="v">Cost per repaired metre ·
+              strength recovered · repairs remaining · the ratio against a person with a tube of
+              sealant</span></div>
+          </div>
+          <p class="note">The failure mode of this whole idea is polarity: if the reinforcement ever
+            becomes the anode, the current eats the steel instead of healing the wall. It is
+            interlocked, monitored and reported, not assumed away.</p>
+<figure class="detail">
+<svg viewBox="0 0 880 280" role="img" aria-label="Two healing routes side by side, with the polarity trap">
+  <text class="hd" x="8" y="16">TWO ROUTES, ONE WALL, PLUS A PLAIN CONTROL</text>
+
+  <!-- сосудистый -->
+  <g transform="translate(20,36)">
+    <text class="tinyA" x="0" y="0">A · vascular</text>
+    <rect x="0" y="12" width="230" height="150" fill="#0d2430" stroke="#9cffc9" stroke-opacity=".5"/>
+    <g stroke="#4af3b2" stroke-width="3" fill="none" stroke-opacity=".85">
+      <path d="M0 52 h230"/><path d="M0 122 h230"/>
+    </g>
+    <text class="tiny" x="4" y="46">channels carrying the agent</text>
+    <path d="M120 12 l-8 30 l9 26 l-8 34 l9 34 l-6 26" stroke="#f4df9b" stroke-width="2.4" fill="none"/>
+    <circle cx="116" cy="52" r="9" fill="none" stroke="#f4df9b" stroke-opacity=".7"/>
+    <circle cx="120" cy="122" r="9" fill="none" stroke="#f4df9b" stroke-opacity=".7"/>
+    <text class="tinyG" x="152" y="90">the crack tears</text>
+    <text class="tinyG" x="152" y="103">the channel open</text>
+    <text class="tiny" x="0" y="182">The wall does not decide to heal. The damage itself</text>
+    <text class="tiny" x="0" y="196">opens the supply. The reservoir is finite, and how</text>
+    <text class="tiny" x="0" y="210">many repairs are left in it is a measured number.</text>
+  </g>
+
+  <!-- электроосаждение -->
+  <g transform="translate(300,36)">
+    <text class="tinyA" x="0" y="0">B · electrodeposition</text>
+    <rect x="0" y="12" width="230" height="150" fill="#0d2430" stroke="#9cffc9" stroke-opacity=".5"/>
+    <g stroke="#9cffc9" stroke-width="2.4">
+      <line x1="60" y1="12" x2="60" y2="162"/><line x1="150" y1="12" x2="150" y2="162"/>
+    </g>
+    <text class="tinyA" x="105" y="178" text-anchor="middle">reinforcement = cathode (−)</text>
+    <rect x="-16" y="60" width="10" height="56" fill="#f4df9b" fill-opacity=".5" stroke="#f4df9b"/>
+    <text class="tinyG" x="-22" y="92" text-anchor="end">anode (+)</text>
+    <path d="M104 12 l-7 34 l8 30 l-7 36 l8 50" stroke="#f4df9b" stroke-width="2.4" fill="none"/>
+    <g fill="#9cffc9" fill-opacity=".75">
+      <circle cx="101" cy="60" r="3"/><circle cx="104" cy="86" r="3"/><circle cx="100" cy="112" r="3"/>
+      <circle cx="105" cy="134" r="3"/>
+    </g>
+    <text class="tinyA" x="160" y="86">mineral deposits</text>
+    <text class="tinyA" x="160" y="99">into the crack</text>
+    <text class="tiny" x="0" y="196">Works best where the solution is free, which is why</text>
+    <text class="tiny" x="0" y="210">marine structures are its home. In a dry wall the</text>
+    <text class="tiny" x="0" y="224">solution has to be supplied, and that is a cost.</text>
+  </g>
+
+  <!-- ловушка полярности -->
+  <g transform="translate(580,36)">
+    <rect x="0" y="0" width="280" height="196" rx="12" fill="rgba(244,223,155,.07)" stroke="#f4df9b" stroke-opacity=".55"/>
+    <text class="tinyG" x="16" y="26">THE WAY THIS IDEA FAILS</text>
+    <g transform="translate(16,44)">
+      <rect x="0" y="0" width="112" height="56" fill="#0d2430" stroke="#9cffc9" stroke-opacity=".5"/>
+      <line x1="56" y1="4" x2="56" y2="52" stroke="#9cffc9" stroke-width="2.4"/>
+      <circle cx="56" cy="20" r="3" fill="#9cffc9"/><circle cx="56" cy="38" r="3" fill="#9cffc9"/>
+      <text class="tinyA" x="56" y="72" text-anchor="middle">steel is cathode</text>
+      <text class="tinyA" x="56" y="84" text-anchor="middle">mineral grows on it</text>
+
+      <rect x="136" y="0" width="112" height="56" fill="#0d2430" stroke="#f4df9b" stroke-opacity=".5"/>
+      <line x1="192" y1="4" x2="192" y2="52" stroke="#f4df9b" stroke-width="2.4" stroke-dasharray="5 4"/>
+      <text class="tinyG" x="192" y="72" text-anchor="middle">steel is anode</text>
+      <text class="tinyG" x="192" y="84" text-anchor="middle">the current eats it</text>
+    </g>
+    <text class="tiny" x="16" y="152">One sign of a voltage separates a wall that repairs</text>
+    <text class="tiny" x="16" y="166">itself from a wall whose reinforcement is being</text>
+    <text class="tiny" x="16" y="180">dissolved. It is monitored continuously and interlocked.</text>
+  </g>
+</svg>
+<figcaption>
+  Three strips in the same wall under the same weather: vascular, electrodeposition, and plain
+  concrete. Cracks are induced under controlled load rather than waited for, and the same crack is
+  reopened until the strip stops recovering — which is how the number of repairs a wall has left is
+  found rather than assumed.
+</figcaption>
+</figure>
+
+        </div>
+      </li>
+
+      <!-- bone -->
+      <li class="step" data-sys="bone">
+        <div class="step-when">
+          <span class="t">years</span>
+          <span class="s">bone</span>
+        </div>
+        <div class="step-body">
+          <h3>Structure that grows where it is loaded <span class="badge b-open">open question</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            Mineral can be grown onto a steel frame by weak current — the method is fifty years old
+            and is used to grow coral bases. Nobody has grown it where the structure itself reports
+            the load. The segment under sustained strain receives the most current; a segment with
+            no feedback grows at a fixed rate as the control.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Built</span><span class="v">One frame element, four
+              segments, at least two years — because the honest objection to this idea is that it
+              is slow</span></div>
+            <div class="row"><span class="k">Measured</span><span class="v">Layer thickness,
+              sustained strain, segment stiffness, charge passed, reinforcement potential</span></div>
+            <div class="row"><span class="k">Success</span><span class="v">Growth rate · energy per
+              millimetre · growth in the loaded segment against the control · stiffness gained per
+              millimetre</span></div>
+          </div>
+          <p class="note">Growth is far too slow to help during an earthquake, and this model does
+            not claim otherwise. What it can do is come after: the network maps the damage at once,
+            then thickens over months the places that took the blow. A bone does not survive the
+            fall by growing; it grows because it fell.</p>
+        </div>
+      </li>
+
+      <!-- one network -->
+      <li class="step" data-sys="net">
+        <div class="step-when">
+          <span class="t">the loop</span>
+          <span class="s">one network</span>
+        </div>
+        <div class="step-body">
+          <h3>One network that both senses and answers <span class="badge b-open">open question</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            Each part above exists somewhere already, and each belongs to a different network with a
+            different owner. The claim of this model is that one network does all of it: the same
+            reinforcement that reports a crack carries the current that closes it. Closing that loop
+            is the part nobody has built.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Built</span><span class="v">One conductive network,
+              time-shared between sensing, heating and repair; a written rule that no action may
+              drive the reinforcement anodic</span></div>
+            <div class="row"><span class="k">Measured</span><span class="v">Health of the network
+              itself; every action with the trigger that caused it; reinforcement potential;
+              downtime</span></div>
+            <div class="row"><span class="k">Success</span><span class="v">Cost against three
+              separate systems · time from detection to action · functions lost per network failure
+              · steel lost to stray current per year</span></div>
+          </div>
+          <p class="note">The obvious argument against a shared network is that one failure takes
+            out three functions at once. That argument is not answered by enthusiasm. It is answered
+            by the shared-failure number above, and if it loses, this page will say so.</p>
+        </div>
+      </li>
+
+      <!-- inheritance -->
+      <li class="step" data-sys="inherit">
+        <div class="step-when">
+          <span class="t">between<br />houses</span>
+          <span class="s">inheritance</span>
+        </div>
+        <div class="step-body">
+          <h3>What the house inherits from other houses <span class="badge b-measured">measured</span></h3>
+          <p class="muted" style="font-size:15px;margin:0">
+            A house that has already lived a winter can hand its heating policy to a new house.
+            We measured whether it helps to choose which house it comes from. It does not.
+          </p>
+          <div class="rows">
+            <div class="row"><span class="k">Tested on</span><span class="v">40 source houses,
+              200 new ones, 19 measured climates, the full 8 000-pair matrix</span></div>
+            <div class="row"><span class="k">Crisis</span><span class="v">Half the heating capacity
+              lost for 72 hours, in the coldest window of each house's own weather record</span></div>
+            <div class="row"><span class="k">Answer</span><span class="v">Take a policy. Do not spend
+              effort choosing whose. Test candidates on a population and keep the winner</span></div>
+          </div>
+          <p class="note">This is the one system on this page with a result behind it rather than a
+            plan — and the result is numerical, not built. No instance of this model exists yet.</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ================= MEASURED ================= -->
+  <section>
+    <div class="callout">
+      <p class="eyebrow">Already measured</p>
+      <h2>Choosing which house to learn from is worth one per cent</h2>
+      <p class="muted" style="max-width:74ch">
+        Across 8 000 ordered pairs, neither distance in ten building parameters nor a purpose-built
+        resilience trait predicts the value of a transfer. The reason is that sources agree with
+        each other: a source is good or bad for every house, not for some. Of the benefit a
+        transfer brings, two thirds is which house received it and a quarter is which house
+        produced it — leaving almost nothing for the pairing that everyone looks for.
+      </p>
+      <div class="big">
+        <div><div class="n">+0.94</div><div class="l">agreement between sources across houses</div></div>
+        <div><div class="n">6 %</div><div class="l">of the benefit is the pairing — all any similarity measure could ever explain</div></div>
+        <div><div class="n">1 %</div><div class="l">value of choosing perfectly, with hindsight</div></div>
+        <div><div class="n">+0.978</div><div class="l">agreement after enriching the inherited policy from 5 numbers to 26</div></div>
+      </div>
+      <p class="muted" style="font-size:14px;margin-top:16px">
+        Evidence is simulated, not built. The bench is calibrated against an open reference model on
+        eight buildings and checked on four held out in another city and month: 2 % on heat demand,
+        0.23 K on mean indoor temperature. Code, data and the full matrix are open —
+        <a class="doi" href="https://doi.org/10.5281/zenodo.23012010">doi.org/10.5281/zenodo.23012010</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= WHAT IT COSTS / RETURNS ================= -->
+  <section>
+    <div class="sec-head">
+      <h2>What taking this model actually involves</h2>
+      <p>A model is a contract in both directions. This is the side the client carries, and the side
+      the library carries.</p>
+    </div>
+    <div class="give">
+      <div class="panel">
+        <h3>What you put in</h3>
+        <ul class="plain muted" style="font-size:15px">
+          <li>The conditions written down <em>before</em> the first season, not after. Climate, size,
+            use, occupancy. Experience without conditions is worse than no experience: a schedule
+            that saved heat in one place can freeze a house in another.</li>
+          <li>The sensors from the systems you choose to build. The cheapest honest entry is one
+            wall and five points, not a whole house.</li>
+          <li>One year of recording. Less than a year has no winter in it.</li>
+          <li>Two lines at the end: what happened, and what surprised you.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>What you get back</h3>
+        <ul class="plain muted" style="font-size:15px">
+          <li>A starting policy that already survived someone else's crisis, and the measured answer
+            that you should not waste effort choosing whose.</li>
+          <li>Every later version of this model, with a written list of what changed against the
+            version you built — so you can decide whether to follow.</li>
+          <li>The failures. A library that keeps only successes teaches nothing, so dead branches
+            stay in it, marked dead.</li>
+        </ul>
+        <p class="note" style="border-top:none;padding-top:4px">
+          The field that matters most is <strong>surprise</strong>. Expectations that were met teach
+          nobody anything.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STATUS ================= -->
+  <section>
+    <div class="sec-head">
+      <h2>Honest status of every part</h2>
+      <p>So that nothing on this page is read as more finished than it is.</p>
+    </div>
+    <div class="panel" style="padding:8px 10px">
+      <table>
+        <thead><tr><th>System</th><th>Answers in</th><th>Status</th><th>What is missing</th></tr></thead>
+        <tbody>
+          <tr><td>The body, from published stock</td><td class="num">—</td>
+              <td><span class="badge b-proven">available</span></td>
+              <td>Nothing. The data is open and published.</td></tr>
+          <tr><td>Walls that feel</td><td class="num">seconds</td>
+              <td><span class="badge b-lab">laboratory</span></td>
+              <td>Years of weather on the same wall; signal left after temperature and moisture are removed.</td></tr>
+          <tr><td>One circulation</td><td class="num">hours</td>
+              <td><span class="badge b-proven">established</span></td>
+              <td>Only the joining to the sensing network is new, and it is unpriced.</td></tr>
+          <tr><td>Regulation like skin</td><td class="num">hours</td>
+              <td><span class="badge b-open">open</span></td>
+              <td>The whole ladder. The bench for it exists and is calibrated; the experiment is next.</td></tr>
+          <tr><td>Self-healing walls</td><td class="num">weeks</td>
+              <td><span class="badge b-lab">laboratory</span></td>
+              <td>Cost per repaired metre, strength recovered, and how many repairs a wall has left.</td></tr>
+          <tr><td>Growth where loaded</td><td class="num">years</td>
+              <td><span class="badge b-open">open</span></td>
+              <td>Everything except the deposition itself. Speed is the fatal objection for a wall and not for a joint.</td></tr>
+          <tr><td>One network for all of it</td><td class="num">the loop</td>
+              <td><span class="badge b-open">open</span></td>
+              <td>Nobody has built it. The cost of a shared failure is the number that decides it.</td></tr>
+          <tr><td>Inheritance between houses</td><td class="num">between seasons</td>
+              <td><span class="badge b-measured">measured</span></td>
+              <td>A built instance. The result is numerical and open; no house has been constructed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page">
+  Living House · initial model · version 1.0 · Egregor Cloud.
+  Parent of the inheritance system: <em>Does a trained controller transfer to another building?</em>
+  Instances: none yet — that field is filled from a real object, never from a calculation.
+</footer>
+
+</div>
+<script>
+(function(){
+  var svg = document.getElementById('houseSvg');
+  var legend = document.getElementById('legend');
+  if(!svg || !legend) return;
+  var groups = {};
+  svg.querySelectorAll('g.sys').forEach(function(g){ groups[g.dataset.sys] = g; });
+
+  function on(key){
+    svg.classList.add('dim');
+    Object.keys(groups).forEach(function(k){ groups[k].classList.toggle('on', k === key); });
+    legend.querySelectorAll('li').forEach(function(li){ li.classList.toggle('on', li.dataset.sys === key); });
+    document.querySelectorAll('.step[data-sys]').forEach(function(s){ s.classList.toggle('on', s.dataset.sys === key); });
+  }
+  function off(){
+    svg.classList.remove('dim');
+    Object.keys(groups).forEach(function(k){ groups[k].classList.remove('on'); });
+    legend.querySelectorAll('li').forEach(function(li){ li.classList.remove('on'); });
+    document.querySelectorAll('.step[data-sys]').forEach(function(s){ s.classList.remove('on'); });
+  }
+  function bind(el, key){
+    el.addEventListener('mouseenter', function(){ on(key); });
+    el.addEventListener('mouseleave', off);
+    el.addEventListener('focus', function(){ on(key); });
+    el.addEventListener('blur', off);
+  }
+  legend.querySelectorAll('li').forEach(function(li){
+    li.tabIndex = 0; bind(li, li.dataset.sys);
+    li.addEventListener('click', function(){
+      var t = document.querySelector('.step[data-sys="' + li.dataset.sys + '"]');
+      if(t) t.scrollIntoView({behavior:'smooth', block:'center'});
+      li.blur(); off();
+    });
+  });
+  Object.keys(groups).forEach(function(k){ bind(groups[k], k); });
+  document.querySelectorAll('.step[data-sys]').forEach(function(s){ bind(s, s.dataset.sys); });
+})();
+</script>
+</body>
+</html>
