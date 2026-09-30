@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Urban territory · Egregor Cloud</title>
+  <link rel="stylesheet" href="./urban-graph.css">
+  <script defer src="./urban-model.js"></script><script defer src="./urban-graph.js"></script>
+</head>
+<body>
+<div class="shell">
+  <header><a class="brand" href="./index.html"><b>EC</b><span>Egregor Cloud<small>Cloud DNA / Territory models</small></span></a><nav aria-label="Navigation"><a href="./house-model.html">Living House ↗</a><a href="./index.html">Platform ↗</a></nav></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">01 / Territory as a connected whole</p><h1>Parkside Quarter</h1><p class="lead">Explore the capabilities of a neighbourhood and the objects that support them. One object can participate in several internal graphs.</p></div><div class="stamp">DESIGN SKETCH · v0.1<span>Illustrative data<br>Not connected to a real city</span></div></section>
+    <div class="facts"><span><b>12 ha</b> area</span><span><b>8</b> residential buildings</span><span><b>1 200</b> residents</span><span><b>6</b> capabilities</span><span><b>14</b> shared objects</span></div>
+    <section class="workspace" aria-label="Graph explorer">
+      <div class="toolbar"><div class="tabs" role="group" aria-label="View"><button id="cap-view" aria-pressed="true">Capabilities</button><button id="body-view" aria-pressed="false">Territory objects</button></div><label>Conditions <select id="scenario"></select></label><button id="export">Download model JSON ↓</button></div>
+      <p class="scenario-note" id="scenario-note" aria-live="polite"></p>
+      <div class="graph-layout"><section class="canvas-panel"><div class="canvas-heading"><div><p class="eyebrow" id="view-kind">Overview graph</p><h2 id="graph-title">Territory capabilities</h2></div><button id="up" hidden>← Overview graph</button></div><p id="graph-help">Select a node, then expand its internal graph.</p><div id="graph" aria-label="Nodes and directed connections"></div><div class="legend"><span><i class="assumed"></i>Design assumption</span><span><i class="limited"></i>Limited</span><span><i class="lost"></i>Unavailable</span></div><p class="small">Edges show dependencies and interactions. Node positions are illustrative, not geographic.</p></section>
+      <aside id="detail" aria-label="Selected node" aria-live="polite"></aside></div>
+      <details class="edges"><summary>Connections in this graph <span id="edge-count"></span></summary><ul id="edge-list"></ul></details>
+    </section>
+    <section class="explanation"><article><p class="eyebrow">The principle</p><h2>Expand a node</h2><p>A capability references shared objects and their connections. Trees contribute to microclimate, accessibility and the living environment. Their identity is preserved across views.</p></article><article><p class="eyebrow">A model in Cloud DNA</p><h2>Structure + context + history</h2><p>The export preserves composition, relationships, criteria and the selected scenario. Observation history is empty. Indicators are listed, but values require measurements or a computational model.</p></article><article><p class="eyebrow">Scope of this sketch</p><h2>Scenarios are assumptions</h2><p>Colours follow explicit demonstration rules. Hydrology, temperature and reliability are not calculated. Baseline conditions have not been verified by measurements either.</p></article></section>
+    <footer>Living Things conceptual example · <a href="https://tcode.net.technion.ac.il/research/sustainable-urban-landscapes-computer-aided-sustainability-evaluation-for-landscape-design/" target="_blank" rel="noopener noreferrer">Related T_CODE research ↗</a><p>The composite nodes and scenarios are an Egregor Cloud design sketch. They are not a Technion model or dataset.</p></footer>
+  </main>
+</div>
+</body></html>
