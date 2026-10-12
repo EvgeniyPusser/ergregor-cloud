@@ -50,3 +50,9 @@ After that, every push to `main` deploys automatically.
 3. Add a model detail page for each seed object.
 4. Add roles, access levels, and contribution history.
 5. Introduce payments only after trust and attention exist.
+
+## Thermal calculator
+
+Open `buildings/thermal.html` (Russian) or `buildings/thermal-en.html` (English), or choose **Thermal calculator** inside Buildings. These pages embed the original browser calculator and weather data from `living-things-sim/calc/stend.html` and `bench.html`; only Egregor navigation was added. They work when opened directly from the IDE, without a Python server or network connection.
+
+This is a bundled copy, not an automatic sync: changes in living-things-sim require updating the two calculator pages. The research project's Python experiments are not run by the website.

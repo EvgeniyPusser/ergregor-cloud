@@ -1,0 +1,11 @@
+{
+  "name": "egregor-cloud",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Static prototype for the first public nucleus of Egregor Cloud.",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "start": "node scripts/dev-server.mjs",
+    "preview": "node scripts/dev-server.mjs"
+  }
+}
