@@ -16,6 +16,66 @@ window.EGREGOR_MODELS = [
       "Only after that: a recommendation with a number attached"
     ],
     links: ["Comfort: what people actually complain about", "Structural sensors: minimal entry"],
+
+    rules: [
+      {
+        param: "External wall U-value",
+        unit: "W/m\u00b2K",
+        depends: "share of cooling degree-days in all degree-days",
+        rule: "share of heat < 0.1 \u2192 0.26\u20260.30;  0.1\u20130.4 \u2192 0.30\u20260.35;  > 0.5 \u2192 do not insulate past 0.5, shading matters more",
+        checked: "200 dwellings, 21 climates, optimum on full cost over 30 years, IWU cost data",
+        kind: "body"
+      },
+      {
+        param: "Window U-value",
+        unit: "W/m\u00b2K",
+        depends: "share of heat",
+        rule: "in a cold climate down to 1.3; below 1.3 the price rises faster than the saving",
+        checked: "IWU Darmstadt cost data, EU cost-optimal methodology",
+        kind: "body"
+      },
+      {
+        param: "Shutter position",
+        unit: "open / closed",
+        depends: "time of day and season",
+        rule: "in a hot climate close during the day in summer, open at night",
+        checked: "NOT TESTED on the bench \u2014 there are no shutters in the model. Rule from practice, not from measurement",
+        kind: "distro"
+      }
+    ],
+
+    applies: {
+      tested_on:
+        "21 climates, share of heat from 0.02 (Stockholm) to 0.70 (Beer Sheva); dwellings 43\u2013200 m\u00b2, 1\u20133 storeys, TABULA ranges",
+      interaction: 0.39,
+      misfit_cost:
+        "give an Israeli dwelling the Swedish rule: +70 % of hours outside the norm; the other way round: +34 %",
+      not_tested:
+        "tropics, high altitude, humid climates; dwellings above 200 m\u00b2; non-residential buildings"
+    },
+
+    blindspots: [
+      "shutters and any shading \u2014 absent from the model entirely",
+      "roof reflectance \u2014 the roof is described by a single U-value",
+      "moisture and vapour transport",
+      "phase-change materials",
+      "evaporative cooling",
+      "the price of airtightness and of heavy construction \u2014 no cost data",
+      "one weather year on the Israeli climates: Tel Aviv and Beer Sheva, one year each"
+    ],
+
+    weighting: {
+      by_place:
+        "share of heat = CDD / (HDD + CDD) from the weather record of your site. Stockholm 0.02, Rome 0.30, Tel Aviv 0.69",
+      by_owner: [
+        "what an hour of discomfort is worth against a kilowatt-hour",
+        "horizon: ten years or thirty",
+        "the view from the window against the glazed area",
+        "how the facade should look"
+      ],
+      note:
+        "Taste and a plain personal preference enter here on the same footing as climate. The model does not judge them and does not argue. It takes them as input and returns a different answer."
+    },
     sensors: [
       { id: "t-out",    what: "Outdoor temperature",  unit: "°C", rate: "1/hour", where: "north facade, in shade",            why: "nothing else is comparable without it" },
       { id: "t-in",     what: "Indoor temperature",   unit: "°C", rate: "1/hour", where: "three rooms, 1.5 m, different sides", why: "one room tells you nothing about the building" },

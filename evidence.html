@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heat &amp; tests — Egregor Cloud</title>
+    <meta
+      name="description"
+      content="The measurements the models point at. A calibrated thermal bench, 40 donors, 200 receivers, 21 climates from Stockholm to Beer Sheva. What transfers between buildings, what does not, and what it costs to get the address wrong."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+<nav class="ec-topnav" aria-label="Sections">
+  <a class="ec-topnav-brand" href="./index.html">Egregor&nbsp;Cloud</a>
+  <a href="./index.html"        data-page="index">Home</a>
+  <a href="./house-model.html"  data-page="house">Living House</a>
+  <a href="./evidence.html"     data-page="evidence" aria-current="page">Heat &amp; tests</a>
+  <a href="./house-runtime.html" data-page="lab">Lab</a>
+  <a href="./urban-graph.html"  data-page="urban">Urban territory</a>
+</nav>
+
+    <main class="ev-page">
+
+      <header class="ev-hero">
+        <p class="eyebrow">Measurements, not claims</p>
+        <h1>Heat &amp; tests</h1>
+        <p class="ev-lede">
+          Every number a model carries has to come from somewhere. This page is
+          where they come from. A reduced thermal bench, checked against an
+          independently validated reference, then run on 40 donor dwellings,
+          200 receivers and 21 measured climates from Stockholm to Beer Sheva.
+        </p>
+        <p class="ev-lede">
+          The question behind all of it is not about walls. It is whether a
+          technical object can accumulate operating experience and pass it on —
+          and if so, what exactly travels. Buildings are the test case, because
+          they are the best-documented one.
+        </p>
+        <p class="ev-doi">
+          Code, data and the full result matrices:
+          <a href="https://doi.org/10.5281/zenodo.23012010">doi:10.5281/zenodo.23012010</a>
+          · fixed seeds, every number regenerable
+        </p>
+      </header>
+
+      <!-- ============================================ THE BENCH -->
+      <section class="ev-block">
+        <h2>The bench, and what it is answerable to</h2>
+        <p>
+          A single zone with three thermal capacities — air with furniture, the
+          envelope, internal partitions. Within each 15-minute step the system
+          is linear and the state is advanced by matrix exponential, so there is
+          no integration-step artefact by construction. Heating is an air-source
+          heat pump whose available output falls with outdoor temperature, which
+          is what turns a cold spell into a capacity problem rather than only a
+          cost one.
+        </p>
+        <p>
+          It is calibrated against BuilDa, the open Modelica generator from
+          Rosenheim, itself validated against ASHRAE 140-2004. Two correction
+          factors were fitted on eight buildings in Munich and applied unchanged
+          to four held out in Berlin, in another month, at other U-values:
+        </p>
+        <div class="ev-numbers">
+          <div><strong>1.016</strong><span>mean heat-demand ratio, fitting set</span></div>
+          <div><strong>1.020</strong><span>same, held out</span></div>
+          <div><strong>0.22 K</strong><span>worst mean indoor temperature error, all twelve</span></div>
+          <div><strong>≈ 1 s</strong><span>one heating season for 300 dwellings</span></div>
+        </div>
+        <p class="ev-note">
+          The calibration says the physics agrees with an independent reference.
+          It does not say the generated population resembles any real building
+          stock. That is a separate claim and it is not made.
+        </p>
+      </section>
+
+      <!-- ============================================ WHAT TRAVELS -->
+      <section class="ev-block">
+        <h2>What travels between buildings</h2>
+        <p>
+          Three things were tried as the inherited object, in this order: a
+          control policy, a finished body, and a rule. Each was given to all 200
+          receivers from all 40 donors — every ordered pair evaluated, so the
+          oracle rows below are exact, not estimates.
+        </p>
+
+        <table class="ev-table">
+          <caption>
+            Choosing <em>whom</em> to inherit from. The oracle column is what a
+            perfect per-receiver choice would be worth against simply giving
+            everyone the single best donor.
+          </caption>
+          <thead>
+            <tr><th>Experiment</th><th>What was inherited</th><th>Population</th><th>Interaction share</th><th>Worth of perfect matching</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>13</td><td>control policy, 5 parameters</td><td>19 European climates</td><td>6.3&nbsp;%</td><td>1&nbsp;%</td></tr>
+            <tr><td>13b</td><td>control policy, 26 parameters</td><td>same</td><td>3.7&nbsp;%</td><td>5&nbsp;%</td></tr>
+            <tr><td>15</td><td>the body itself</td><td>same</td><td>13.4&nbsp;%</td><td>1.5&nbsp;%</td></tr>
+            <tr><td>17</td><td>the body, summer counted too</td><td>same</td><td>16.1&nbsp;%</td><td>3.5&nbsp;%</td></tr>
+            <tr class="ev-row-key"><td>18</td><td>the body</td><td>half Israel, half Nordic</td><td><strong>39.1&nbsp;%</strong></td><td><strong>8.9&nbsp;%</strong></td></tr>
+          </tbody>
+        </table>
+
+        <p>
+          Across the first four rows the answer was the same and it was no.
+          Similarity between donor and receiver predicted nothing: over all
+          8&nbsp;000 ordered pairs the correlation of transfer gain with distance
+          in ten standardised building parameters was <strong>+0.013</strong>,
+          and with a physically motivated resilience trait
+          <strong>−0.021</strong>. Permuting whole receivers gives p = 0.82 and
+          p = 0.36. Picking the nearest donor by either measure was worse than
+          picking one at random.
+        </p>
+        <p>
+          The reason was visible in the same matrix. Donors agreed with each
+          other at <strong>+0.94</strong>: a donor was good or bad for every
+          receiver rather than for some. Quality lay on a single axis, and that
+          axis was insulation — correlation +0.90. When there is one axis there
+          is nothing to match on.
+        </p>
+      </section>
+
+      <!-- ============================================ THE TURN -->
+      <section class="ev-block ev-block-accent">
+        <h2>Where matching does start to pay</h2>
+        <p>
+          The prediction was made before the run: give quality a second axis and
+          matching should begin to earn its keep. Summer supplies that axis —
+          thick walls and tight windows help in frost and hurt in heat. With
+          Israeli weather records added against Nordic ones, the sign flipped:
+        </p>
+
+        <div class="ev-numbers ev-numbers-wide">
+          <div><strong>−0.287</strong><span>correlation of donor rankings between the two halves — what suits Israel does not suit Sweden</span></div>
+          <div><strong>+70 %</strong><span>extra hours outside the norm when an Israeli dwelling gets the body that is best for Sweden</span></div>
+          <div><strong>+34 %</strong><span>the same mistake the other way round</span></div>
+        </div>
+
+        <table class="ev-table">
+          <caption>
+            The best donor for each half, and what it is made of. Lower
+            "insulation index" means better insulated.
+          </caption>
+          <thead><tr><th>Receivers</th><th>Best donor's insulation index</th><th>Reading</th></tr></thead>
+          <tbody>
+            <tr><td>Nordic half</td><td>1.28</td><td>well insulated — hold the heat in</td></tr>
+            <tr><td>Israeli half</td><td>2.16</td><td>lightly insulated — let the heat out at night</td></tr>
+          </tbody>
+        </table>
+
+        <p>
+          Inside each half there is still nothing to match: concordance stays at
+          0.92 and 0.97 and perfect matching is worth 0 % and 2 %. The entire
+          gain appears only across the boundary between two different problems.
+        </p>
+
+        <p class="ev-rule">
+          Inheriting experience pays exactly where the receivers face
+          <em>different problems</em>, and not where they face one problem of
+          differing severity. Munich and Stockholm are one problem, differently
+          hard. Israel and Sweden are two.
+        </p>
+
+        <p class="ev-note">
+          A correction to our own earlier recommendation. Between-donor
+          concordance — which we proposed as the cheap pre-test — does
+          <em>not</em> catch this: it stayed at 0.94 both before and after. The
+          interaction share does: 6&nbsp;% against 39&nbsp;%. That is the number
+          the model field <code>applies.interaction</code> now carries.
+        </p>
+      </section>
+
+      <!-- ============================================ SIMPLE RULE -->
+      <section class="ev-block">
+        <h2>Where a simple rule exists, and where it does not</h2>
+        <p>
+          400 bodies were run in four climates, and the quality of each body was
+          regressed on its own properties. How much is explained by properties
+          taken one at a time:
+        </p>
+        <table class="ev-table">
+          <thead><tr><th>Climate</th><th>Explained by single properties</th><th>Reading</th></tr></thead>
+          <tbody>
+            <tr><td>Stockholm</td><td>0.958</td><td>a simple rule exists: insulate</td></tr>
+            <tr><td>Munich</td><td>0.651</td><td>mostly simple</td></tr>
+            <tr><td>Beer Sheva</td><td>0.452</td><td>combinations start to matter</td></tr>
+            <tr><td>Tel Aviv</td><td>0.253</td><td><strong>no simple rule</strong></td></tr>
+          </tbody>
+        </table>
+        <p>
+          In the north a single number carries the answer. In the south it does
+          not, and the strongest pair found was <strong>window share ×
+          air-change rate</strong> — many windows help only if there is a way to
+          flush the heat at night. Which is also why shutters are inherited
+          separately from walls: in the north the body decides, in the south the
+          daily routine does.
+        </p>
+      </section>
+
+      <!-- ============================================ MONEY -->
+      <section class="ev-block">
+        <h2>How much to insulate, once money is counted</h2>
+        <p>
+          With comfort as the only measure, the optimum runs to the edge of the
+          range and the recipe becomes "insulate to the limit" — which is not a
+          recipe. Adding construction cost (IWU Darmstadt, EU cost-optimal
+          methodology, 30 years, 3&nbsp;% discount) puts the optimum inside:
+        </p>
+        <table class="ev-table">
+          <caption>200 dwellings, medians, full cost over 30 years.</caption>
+          <thead><tr><th>Case</th><th>Cost, EUR</th><th>kWh / year</th><th>Degree-hours</th></tr></thead>
+          <tbody>
+            <tr><td>no insulation at all</td><td>29&nbsp;875</td><td>3&nbsp;729</td><td>99.8</td></tr>
+            <tr><td>as generated</td><td>24&nbsp;888</td><td>2&nbsp;255</td><td>85.6</td></tr>
+            <tr class="ev-row-key"><td><strong>cost optimum</strong></td><td><strong>19&nbsp;953</strong></td><td>1&nbsp;568</td><td>77.4</td></tr>
+            <tr><td>insulated to the limit</td><td>33&nbsp;378</td><td>851</td><td>67.5</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Insulating to the limit costs more than not insulating at all. And the
+          order of what matters is the same in every climate zone — window,
+          wall, floor, roof — only the amounts differ. What changes is the
+          ratio: in warm zones the window outweighs the wall 2.8 times, in cold
+          zones 1.6.
+        </p>
+      </section>
+
+      <!-- ============================================ BLINDSPOTS -->
+      <section class="ev-block ev-block-warn">
+        <h2>What this bench does not see</h2>
+        <p>
+          Every rule quietly assumes that the processes nobody named behaved the
+          same way at both ends. Ours are named here rather than discovered
+          later.
+        </p>
+        <ul class="ev-blind">
+          <li><strong>Shutters and any shading.</strong> Absent from the model entirely. In Israel they are closed every day on every window. Our hot-climate numbers are therefore overstated, and the "window share × air-change rate" pair stands in for a lever that real buildings operate differently.</li>
+          <li><strong>Roof reflectance.</strong> The roof is one U-value. In a hot climate a white roof can outweigh centimetres of insulation.</li>
+          <li><strong>Moisture and vapour transport.</strong> Not modelled.</li>
+          <li><strong>Phase-change materials, evaporative cooling.</strong> Not modelled.</li>
+          <li><strong>The price of airtightness and of heavy construction.</strong> No cost data was available, so those two were left out of the cost optimisation and stated as fixed.</li>
+          <li><strong>Weather years.</strong> 32 city-years across 21 locations is a wide climate range but few statistically independent years. The Israeli climates have one year each.</li>
+          <li><strong>The population is generated,</strong> from TABULA parameter ranges, not sampled from a register.</li>
+        </ul>
+      </section>
+
+      <!-- ============================================ SO WHAT -->
+      <section class="ev-block">
+        <h2>What this changes in the models</h2>
+        <p>
+          Four fields on every model record exist because of the runs above.
+          They are described in <code>MODELS.md</code> and filled in for
+          <a href="./index.html#models">Heat: finding where it actually goes</a>.
+        </p>
+        <dl class="ev-defs">
+          <dt><code>rules</code></dt>
+          <dd>What sits in the cloud is a rule, not a copy. A number written without its condition turns harmful the moment it crosses a climate — measured at +70 %.</dd>
+          <dt><code>applies</code></dt>
+          <dd>Every rule carries its reach as a number. Below 10 % one rule fits everyone; above 30 % the rule is addressed and the wrong address is expensive.</dd>
+          <dt><code>blindspots</code></dt>
+          <dd>What was not measured while the rule was derived, stated by the author rather than found by the next person.</dd>
+          <dt><code>weighting</code></dt>
+          <dd>The model lists what to measure and carries no weights. Part is computed from your site, part you declare — horizon, the price of discomfort, the view from the window. Taste enters on the same footing as climate.</dd>
+        </dl>
+        <p class="ev-note">
+          The portal does not yet compute the interaction share itself: the
+          number comes from an experiment and is typed in. Computing it
+          automatically needs the bench to run inside the portal, against a
+          population. That is the next piece of work.
+        </p>
+      </section>
+
+      <footer class="ev-foot">
+        <p>
+          Independent research, Rehovot. The manuscript on donor selection is
+          under submission; the thermal bench, every experiment and control, the
+          full 40 × 200 matrices and the figure scripts are open at
+          <a href="https://doi.org/10.5281/zenodo.23012010">doi:10.5281/zenodo.23012010</a>
+          under MIT and CC BY 4.0.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

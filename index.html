@@ -17,6 +17,15 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+<nav class="ec-topnav" aria-label="Sections">
+  <a class="ec-topnav-brand" href="./index.html">Egregor&nbsp;Cloud</a>
+  <a href="./index.html"        data-page="index" aria-current="page">Home</a>
+  <a href="./house-model.html"  data-page="house">Living House</a>
+  <a href="./evidence.html"     data-page="evidence">Heat &amp; tests</a>
+  <a href="./house-runtime.html" data-page="lab">Lab</a>
+  <a href="./urban-graph.html"  data-page="urban">Urban territory</a>
+</nav>
+
     <div class="page-shell">
       <header class="site-header">
         <a class="brand" href="#top">
@@ -29,8 +38,6 @@
         <nav class="site-nav">
           <a href="#how">How it works</a>
           <a href="#models">Open problems</a>
-          <a href="./house-model.html">Living House</a>
-          <a href="./urban-graph.html">Urban territory</a>
           <a href="#where">Where this goes</a>
           <a href="#join">Take part</a>
         </nav>
@@ -229,6 +236,24 @@
               </div>
 
               <div class="runtime-spec" id="runtime-spec">
+                <div class="runtime-block runtime-block-wide" id="runtime-rules-block" hidden>
+                  <h4>The rule, not the numbers</h4>
+                  <p class="spec-note">What travels is a rule, not a copy. Measured: giving an Israeli dwelling the body that is best in Sweden costs +70&nbsp;% of the hours outside the norm; the other way round, +34&nbsp;%. A number written without its condition becomes harmful the moment it crosses a climate.</p>
+                  <div class="spec-table" id="runtime-rules"></div>
+                </div>
+
+                <div class="runtime-block" id="runtime-applies-block" hidden>
+                  <h4>Where this was tested</h4>
+                  <p class="spec-note">Not in words, in a number. The interaction share says how much of the outcome depends on the <em>pair</em> — this rule and this receiver. Below 10&nbsp;% one rule fits everyone and there is nothing to match. Above 30&nbsp;% the rule is addressed, and the wrong address is expensive.</p>
+                  <dl class="spec-defs" id="runtime-applies"></dl>
+                </div>
+
+                <div class="runtime-block" id="runtime-blind-block" hidden>
+                  <h4>What we did not measure</h4>
+                  <p class="spec-note">Every rule quietly carries an assumption: that the processes nobody named behaved the same way at both ends. Here that assumption is said out loud, so you can see what is missing before you build on it.</p>
+                  <ul class="spec-list spec-blind" id="runtime-blind"></ul>
+                </div>
+
                 <div class="runtime-block" id="runtime-sensors-block" hidden>
                   <h4>What to measure</h4>
                   <p class="spec-note">The sensor contract. Without it nothing comes back from a building.</p>
@@ -238,6 +263,12 @@
                 <div class="runtime-block" id="runtime-metrics-block" hidden>
                   <h4>What counts as success</h4>
                   <ul class="spec-list" id="runtime-metrics"></ul>
+                </div>
+
+                <div class="runtime-block" id="runtime-weight-block" hidden>
+                  <h4>Who sets the weights</h4>
+                  <p class="spec-note">The model lists what to measure. It does not say how much one thing matters against another — that is yours. Part is computed from your site, part you declare: horizon, the price of discomfort, the view from the window, how the facade should look. Taste and a plain personal preference enter here on the same footing as climate.</p>
+                  <dl class="spec-defs" id="runtime-weight"></dl>
                 </div>
 
                 <div class="runtime-block" id="runtime-conditions-block" hidden>

@@ -1382,3 +1382,232 @@ main {
     grid-template-columns: 1fr;
   }
 }
+/* --- blocks added 12.10.2026: rule / where tested / blindspots / weights --- */
+
+.spec-kind {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.spec-kind-body { background: #e8eef7; color: #2a4a74; }
+.spec-kind-run  { background: #fdf0e6; color: #8a4a1a; }
+
+.spec-band {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+}
+.spec-band-low  { background: #e9f3ea; color: #2f5d36; }
+.spec-band-mid  { background: #f6f1e4; color: #6b5a24; }
+.spec-band-high { background: #fdeceb; color: #8a2b22; }
+
+.spec-warn { color: #8a2b22; }
+
+.spec-blind li {
+  position: relative;
+  padding-left: 1.1rem;
+}
+.spec-blind li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #8a8983;
+}
+
+.spec-weights span,
+.spec-outside span {
+  display: inline-block;
+  margin-right: 0.4rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #8a8983;
+}
+.spec-outside { color: #8a2b22; }
+
+/* --- shared top navigation across pages, added 12.10.2026 ------------- */
+
+.ec-topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 1.25rem;
+  background: rgba(252, 252, 251, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #e5e4df;
+  font-size: 0.86rem;
+}
+
+.ec-topnav-brand {
+  margin-right: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  color: #0b0b0b;
+  white-space: nowrap;
+}
+
+.ec-topnav a {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #52514e;
+  white-space: nowrap;
+}
+
+.ec-topnav a:hover { background: #f0efea; color: #0b0b0b; }
+
+.ec-topnav a[aria-current="page"] {
+  background: #0b0b0b;
+  color: #fcfcfb;
+}
+
+@media (max-width: 680px) {
+  .ec-topnav { padding: 0.45rem 0.75rem; font-size: 0.8rem; }
+  .ec-topnav-brand { width: 100%; margin: 0 0 0.3rem; }
+}
+
+/* --- Heat & tests page, added 12.10.2026 ----------------------------- */
+
+.ev-page {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+.ev-hero h1 {
+  margin: 0.2rem 0 1rem;
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.1;
+}
+.ev-lede {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #3a3936;
+  margin: 0 0 0.9rem;
+}
+.ev-doi {
+  margin-top: 1.2rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #e5e4df;
+  font-size: 0.86rem;
+  color: #52514e;
+}
+
+.ev-block {
+  margin-top: 2.8rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid #e5e4df;
+}
+.ev-block h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.45rem;
+  line-height: 1.25;
+}
+.ev-block p { line-height: 1.68; margin: 0 0 0.9rem; }
+
+.ev-block-accent {
+  background: #f7f9fc;
+  border: 1px solid #d7e2f0;
+  border-radius: 14px;
+  padding: 1.6rem 1.5rem;
+}
+.ev-block-warn {
+  background: #fdf7f6;
+  border: 1px solid #f0d9d6;
+  border-radius: 14px;
+  padding: 1.6rem 1.5rem;
+}
+
+.ev-numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.9rem;
+  margin: 1.2rem 0 1.1rem;
+}
+.ev-numbers-wide { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.ev-numbers div {
+  padding: 0.85rem 0.9rem;
+  background: #fcfcfb;
+  border: 1px solid #e5e4df;
+  border-radius: 12px;
+}
+.ev-numbers strong {
+  display: block;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+.ev-numbers span { font-size: 0.82rem; color: #52514e; line-height: 1.4; }
+
+.ev-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.1rem 0 1.2rem;
+  font-size: 0.9rem;
+}
+.ev-table caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 0.55rem;
+  font-size: 0.85rem;
+  color: #52514e;
+  line-height: 1.5;
+}
+.ev-table th,
+.ev-table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #e5e4df;
+  text-align: left;
+  vertical-align: top;
+}
+.ev-table th { font-weight: 600; background: #f4f3ef; }
+.ev-row-key td { background: #eef4fd; }
+
+.ev-rule {
+  margin: 1.3rem 0 0.9rem;
+  padding: 0.9rem 1.1rem;
+  background: #fff;
+  border-left: 3px solid #2a78d6;
+  border-radius: 0 10px 10px 0;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.ev-note {
+  font-size: 0.88rem;
+  color: #52514e;
+  line-height: 1.6;
+  padding: 0.75rem 0.9rem;
+  background: #f4f3ef;
+  border-radius: 10px;
+}
+
+.ev-blind { margin: 0.9rem 0 0; padding-left: 1.1rem; }
+.ev-blind li { margin-bottom: 0.6rem; line-height: 1.6; }
+
+.ev-defs { margin: 1rem 0 1.1rem; }
+.ev-defs dt { font-weight: 600; margin-top: 0.8rem; }
+.ev-defs dd { margin: 0.25rem 0 0; line-height: 1.6; color: #3a3936; }
+
+.ev-foot {
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid #e5e4df;
+  font-size: 0.85rem;
+  color: #52514e;
+  line-height: 1.6;
+}
+
+@media (max-width: 680px) {
+  .ev-table { font-size: 0.82rem; }
+  .ev-block-accent, .ev-block-warn { padding: 1.1rem 1rem; }
+}

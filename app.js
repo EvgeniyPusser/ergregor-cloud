@@ -25,6 +25,14 @@ const runtimeLineageBlock = document.querySelector("#runtime-lineage-block");
 const runtimeLineage = document.querySelector("#runtime-lineage");
 const runtimeInstancesBlock = document.querySelector("#runtime-instances-block");
 const runtimeInstances = document.querySelector("#runtime-instances");
+const runtimeRulesBlock = document.querySelector("#runtime-rules-block");
+const runtimeRules = document.querySelector("#runtime-rules");
+const runtimeAppliesBlock = document.querySelector("#runtime-applies-block");
+const runtimeApplies = document.querySelector("#runtime-applies");
+const runtimeBlindBlock = document.querySelector("#runtime-blind-block");
+const runtimeBlind = document.querySelector("#runtime-blind");
+const runtimeWeightBlock = document.querySelector("#runtime-weight-block");
+const runtimeWeight = document.querySelector("#runtime-weight");
 const thoughtList = document.querySelector("#thought-list");
 const thoughtForm = document.querySelector("#thought-form");
 const thoughtInput = document.querySelector("#thought-input");
@@ -485,6 +493,68 @@ function show(block, on) {
 }
 
 function renderModelSpec(model) {
+  // --- the rule, not the numbers -------------------------------------
+  // A copied body hurts: giving an Israeli dwelling a Swedish body costs
+  // +70 % of the hours outside the norm. So what travels is the rule.
+  const rules = Array.isArray(model.rules) ? model.rules : [];
+  show(runtimeRulesBlock, rules.length > 0);
+  if (runtimeRules) {
+    runtimeRules.innerHTML = rules.length
+      ? `<table>
+           <thead><tr><th>Parameter</th><th>Depends on</th><th>Rule</th><th>Kind</th><th>Checked on</th></tr></thead>
+           <tbody>${rules
+             .map((r) => {
+               const kind = r.kind === "distro" || r.kind === "распорядок"
+                 ? `<span class="spec-kind spec-kind-run">daily routine</span>`
+                 : `<span class="spec-kind spec-kind-body">built once</span>`;
+               return `<tr>
+                 <td><strong>${r.param || ""}</strong>${r.unit ? `, ${r.unit}` : ""}</td>
+                 <td>${r.depends || ""}</td>
+                 <td>${r.rule || ""}</td>
+                 <td>${kind}</td>
+                 <td class="spec-why">${r.checked || ""}</td>
+               </tr>`;
+             })
+             .join("")}</tbody>
+         </table>`
+      : "";
+  }
+
+  // --- where this was tested -----------------------------------------
+  // The interaction share says how much of the outcome depends on the
+  // PAIR rule-and-receiver. Below 10 % one rule fits everyone; above
+  // 30 % the rule is addressed and sending it to the wrong place costs.
+  const ap = model.applies || {};
+  const hasAp = Boolean(ap.tested_on || ap.interaction != null || ap.misfit_cost || ap.not_tested);
+  show(runtimeAppliesBlock, hasAp);
+  if (runtimeApplies) {
+    let band = "", pct = "";
+    if (ap.interaction != null) {
+      const v = Number(ap.interaction);
+      pct = `${Math.round(v * 100)} %`;
+      band = v < 0.10
+        ? `<span class="spec-band spec-band-low">one rule fits all — nothing to match</span>`
+        : v > 0.30
+          ? `<span class="spec-band spec-band-high">addressed rule — the wrong address is expensive</span>`
+          : `<span class="spec-band spec-band-mid">partly addressed</span>`;
+    }
+    runtimeApplies.innerHTML = [
+      ap.tested_on ? `<dt>Tested on</dt><dd>${ap.tested_on}</dd>` : "",
+      pct ? `<dt>Interaction share</dt><dd><strong>${pct}</strong> ${band}</dd>` : "",
+      ap.misfit_cost ? `<dt>Cost of the wrong address</dt><dd>${ap.misfit_cost}</dd>` : "",
+      ap.not_tested ? `<dt class="spec-warn">Not tested</dt><dd class="spec-warn">${ap.not_tested}</dd>` : ""
+    ].join("");
+  }
+
+  // --- what we did not measure ---------------------------------------
+  // Every rule quietly carries an assumption: that the processes nobody
+  // named behaved the same way at both ends. Here it is said out loud.
+  const blind = Array.isArray(model.blindspots) ? model.blindspots : [];
+  show(runtimeBlindBlock, blind.length > 0);
+  if (runtimeBlind) {
+    runtimeBlind.innerHTML = blind.map((x) => `<li>${x}</li>`).join("");
+  }
+
   // --- датчики ---
   const sensors = Array.isArray(model.sensors) ? model.sensors : [];
   show(runtimeSensorsBlock, sensors.length > 0);
@@ -517,6 +587,26 @@ function renderModelSpec(model) {
         return `<li><strong>${m.name || m.id || ""}</strong>${m.unit ? `, ${m.unit}` : ""}${dir ? ` <span class="spec-dir">${dir}</span>` : ""}</li>`;
       })
       .join("");
+  }
+
+  // --- who sets the weights ------------------------------------------
+  // The model lists what to measure. How much one thing matters against
+  // another is decided by whoever takes it: their climate, their money,
+  // their taste. The same body is best in Stockholm and worst in Tel Aviv
+  // only because the weight of summer is 0.02 against 0.70.
+  const wg = model.weighting || {};
+  const hasW = Boolean(wg.by_place || (wg.by_owner || []).length || wg.note);
+  show(runtimeWeightBlock, hasW);
+  if (runtimeWeight) {
+    const owner = (wg.by_owner || []).length
+      ? `<dt>You declare</dt><dd><ul class="spec-list">${(wg.by_owner || [])
+          .map((x) => `<li>${x}</li>`).join("")}</ul></dd>`
+      : "";
+    runtimeWeight.innerHTML = [
+      wg.by_place ? `<dt>Computed from your site</dt><dd>${wg.by_place}</dd>` : "",
+      owner,
+      wg.note ? `<dt>Note</dt><dd class="spec-note">${wg.note}</dd>` : ""
+    ].join("");
   }
 
   // --- условия ---
@@ -568,6 +658,8 @@ function renderModelSpec(model) {
           </header>
           ${i.result ? `<p>${i.result}</p>` : ""}
           ${i.surprise ? `<p class="spec-surprise"><span>Surprise</span> ${i.surprise}</p>` : ""}
+          ${i.weights ? `<p class="spec-weights"><span>Weights used</span> ${i.weights}</p>` : ""}
+          ${i.outside ? `<p class="spec-outside"><span>Outside the tested range</span> ${i.outside}</p>` : ""}
         </article>`
       )
       .join("");
