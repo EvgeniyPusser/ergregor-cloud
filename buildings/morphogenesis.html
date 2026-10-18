@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Morphogenesis · Egregor Cloud</title>
+<meta name="description" content="Interactive illustration of the paper 'Morphogenesis of a Living Building': Cloud DNA, the egg, formation from centres, twins, damage and recovery." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./styles.css" />
+<style>
+  /* --- Morphogenesis page (mg-) --------------------------------------- */
+  .mg-page { width: min(1160px, calc(100% - 32px)); margin: 0 auto; padding: 2.4rem 0 5rem; }
+  .mg-eyebrow { margin: 0 0 .5rem; color: var(--accent); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+  .mg-hero { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; margin-bottom: 2rem; }
+  .mg-hero h1 { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.02; margin: 0 0 1rem; }
+  .mg-lead { color: var(--muted); max-width: 46rem; line-height: 1.6; margin: 0; }
+  .mg-stamp { border: 1px solid var(--line); border-radius: 14px; padding: .8rem 1rem; font-size: .75rem; letter-spacing: .08em; color: var(--gold); text-transform: uppercase; line-height: 1.5; }
+  .mg-stamp span { display: block; color: var(--muted); text-transform: none; letter-spacing: 0; font-size: .8rem; }
+
+  .mg-tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+  .mg-tabs button { font: inherit; font-size: .88rem; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .5rem .95rem; cursor: pointer; }
+  .mg-tabs button:hover { color: var(--text); border-color: rgba(156,255,201,.4); }
+  .mg-tabs button[aria-selected="true"] { color: #06131c; background: var(--accent); border-color: var(--accent); }
+  .mg-tabs b { font-weight: 700; margin-right: .35rem; opacity: .7; }
+
+  .mg-scene { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 1.4rem; box-shadow: var(--shadow); }
+  .mg-scene.active { display: block; }
+  .mg-scene h2 { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 1.9rem; margin: 0 0 .4rem; }
+  .mg-scene > p.mg-intro { color: var(--muted); margin: 0 0 1.2rem; max-width: 52rem; line-height: 1.55; }
+  .mg-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr); gap: 1.2rem; align-items: start; }
+  .mg-grid.two { grid-template-columns: 1fr 1fr; }
+  .mg-canvas { background: rgba(3, 12, 18, .7); border: 1px solid var(--line); border-radius: 16px; padding: .6rem; }
+  .mg-canvas svg { display: block; width: 100%; height: auto; }
+  .mg-canvas h3 { margin: .2rem .3rem .5rem; font-size: .95rem; font-weight: 500; }
+  .mg-canvas h3 small { color: var(--muted); font-weight: 400; }
+  .mg-side { display: flex; flex-direction: column; gap: .9rem; }
+  .mg-card { border: 1px solid var(--line); border-radius: 14px; padding: .9rem 1rem; background: rgba(255,255,255,.02); }
+  .mg-card h4 { margin: 0 0 .45rem; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .mg-card p { margin: 0 0 .5rem; color: var(--muted); line-height: 1.5; font-size: .92rem; }
+  .mg-card p:last-child { margin-bottom: 0; }
+  .mg-card code, .mg-math { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .85rem; color: var(--gold); }
+  .mg-row { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+  .mg-btn { font: inherit; font-size: .85rem; color: var(--text); background: rgba(156,255,201,.08); border: 1px solid rgba(156,255,201,.3); border-radius: 999px; padding: .42rem .85rem; cursor: pointer; }
+  .mg-btn:hover { background: rgba(156,255,201,.18); }
+  .mg-btn[aria-pressed="true"] { background: var(--accent); color: #06131c; }
+  .mg-btn:disabled { opacity: .4; cursor: default; }
+  .mg-range { width: 100%; accent-color: var(--accent-strong); }
+  .mg-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+  .mg-stats div { background: rgba(255,255,255,.03); border-radius: 10px; padding: .5rem .6rem; }
+  .mg-stats b { display: block; font-size: 1.25rem; color: var(--text); }
+  .mg-stats span { font-size: .72rem; color: var(--muted); letter-spacing: .04em; }
+  .mg-legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .78rem; color: var(--muted); margin: .6rem .3rem .2rem; }
+  .mg-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; }
+  .mg-legend i.line { border-radius: 0; height: 2px; width: 16px; vertical-align: 3px; }
+  .mg-nav { display: flex; justify-content: space-between; margin-top: 1.2rem; }
+
+  .mg-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+  .mg-table th, .mg-table td { text-align: left; padding: .45rem .4rem; border-bottom: 1px solid var(--line); }
+  .mg-table th { color: var(--muted); font-weight: 400; font-size: .74rem; letter-spacing: .04em; }
+  .mg-table tr.pick { cursor: pointer; }
+  .mg-table tr.pick:hover td { background: rgba(156,255,201,.06); }
+  .mg-table tr.sel td { background: rgba(156,255,201,.12); }
+  .mg-table tr.no td { color: #ff9a9a; cursor: default; }
+  .mg-star { color: var(--gold); }
+
+  .mg-levels { display: flex; flex-direction: column; gap: .35rem; }
+  .mg-level { font: inherit; text-align: left; color: var(--text); background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 12px; padding: .65rem .9rem; cursor: pointer; display: flex; gap: .8rem; align-items: center; }
+  .mg-level:hover { border-color: rgba(156,255,201,.4); }
+  .mg-level[aria-pressed="true"] { border-color: var(--accent); background: rgba(156,255,201,.1); }
+  .mg-level .n { font-size: .75rem; color: var(--accent); width: 1.4rem; }
+  .mg-level .arrow { text-align: center; color: var(--muted); font-size: .8rem; }
+  .mg-dna { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .8rem; line-height: 1.6; color: var(--gold); white-space: pre; overflow-x: auto; margin: .3rem 0 0; }
+  .mg-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; margin-top: 1.1rem; }
+
+  .mg-math-section { margin-top: 2.2rem; }
+  .mg-math-section h2 { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 1.9rem; margin: 0 0 .8rem; }
+  .mg-eq { display: grid; grid-template-columns: 2.4rem minmax(0, 1.1fr) minmax(0, 1fr); gap: .8rem; padding: .7rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .mg-eq .no { color: var(--muted); font-size: .8rem; }
+  .mg-eq .mg-math { font-size: .9rem; overflow-wrap: anywhere; }
+  .mg-eq .tx { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+  .mg-foot { margin-top: 2.2rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; line-height: 1.6; }
+  .mg-foot sup { color: var(--accent); }
+  .mg-foot a { color: var(--accent); }
+
+  @media (max-width: 860px) {
+    .mg-hero, .mg-grid, .mg-grid.two { grid-template-columns: 1fr; }
+    .mg-three { grid-template-columns: 1fr; }
+    .mg-eq { grid-template-columns: 2rem 1fr; }
+    .mg-eq .tx { grid-column: 2; }
+    .mg-scene { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<nav class="ec-topnav" aria-label="Sections">
+  <a class="ec-topnav-brand" href="./index.html">Egregor&nbsp;Cloud</a>
+  <a href="./index.html"        data-page="index">Home</a>
+  <a href="./house-model.html"  data-page="house">Living House</a>
+  <a href="./evidence.html"     data-page="evidence">Heat &amp; tests</a>
+  <a href="./thermal.html" data-page="thermal">Thermal calculator</a>
+  <a href="./house-runtime.html" data-page="lab">Lab</a>
+  <a href="./urban-graph.html"  data-page="urban">Urban territory</a>
+  <a href="./morphogenesis.html" data-page="morphogenesis" aria-current="page">Morphogenesis</a>
+</nav>
+
+<div class="mg-page">
+  <header class="mg-hero">
+    <div>
+      <p class="mg-eyebrow">Companion to the paper<sup>[1]</sup></p>
+      <h1>Morphogenesis of a Living Building</h1>
+      <p class="mg-lead">A building that inherits not a finished body, but the capacity to form, maintain and restore it. Walk through the five steps: heredity, formation, twins, recovery and the inheritance cycle.</p>
+    </div>
+    <div class="mg-stamp">Illustrative sketch · v0.1<span>Simple demonstration rules.<br>Not a physical or structural calculation.</span></div>
+  </header>
+
+  <div class="mg-tabs" role="tablist" aria-label="Steps">
+    <button role="tab" data-s="0" aria-selected="true"><b>1</b>Cloud DNA &amp; egg</button>
+    <button role="tab" data-s="1" aria-selected="false"><b>2</b>Formation</button>
+    <button role="tab" data-s="2" aria-selected="false"><b>3</b>Twins</button>
+    <button role="tab" data-s="3" aria-selected="false"><b>4</b>Damage &amp; recovery</button>
+    <button role="tab" data-s="4" aria-selected="false"><b>5</b>Inheritance cycle</button>
+  </div>
+
+  <!-- 1. Cloud DNA & egg -->
+  <section class="mg-scene active" data-scene="0">
+    <p class="mg-eyebrow">Step 1 · Section 3 of the paper</p>
+    <h2>What exists before the building exists</h2>
+    <p class="mg-intro">Cloud DNA is a layered hereditary store. It holds rules, ranges and relationships, not a blueprint. The <em>egg</em> is the minimal hereditary entity from which one individual begins. Select a level.</p>
+    <div class="mg-grid">
+      <div class="mg-levels" id="levels"></div>
+      <div class="mg-side">
+        <div class="mg-card"><h4 id="lvl-title"></h4><p id="lvl-text"></p><pre class="mg-dna" id="lvl-dna"></pre></div>
+      </div>
+    </div>
+    <div class="mg-three">
+      <div class="mg-card"><h4>Hereditary program</h4><p>Belongs to Cloud DNA. Carries the mechanisms from which a body <em>can</em> form.</p></div>
+      <div class="mg-card"><h4>Developing body</h4><p>The physical phenotype. It emerges from DNA, environment, material substrate and formation history.</p></div>
+      <div class="mg-card"><h4>Record of the body</h4><p>Monitoring, state archive or Digital Twin. It describes what <em>this</em> body has become. It is not the egg.</p></div>
+    </div>
+    <div class="mg-nav"><span></span><button class="mg-btn" data-go="1">Next: formation →</button></div>
+  </section>
+
+  <!-- 2. Formation -->
+  <section class="mg-scene" data-scene="1">
+    <p class="mg-eyebrow">Step 2 · Sections 4 and 6.1</p>
+    <h2>From egg to body: growth from centres</h2>
+    <p class="mg-intro">Formation starts from one or more morphogenetic centres. At each step the rules from the egg choose where the next element is added: stay compact, turn toward the sun, avoid the windward side, and never build on rock. The body is recorded as a graph <span class="mg-math">G(t) = (V(t), E(t))</span>, where elements are nodes and typed relations are edges.</p>
+    <div class="mg-grid">
+      <div class="mg-canvas">
+        <h3 id="f-title">Plan view</h3>
+        <svg id="f-svg" viewBox="0 0 672 420" role="img" aria-label="Growing body graph"></svg>
+        <div class="mg-legend">
+          <span><i style="background:#f4df9b"></i>Morphogenetic centre</span>
+          <span><i style="background:#7fd8ff"></i>Local seed (protected copy of the egg)</span>
+          <span><i style="background:#9cffc9"></i>Interior element</span>
+          <span><i style="background:transparent;border:2px solid #9cffc9"></i>Envelope element</span>
+          <span><i class="line" style="background:#9cffc9"></i>Load path</span>
+          <span><i class="line" style="background:rgba(238,246,242,.45)"></i>Lateral connection</span>
+        </div>
+      </div>
+      <div class="mg-side">
+        <div class="mg-card">
+          <h4>Site</h4>
+          <div class="mg-row" id="f-sites"></div>
+          <p style="margin-top:.5rem" id="f-site-note"></p>
+        </div>
+        <div class="mg-card">
+          <h4>Centres</h4>
+          <div class="mg-row"><button class="mg-btn" id="f-c1" aria-pressed="false">One centre</button><button class="mg-btn" id="f-c2" aria-pressed="true">Two centres</button></div>
+        </div>
+        <div class="mg-card">
+          <h4>Time t</h4>
+          <input type="range" class="mg-range" id="f-t" min="0" max="54" value="54" aria-label="Formation time" />
+          <div class="mg-row" style="margin-top:.5rem"><button class="mg-btn" id="f-play">▶ Grow</button><span id="f-tlabel" style="color:var(--muted);font-size:.85rem"></span></div>
+        </div>
+        <div class="mg-stats"><div><b id="f-v">0</b><span>|V(t)| elements</span></div><div><b id="f-e">0</b><span>|E(t)| relations</span></div><div><b id="f-env">0</b><span>envelope</span></div></div>
+      </div>
+    </div>
+    <div class="mg-nav"><button class="mg-btn" data-go="0">← Back</button><button class="mg-btn" data-go="2">Next: twins →</button></div>
+  </section>
+
+  <!-- 3. Twins -->
+  <section class="mg-scene" data-scene="2">
+    <p class="mg-eyebrow">Step 3 · Sections 2 and 3</p>
+    <h2>One DNA, two individuals</h2>
+    <p class="mg-intro">Both buildings below use the <strong>same</strong> egg: the same rules, the same parameters and the same random seed. Only the site differs. The criterion is no longer “does it match the model?” but “is the phenotype within the admissible range?”.</p>
+    <div class="mg-grid two">
+      <div class="mg-canvas"><h3>Twin A <small>· open meadow</small></h3><svg id="tw-a" viewBox="0 0 672 420" role="img" aria-label="Twin A"></svg><p class="mg-legend" id="tw-a-s"></p></div>
+      <div class="mg-canvas"><h3>Twin B <small>· rocky slope</small></h3><svg id="tw-b" viewBox="0 0 672 420" role="img" aria-label="Twin B"></svg><p class="mg-legend" id="tw-b-s"></p></div>
+    </div>
+    <div class="mg-card" style="margin-top:1rem"><h4>What to look at</h4><p id="tw-note"></p></div>
+    <div class="mg-nav"><button class="mg-btn" data-go="1">← Back</button><button class="mg-btn" data-go="3">Next: recovery →</button></div>
+  </section>
+
+  <!-- 4. Damage & recovery -->
+  <section class="mg-scene" data-scene="3">
+    <p class="mg-eyebrow">Step 4 · Sections 6.4 – 6.6 and 7</p>
+    <h2>Regeneration as local re-activation of morphogenesis</h2>
+    <p class="mg-intro">Choose a damage. Each surviving centre is a candidate start for recovery. A centre is admissible only if it survived and can reach every required position, because equipment reach is limited. For each admissible pair (centre, trajectory) a declared cost <span class="mg-math">J</span> is computed, and the lowest one is starred. Click a row to replay that recovery. The same damage repaired from different centres gives different bodies.</p>
+    <div class="mg-grid">
+      <div class="mg-canvas">
+        <h3 id="r-title">Body before damage</h3>
+        <svg id="r-svg" viewBox="0 0 672 420" role="img" aria-label="Damage and recovery"></svg>
+        <div class="mg-legend">
+          <span><i style="background:#f4df9b"></i>Centre</span>
+          <span><i style="background:#7fd8ff"></i>Local seed</span>
+          <span><i style="background:#9cffc9"></i>Surviving element</span>
+          <span><i style="background:#ff7a7a"></i>Lost element</span>
+          <span><i style="background:#ffb46b"></i>Cut off from centre</span>
+          <span><i style="background:#c9a7ff"></i>Re-formed element</span>
+        </div>
+      </div>
+      <div class="mg-side">
+        <div class="mg-card">
+          <h4>Damage</h4>
+          <div class="mg-row" id="r-dmg"></div>
+        </div>
+        <div class="mg-card">
+          <h4>Candidate centres C(t₀)</h4>
+          <table class="mg-table"><thead><tr><th>Centre</th><th>Time</th><th>Material</th><th>Shape Δ</th><th>J</th></tr></thead><tbody id="r-rows"></tbody></table>
+          <p style="margin-top:.6rem;font-size:.8rem">Declared weights: <code>J = 0.4·time + 1·material + 1.5·shapeΔ</code>. Time is the sum of transport distances from the centre; shape Δ counts positions that differ from the body before damage.</p>
+        </div>
+        <div class="mg-card"><h4>Result</h4><p id="r-note">Select a damage to start.</p></div>
+      </div>
+    </div>
+    <div class="mg-nav"><button class="mg-btn" data-go="2">← Back</button><button class="mg-btn" data-go="4">Next: inheritance cycle →</button></div>
+  </section>
+
+  <!-- 5. Cycle -->
+  <section class="mg-scene" data-scene="4">
+    <p class="mg-eyebrow">Step 5 · Section 3</p>
+    <h2>The hereditary cycle</h2>
+    <p class="mg-intro">The system does not copy bodies. It selects mechanisms that proved useful and returns them to Cloud DNA, where they become part of future eggs. Click any stage.</p>
+    <div class="mg-grid">
+      <div class="mg-canvas"><svg id="cy-svg" viewBox="0 0 760 440" role="img" aria-label="Inheritance cycle"></svg></div>
+      <div class="mg-side"><div class="mg-card"><h4 id="cy-title"></h4><p id="cy-text"></p></div>
+        <div class="mg-card"><h4>Cloud vs. local</h4><p>The cloud preserves <strong>population-level heredity</strong>. The local seed inside the building preserves the <strong>developmental continuity of the individual</strong>, even if the link to the cloud is lost.</p></div></div>
+    </div>
+    <div class="mg-nav"><button class="mg-btn" data-go="3">← Back</button><span></span></div>
+  </section>
+
+  <!-- Equations -->
+  <section class="mg-math-section">
+    <p class="mg-eyebrow">Section 6 of the paper</p>
+    <h2>The preliminary mathematical representation</h2>
+    <div class="mg-eq"><span class="no">(1)</span><span class="mg-math">B(t) = ( G(t), (s<sub>i</sub>(t))<sub>i∈V(t)</sub>, (r<sub>e</sub>(t))<sub>e∈E(t)</sub> )</span><span class="tx">The body at time t: the graph plus the state of every element and every relation. Step 2 draws G(t).</span></div>
+    <div class="mg-eq"><span class="no">(2)</span><span class="mg-math">T<sub>i</sub>(D) ⊆ Ω<sub>i</sub>(D) × Ω<sub>i</sub>(D)</span><span class="tx">Transitions between element states that the DNA D permits. Ω<sub>i</sub>(D) is the range of states of element i.</span></div>
+    <div class="mg-eq"><span class="no">(3)</span><span class="mg-math">F<sub>i</sub>(B,η,R;D) ⊆ { s′ ∈ Ω<sub>i</sub>(D) : (s<sub>i</sub>, s′) ∈ T<sub>i</sub>(D) }</span><span class="tx">States actually reachable now, given the body B, the environment η and the available resources R.</span></div>
+    <div class="mg-eq"><span class="no">(4)</span><span class="mg-math">A = { (c, π) : c ∈ C(t₀), π ∈ P<sub>c</sub>(B₀, δ; D) }</span><span class="tx">All admissible pairs of a recovery centre c and a trajectory π for task δ. Step 4 lists them in the table.</span></div>
+    <div class="mg-eq"><span class="no">(5)</span><span class="mg-math">(c*, π*) ∈ arg min<sub>(c,π)∈A</sub> J(c, π; δ)</span><span class="tx">The selected pair is the one with the lowest declared cost. Step 4 marks it with ★.</span></div>
+  </section>
+
+  <footer class="mg-foot">
+    <p><sup>[1]</sup> Bogomazov-Pusser, E. (2026). <em>Morphogenesis of a Living Building.</em> Companion to <em>Living Things</em>, an unpublished conceptual manuscript.</p>
+    <p>This page is an illustration of the concepts in the paper. Growth and recovery follow simple, declared demonstration rules (distance, sun, wind, rock, equipment reach). Loads, materials and structural behaviour are <strong>not</strong> calculated. <a href="./index.html">← Back to Buildings</a></p>
+  </footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  // ---------- constants ----------
+  const COLS = 18, ROWS = 11, CELL = 36, PADX = 12, PADY = 12;
+  const C = { centre: "#f4df9b", seed: "#7fd8ff", body: "#9cffc9", lost: "#ff7a7a", cut: "#ffb46b", newer: "#c9a7ff", load: "rgba(156,255,201,.8)", lat: "rgba(238,246,242,.32)" };
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const key = (x, y) => x + "," + y;
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+  // Deterministic hash -> [0,1)
+  function hash(x, y, s) {
+    let h = (x * 374761393 + y * 668265263 + s * 2147483647) | 0;
+    h = (h ^ (h >>> 13)) * 1274126177 | 0;
+    h = h ^ (h >>> 16);
+    return ((h >>> 0) % 100000) / 100000;
+  }
+
+  // ---------- the egg (DNA parameters) ----------
+  const DNA = { seed: 7, target: 54, compact: 1.0, sun: 0.9, wind: 1.2, noise: 1.4, connectivity: 0.55, reach: 8, seedAt: 0.6 };
+
+  // ---------- sites (environment) ----------
+  function rect(x0, y0, x1, y1) { const s = []; for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) s.push(key(x, y)); return s; }
+  const SITES = {
+    meadow: { name: "Open meadow", sun: "S", wind: "N", windK: 0.3, blocked: new Set([...rect(15, 0, 17, 1)]), blockKind: "trees", centres: [{ x: 6, y: 5 }, { x: 11, y: 5 }],
+      note: "Sun from the south, light north wind, a small tree group in the north-east corner." },
+    slope: { name: "Rocky slope", sun: "E", wind: "W", windK: 1.0, blocked: new Set([...rect(7, 0, 8, 6), ...rect(3, 8, 6, 10), ...rect(13, 9, 17, 10)]), blockKind: "rock", centres: [{ x: 10, y: 4 }, { x: 13, y: 6 }],
+      note: "Sun from the east, strong west wind, rock outcrops where nothing can be formed." }
+  };
+
+  function envCost(site, x, y) {
+    const sunPen = site.sun === "S" ? (ROWS - 1 - y) / (ROWS - 1) : site.sun === "E" ? (COLS - 1 - x) / (COLS - 1) : 0;
+    const w = site.wind === "W" ? 1 - x / (COLS - 1) : site.wind === "N" ? 1 - y / (ROWS - 1) : 0;
+    return DNA.sun * sunPen * 4 + DNA.wind * site.windK * w * w * 4;
+  }
+  const inGrid = (x, y) => x >= 0 && y >= 0 && x < COLS && y < ROWS;
+  const N4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+  // ---------- formation ----------
+  // Returns { steps:[{x,y,parent,edges:[[a,b,type]]}], seedKey }
+  function form(site, centres) {
+    const occ = new Map(); const steps = [];
+    centres.forEach((c, i) => { occ.set(key(c.x, c.y), { x: c.x, y: c.y, depth: 0, centre: i }); steps.push({ x: c.x, y: c.y, edges: [], centre: i }); });
+    while (occ.size < DNA.target) {
+      let best = null, bestCost = Infinity;
+      for (const n of occ.values()) for (const [dx, dy] of N4) {
+        const x = n.x + dx, y = n.y + dy, k = key(x, y);
+        if (!inGrid(x, y) || occ.has(k) || site.blocked.has(k)) continue;
+        const dc = Math.min(...centres.map(c => dist(c, { x, y })));
+        const cost = DNA.compact * dc + envCost(site, x, y) + hash(x, y, DNA.seed) * DNA.noise;
+        if (cost < bestCost) { bestCost = cost; best = { x, y }; }
+      }
+      if (!best) break;
+      steps.push(addNode(occ, best.x, best.y, null));
+    }
+    const seedStep = steps[Math.floor(DNA.target * DNA.seedAt)];
+    return { steps, seedKey: seedStep ? key(seedStep.x, seedStep.y) : null };
+  }
+
+  // adds node into occ map; links parent (min depth neighbour) with load edge, others laterally by rule
+  function addNode(occ, x, y, isolated) {
+    const k = key(x, y); const nb = [];
+    for (const [dx, dy] of N4) { const m = occ.get(key(x + dx, y + dy)); if (m) nb.push(m); }
+    const active = isolated ? nb.filter(m => !isolated.has(key(m.x, m.y))) : nb;
+    const parent = (active.length ? active : nb).reduce((a, b) => (a.depth <= b.depth ? a : b));
+    const node = { x, y, depth: parent.depth + 1 };
+    occ.set(k, node);
+    const edges = [[key(parent.x, parent.y), k, "load"]];
+    for (const m of nb) {
+      if (m === parent) continue;
+      const mk = key(m.x, m.y);
+      const reconnect = isolated && isolated.has(mk);
+      if (reconnect || hash(x + m.x, y + m.y, DNA.seed + 3) < DNA.connectivity) edges.push([mk, k, reconnect ? "load" : "lat"]);
+    }
+    return { x, y, edges };
+  }
+
+  function bodyAt(form, t) {
+    const nodes = new Map(); const edges = [];
+    form.steps.slice(0, t + (form.steps.filter(s => s.centre !== undefined).length)).forEach(s => {
+      nodes.set(key(s.x, s.y), { x: s.x, y: s.y, centre: s.centre });
+      s.edges.forEach(e => edges.push(e));
+    });
+    if (form.seedKey && nodes.has(form.seedKey)) nodes.get(form.seedKey).seed = true;
+    return { nodes, edges };
+  }
+
+  // ---------- drawing ----------
+  function px(x, y) {
+    return [PADX + x * CELL + CELL / 2 + (hash(x, y, 91) - 0.5) * CELL * 0.34, PADY + y * CELL + CELL / 2 + (hash(x, y, 57) - 0.5) * CELL * 0.34];
+  }
+  function el(tag, attrs, parent) { const e = document.createElementNS(SVGNS, tag); for (const a in attrs) e.setAttribute(a, attrs[a]); if (parent) parent.appendChild(e); return e; }
+
+  function drawSite(svg, site) {
+    svg.innerHTML = "";
+    const g = el("g", {}, svg);
+    for (let x = 0; x < COLS; x++) for (let y = 0; y < ROWS; y++) {
+      if (site.blocked.has(key(x, y))) {
+        const trees = site.blockKind === "trees";
+        if (trees) el("circle", { cx: PADX + x * CELL + CELL / 2, cy: PADY + y * CELL + CELL / 2, r: CELL * 0.42, fill: "rgba(110,190,120,.22)", stroke: "rgba(110,190,120,.4)" }, g);
+        else el("rect", { x: PADX + x * CELL + 1, y: PADY + y * CELL + 1, width: CELL - 2, height: CELL - 2, rx: 4, fill: "rgba(160,150,130,.16)", stroke: "rgba(160,150,130,.25)" }, g);
+      }
+      else el("circle", { cx: PADX + x * CELL + CELL / 2, cy: PADY + y * CELL + CELL / 2, r: 1.2, fill: "rgba(238,246,242,.13)" }, g);
+    }
+    const firstB = [...site.blocked][0];
+    if (firstB) { const [bx, by] = firstB.split(",").map(Number); const bt = el("text", { x: PADX + bx * CELL + 4, y: PADY + by * CELL + CELL / 2 + 4, fill: site.blockKind === "trees" ? "rgba(160,220,160,.9)" : "rgba(210,200,180,.85)", "font-size": 11 }, g); bt.textContent = site.blockKind; }
+    // sun and wind markers
+    const W = PADX * 2 + COLS * CELL, H = PADY * 2 + ROWS * CELL;
+    const sunPos = site.sun === "S" ? [W / 2, H - 4] : [W - 6, H / 2];
+    el("circle", { cx: sunPos[0], cy: sunPos[1], r: 7, fill: "#f4df9b", opacity: .85 }, g);
+    const t = el("text", { x: sunPos[0] + (site.sun === "S" ? 12 : -12), y: sunPos[1] + (site.sun === "S" ? -2 : -12), fill: "#f4df9b", "font-size": 11, "text-anchor": site.sun === "S" ? "start" : "end" }, g); t.textContent = "sun";
+    const windLbl = el("text", { fill: "rgba(127,216,255,.85)", "font-size": 11 }, g);
+    if (site.wind === "W") { for (let i = 0; i < 3; i++) el("path", { d: `M2 ${110 + i * 90} l14 0 m-5 -4 l5 4 l-5 4`, stroke: "rgba(127,216,255,.7)", fill: "none", "stroke-width": site.windK > .5 ? 2 : 1 }, g); windLbl.setAttribute("x", 4); windLbl.setAttribute("y", 98); windLbl.textContent = site.windK > .5 ? "strong wind" : "wind"; }
+    if (site.wind === "N") { for (let i = 0; i < 3; i++) el("path", { d: `M${180 + i * 150} 1 l0 9 m-4 -5 l4 5 l4 -5`, stroke: "rgba(127,216,255,.6)", fill: "none" }, g); windLbl.setAttribute("x", 190); windLbl.setAttribute("y", 22); windLbl.textContent = "light wind"; }
+    return el("g", {}, svg);
+  }
+
+  function drawBody(layer, body, opts = {}) {
+    const lost = opts.lost || new Set(), cut = opts.cut || new Set(), fresh = opts.fresh || new Set();
+    const eg = el("g", {}, layer), ng = el("g", {}, layer);
+    for (const [a, b, type] of body.edges) {
+      const A = body.nodes.get(a), B = body.nodes.get(b); if (!A || !B) continue;
+      const [x1, y1] = px(A.x, A.y), [x2, y2] = px(B.x, B.y);
+      el("line", { x1, y1, x2, y2, stroke: type === "load" ? C.load : C.lat, "stroke-width": type === "load" ? 2 : 1.2, "stroke-dasharray": type === "load" ? "" : "3 3" }, eg);
+    }
+    for (const k of lost) { const [x, y] = k.split(",").map(Number); const [cx, cy] = px(x, y); el("circle", { cx, cy, r: 6, fill: "none", stroke: C.lost, "stroke-width": 1.5, "stroke-dasharray": "2 2" }, ng); el("path", { d: `M${cx - 3} ${cy - 3} l6 6 m0 -6 l-6 6`, stroke: C.lost, "stroke-width": 1.3 }, ng); }
+    for (const [k, n] of body.nodes) {
+      let deg = 0; for (const [dx, dy] of N4) if (body.nodes.has(key(n.x + dx, n.y + dy))) deg++;
+      const env = deg < 4;
+      const [cx, cy] = px(n.x, n.y);
+      let fill = C.body; if (fresh.has(k)) fill = C.newer; if (cut.has(k)) fill = C.cut;
+      if (n.centre !== undefined) { el("circle", { cx, cy, r: 10, fill: "none", stroke: C.centre, opacity: .5 }, ng); el("circle", { cx, cy, r: 7, fill: C.centre }, ng); const t = el("text", { x: cx, y: cy + 3.5, "text-anchor": "middle", "font-size": 9, "font-weight": 700, fill: "#06131c" }, ng); t.textContent = "c" + (n.centre + 1); continue; }
+      if (n.seed) { el("rect", { x: cx - 6, y: cy - 6, width: 12, height: 12, rx: 2, fill: C.seed, transform: `rotate(45 ${cx} ${cy})` }, ng); continue; }
+      if (env) el("circle", { cx, cy, r: 5, fill: "#071a24", stroke: fill, "stroke-width": 2 }, ng);
+      else el("circle", { cx, cy, r: 5, fill }, ng);
+    }
+    return body;
+  }
+
+  function stats(body) {
+    let env = 0;
+    for (const n of body.nodes.values()) { let d = 0; for (const [dx, dy] of N4) if (body.nodes.has(key(n.x + dx, n.y + dy))) d++; if (d < 4) env++; }
+    return { v: body.nodes.size, e: body.edges.length, env };
+  }
+
+  // ---------- tabs ----------
+  const tabs = [...document.querySelectorAll(".mg-tabs button")], scenes = [...document.querySelectorAll(".mg-scene")];
+  function show(i) {
+    tabs.forEach((t, j) => t.setAttribute("aria-selected", String(i === j)));
+    scenes.forEach((s, j) => s.classList.toggle("active", i === j));
+    try { localStorage.setItem("mg-scene", String(i)); } catch (e) {}
+  }
+  tabs.forEach(t => t.addEventListener("click", () => show(+t.dataset.s)));
+  document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => { show(+b.dataset.go); window.scrollTo({ top: document.querySelector(".mg-tabs").offsetTop - 60, behavior: "smooth" }); }));
+
+  // ---------- scene 1: levels ----------
+  const LEVELS = [
+    ["General Living Thing principles", "Rules shared by every Living Thing: maintain a viable state, detect and compensate for disturbances, preserve functional integrity, respect the Constitution.", "integrity: required\nconstitution: required\nhomeostasis: required"],
+    ["Class-level rules: buildings", "Rules for the building class: element types, typed relations (load path, lateral connection), transformation ranges Ω(D) of each element type.", "element_types: [structural, envelope, service]\nrelation_types: [load, lateral]\nnever_build_on: rock"],
+    ["Lineage / generation adaptations", "Adaptations that proved useful in earlier individuals of this lineage and were abstracted into transferable rules, for example “turn the body toward the sun”.", "sun_weight: 0.9      # learned\nwind_weight: 1.2     # learned"],
+    ["Individual egg", "The minimal hereditary entity of one future individual. It is digital and lives in Cloud DNA before the building exists. These exact parameters drive steps 2–4 on this page.", JSON.stringify(DNA, null, 1).replace(/[{}"]/g, "").replace(/,\n/g, "\n").trim()],
+    ["Individual physical phenotype", "The body that actually forms when the egg meets a particular site, material and history. Two phenotypes from one egg can differ (step 3).", "body = form(egg, site)\n# not stored in the egg"]
+  ];
+  const lv = document.getElementById("levels");
+  LEVELS.forEach((L, i) => {
+    if (i) { const a = document.createElement("div"); a.className = "arrow"; a.textContent = "↓"; lv.appendChild(a); }
+    const b = document.createElement("button"); b.className = "mg-level"; b.innerHTML = `<span class="n">0${i + 1}</span><span>${L[0]}</span>`;
+    b.addEventListener("click", () => pickLevel(i)); lv.appendChild(b);
+  });
+  function pickLevel(i) {
+    [...lv.querySelectorAll(".mg-level")].forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+    document.getElementById("lvl-title").textContent = LEVELS[i][0];
+    document.getElementById("lvl-text").textContent = LEVELS[i][1];
+    document.getElementById("lvl-dna").textContent = LEVELS[i][2];
+  }
+  pickLevel(3);
+
+  // ---------- scene 2: formation ----------
+  const F = { site: "meadow", two: true, t: DNA.target, timer: null, form: null };
+  const fSvg = document.getElementById("f-svg"), fT = document.getElementById("f-t");
+  const fSites = document.getElementById("f-sites");
+  Object.entries(SITES).forEach(([id, s]) => { const b = document.createElement("button"); b.className = "mg-btn"; b.textContent = s.name; b.dataset.site = id; b.addEventListener("click", () => { F.site = id; rebuildF(); }); fSites.appendChild(b); });
+  function rebuildF() {
+    const site = SITES[F.site]; const centres = F.two ? site.centres : [site.centres[0]];
+    F.form = form(site, centres);
+    fT.max = F.form.steps.length - centres.length;
+    [...fSites.children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.site === F.site)));
+    document.getElementById("f-c1").setAttribute("aria-pressed", String(!F.two));
+    document.getElementById("f-c2").setAttribute("aria-pressed", String(F.two));
+    document.getElementById("f-site-note").textContent = site.note;
+    F.t = Math.min(F.t, +fT.max); fT.value = F.t; drawF();
+  }
+  function drawF() {
+    const site = SITES[F.site]; const layer = drawSite(fSvg, site);
+    const body = drawBody(layer, bodyAt(F.form, F.t)); const s = stats(body);
+    document.getElementById("f-v").textContent = s.v; document.getElementById("f-e").textContent = s.e; document.getElementById("f-env").textContent = s.env;
+    document.getElementById("f-tlabel").textContent = `t = ${F.t} of ${fT.max} formation steps`;
+    document.getElementById("f-title").textContent = `Plan view · ${site.name}`;
+  }
+  fT.addEventListener("input", () => { stopF(); F.t = +fT.value; drawF(); });
+  document.getElementById("f-c1").addEventListener("click", () => { F.two = false; rebuildF(); });
+  document.getElementById("f-c2").addEventListener("click", () => { F.two = true; rebuildF(); });
+  function stopF() { if (F.timer) { clearInterval(F.timer); F.timer = null; document.getElementById("f-play").textContent = "▶ Grow"; } }
+  document.getElementById("f-play").addEventListener("click", () => {
+    if (F.timer) return stopF();
+    if (F.t >= +fT.max) F.t = 0;
+    document.getElementById("f-play").textContent = "❚❚ Pause";
+    F.timer = setInterval(() => { F.t++; fT.value = F.t; drawF(); if (F.t >= +fT.max) stopF(); }, 110);
+  });
+  rebuildF();
+
+  // ---------- scene 3: twins ----------
+  (function twins() {
+    const out = [];
+    [["tw-a", "meadow"], ["tw-b", "slope"]].forEach(([id, sid]) => {
+      const site = SITES[sid]; const f = form(site, site.centres); const body = bodyAt(f, f.steps.length);
+      drawBody(drawSite(document.getElementById(id), site), body);
+      const s = stats(body); let minx = 99, maxx = -1, miny = 99, maxy = -1;
+      for (const n of body.nodes.values()) { minx = Math.min(minx, n.x); maxx = Math.max(maxx, n.x); miny = Math.min(miny, n.y); maxy = Math.max(maxy, n.y); }
+      out.push({ s, w: maxx - minx + 1, h: maxy - miny + 1 });
+      document.getElementById(id + "-s").textContent = `${s.v} elements · ${s.e} relations · ${s.env} envelope · footprint ${maxx - minx + 1} × ${maxy - miny + 1} cells`;
+    });
+    document.getElementById("tw-note").textContent = `Same egg, same number of elements (${out[0].s.v}), but a different body. On the meadow the body stretches toward the southern sun (${out[0].w} × ${out[0].h}). On the slope it is pushed east, away from the strong west wind, and wraps around the rock (${out[1].w} × ${out[1].h}). The two buildings are siblings with one hereditary origin and two individual histories.`;
+  })();
+
+  // ---------- scene 4: damage & recovery ----------
+  const R = { site: SITES.meadow, base: null, damage: null, results: [], sel: -1, timer: null };
+  const rSvg = document.getElementById("r-svg");
+  (function initR() {
+    const f = form(R.site, R.site.centres); R.form = f; R.base = bodyAt(f, f.steps.length);
+    const nodes = [...R.base.nodes.values()];
+    const c1 = R.site.centres[0], c2 = R.site.centres[1];
+    const east = nodes.reduce((a, b) => (b.x > a.x ? b : a));
+    const south = nodes.reduce((a, b) => (b.y > a.y || (b.y === a.y && b.x < a.x) ? b : a));
+    R.presets = [
+      { name: "Strike at centre c1", at: { x: c1.x - 0.5, y: c1.y }, r: 1.6 },
+      { name: "East edge", at: { x: east.x, y: east.y }, r: 2.6 },
+      { name: "Between centres", at: { x: (c1.x + c2.x) / 2, y: (c1.y + c2.y) / 2 }, r: 1.5 },
+      { name: "South edge", at: { x: south.x, y: south.y }, r: 2.4 }
+    ];
+    const box = document.getElementById("r-dmg");
+    R.presets.forEach((p, i) => { const b = document.createElement("button"); b.className = "mg-btn"; b.textContent = p.name; b.addEventListener("click", () => applyDamage(i)); box.appendChild(b); });
+    const b0 = document.createElement("button"); b0.className = "mg-btn"; b0.textContent = "Reset"; b0.addEventListener("click", resetR); box.appendChild(b0);
+    resetR();
+  })();
+
+  function resetR() {
+    stopR(); R.damage = null; R.results = []; R.sel = -1;
+    [...document.getElementById("r-dmg").children].forEach(b => b.setAttribute("aria-pressed", "false"));
+    drawBody(drawSite(rSvg, R.site), R.base);
+    document.getElementById("r-title").textContent = "Body before damage";
+    document.getElementById("r-rows").innerHTML = `<tr><td colspan="5" style="color:var(--muted)">No damage yet.</td></tr>`;
+    document.getElementById("r-note").textContent = "Select a damage to start.";
+  }
+
+  function components(nodes, edges) {
+    const adj = new Map(); for (const k of nodes.keys()) adj.set(k, []);
+    for (const [a, b] of edges) if (adj.has(a) && adj.has(b)) { adj.get(a).push(b); adj.get(b).push(a); }
+    const comp = new Map(); let id = 0;
+    for (const k of nodes.keys()) { if (comp.has(k)) continue; const st = [k]; comp.set(k, id); while (st.length) { const u = st.pop(); for (const v of adj.get(u)) if (!comp.has(v)) { comp.set(v, id); st.push(v); } } id++; }
+    return comp;
+  }
+
+  function applyDamage(i) {
+    stopR(); const p = R.presets[i];
+    [...document.getElementById("r-dmg").children].forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+    const lost = new Set();
+    for (const [k, n] of R.base.nodes) if (dist(n, p.at) <= p.r) lost.add(k);
+    const nodes = new Map(); for (const [k, n] of R.base.nodes) if (!lost.has(k)) nodes.set(k, { ...n });
+    const edges = R.base.edges.filter(([a, b]) => nodes.has(a) && nodes.has(b));
+    R.damage = { lost, nodes, edges, name: p.name };
+    // candidate centres: c1, c2, local seed
+    const cands = [];
+    R.site.centres.forEach((c, j) => cands.push({ label: "c" + (j + 1), x: c.x, y: c.y }));
+    const sk = R.form.seedKey.split(",").map(Number); cands.push({ label: "local seed", x: sk[0], y: sk[1] });
+    R.results = cands.map(c => recover(c));
+    const adm = R.results.filter(r => r.ok); const best = adm.length ? adm.reduce((a, b) => (b.J < a.J ? b : a)) : null;
+    if (best) best.best = true;
+    R.sel = best ? R.results.indexOf(best) : -1;
+    renderRows(); drawDamaged();
+    const n = document.getElementById("r-note");
+    const cutN = countCut();
+    n.innerHTML = `${lost.size} elements lost${cutN ? `, ${cutN} cut off from every centre` : ""}. ${adm.length} of ${R.results.length} centres have an admissible trajectory.` + (best ? ` Lowest cost: <strong>${best.label}</strong>. Click a row to replay.` : "");
+  }
+
+  function countCut() {
+    const comp = components(R.damage.nodes, R.damage.edges); const anchors = new Set();
+    for (const r of R.results) if (r.ok) anchors.add(comp.get(key(r.c.x, r.c.y)));
+    let n = 0; for (const [k] of R.damage.nodes) if (!anchors.has(comp.get(k))) n++; return n;
+  }
+
+  function recover(c) {
+    const ck = key(c.x, c.y); const D = R.damage;
+    const res = { label: c.label, c, ok: false, why: "", steps: [], time: 0, material: 0, shape: 0, J: Infinity };
+    if (!D.nodes.has(ck)) { res.why = "centre lost"; return res; }
+    const occ = new Map(); for (const [k, n] of D.nodes) occ.set(k, { ...n, depth: 0 });
+    const edges = D.edges.slice();
+    const comp = components(occ, edges); const myComp = comp.get(ck);
+    const isolated = new Set([...occ.keys()].filter(k => comp.get(k) !== myComp));
+    // depth from c over the active component
+    const target = R.base.nodes.size; let guard = 0;
+    while ((occ.size < target || isolated.size) && guard++ < 300) {
+      let best = null, bestCost = Infinity;
+      for (const [k, n] of occ) {
+        if (isolated.has(k)) continue;
+        for (const [dx, dy] of N4) {
+          const x = n.x + dx, y = n.y + dy, kk = key(x, y);
+          if (!inGrid(x, y) || occ.has(kk) || R.site.blocked.has(kk)) continue;
+          if (dist(c, { x, y }) > DNA.reach) continue;
+          let bonus = 0; for (const [ex, ey] of N4) if (isolated.has(key(x + ex, y + ey))) bonus = -3;
+          const cost = dist(c, { x, y }) * 1.0 + (D.lost.has(kk) ? 1.2 : 0) + envCost(R.site, x, y) * 0.6 + hash(x, y, DNA.seed) * 0.5 + bonus;
+          if (cost < bestCost) { bestCost = cost; best = { x, y }; }
+        }
+      }
+      if (!best) { res.why = "out of equipment reach"; return res; }
+      const st = addNode(occ, best.x, best.y, isolated);
+      st.edges.forEach(e => edges.push(e));
+      // merge reconnected components
+      for (const [a, b] of st.edges) { const other = a === key(best.x, best.y) ? b : a; if (isolated.has(other)) { const cid = comp.get(other); for (const k of [...isolated]) if (comp.get(k) === cid) isolated.delete(k); } }
+      res.steps.push(st); res.time += dist(c, best);
+    }
+    if (isolated.size || occ.size < target) { res.why = "objective not met"; return res; }
+    let shape = 0; for (const k of occ.keys()) if (!R.base.nodes.has(k)) shape++;
+    for (const k of R.base.nodes.keys()) if (!occ.has(k)) shape++;
+    res.ok = true; res.material = res.steps.length; res.shape = shape; res.time = Math.round(res.time * 10) / 10;
+    res.J = Math.round((0.4 * res.time + res.material + 1.5 * shape) * 10) / 10;
+    return res;
+  }
+
+  function renderRows() {
+    const tb = document.getElementById("r-rows"); tb.innerHTML = "";
+    R.results.forEach((r, i) => {
+      const tr = document.createElement("tr");
+      if (!r.ok) { tr.className = "no"; tr.innerHTML = `<td>${r.label}</td><td colspan="4">✕ ${r.why}</td>`; }
+      else { tr.className = "pick" + (i === R.sel ? " sel" : ""); tr.innerHTML = `<td>${r.best ? '<span class="mg-star">★</span> ' : ""}${r.label}</td><td>${r.time}</td><td>${r.material}</td><td>${r.shape}</td><td><strong>${r.J}</strong></td>`; tr.addEventListener("click", () => { R.sel = i; renderRows(); play(r); }); }
+      tb.appendChild(tr);
+    });
+  }
+
+  function drawDamaged() {
+    const D = R.damage; const layer = drawSite(rSvg, R.site);
+    const comp = components(D.nodes, D.edges); const anchors = new Set();
+    for (const r of R.results) if (r.ok) anchors.add(comp.get(key(r.c.x, r.c.y)));
+    const cut = new Set([...D.nodes.keys()].filter(k => !anchors.has(comp.get(k))));
+    drawBody(layer, { nodes: withMarks(D.nodes), edges: D.edges }, { lost: D.lost, cut });
+    document.getElementById("r-title").textContent = `After damage · ${D.name}`;
+  }
+
+  function withMarks(nodes) {
+    const m = new Map(); for (const [k, n] of nodes) { const o = { x: n.x, y: n.y }; const b = R.base.nodes.get(k); if (b) { o.centre = b.centre; o.seed = b.seed; } m.set(k, o); } return m;
+  }
+
+  function stopR() { if (R.timer) { clearInterval(R.timer); R.timer = null; } }
+  function play(r) {
+    stopR(); const D = R.damage; let i = 0;
+    const lostLeft = new Set(D.lost);
+    const frame = () => {
+      const nodes = withMarks(D.nodes); const edges = D.edges.slice(); const fresh = new Set();
+      r.steps.slice(0, i).forEach(s => { const k = key(s.x, s.y); nodes.set(k, { x: s.x, y: s.y }); fresh.add(k); s.edges.forEach(e => edges.push(e)); lostLeft.delete(k); });
+      const layer = drawSite(rSvg, R.site);
+      drawBody(layer, { nodes, edges }, { lost: lostLeft, fresh });
+      const [cx, cy] = px(r.c.x, r.c.y);
+      el("circle", { cx, cy, r: DNA.reach * CELL, fill: "rgba(201,167,255,.04)", stroke: "rgba(201,167,255,.35)", "stroke-dasharray": "4 4" }, layer);
+      document.getElementById("r-title").textContent = `Recovery from ${r.label} · step ${i} of ${r.steps.length}`;
+    };
+    frame();
+    R.timer = setInterval(() => { i++; frame(); if (i >= r.steps.length) { stopR(); document.getElementById("r-note").innerHTML = `Recovered from <strong>${r.label}</strong>: ${r.material} elements re-formed, ${r.shape} positions differ from the body before damage. The dashed circle shows the equipment reach of the centre. Try another row to compare: the route changes the resulting organization.`; } }, 140);
+  }
+
+  // ---------- scene 5: cycle ----------
+  const CYC = [
+    ["Cloud DNA", "The structured hereditary layer: principles, class rules, lineage adaptations."],
+    ["Individual egg", "The digital start of one individual. It carries mechanisms, not a blueprint."],
+    ["Environment & substrate", "Site, soil, climate, loads, available material, functional requirements and regulations."],
+    ["Morphogenesis", "Formation from centres through physical formation mechanisms. It stays available for life: growth, adaptation and recovery."],
+    ["Individual phenotype", "The particular body, with its own history, damage and adaptations."],
+    ["Experience", "What happened to this body: which strategies kept it viable and which did not."],
+    ["Selected adaptations", "Useful mechanisms abstracted from the particular body into transferable rules."],
+    ["Future Cloud DNA", "The rules enter the lineage layer and become part of the next eggs. The cycle closes."]
+  ];
+  (function cycle() {
+    const svg = document.getElementById("cy-svg"); const cx = 380, cy = 220, R0 = 150;
+    el("circle", { cx, cy, r: R0, fill: "none", stroke: "rgba(156,255,201,.22)", "stroke-width": 2 }, svg);
+    const dot = el("circle", { r: 6, fill: "#f4df9b" }, svg);
+    const t0 = el("text", { x: cx, y: cy - 6, "text-anchor": "middle", fill: "#eef6f2", "font-size": 22, "font-family": "Cormorant Garamond, serif" }, svg); t0.textContent = "not copying bodies,";
+    const t1 = el("text", { x: cx, y: cy + 20, "text-anchor": "middle", fill: "#99b4b2", "font-size": 22, "font-family": "Cormorant Garamond, serif" }, svg); t1.textContent = "selecting mechanisms";
+    const groups = CYC.map((c, i) => {
+      const a = -Math.PI / 2 + i * 2 * Math.PI / CYC.length; const x = cx + R0 * Math.cos(a), y = cy + R0 * Math.sin(a);
+      const g = el("g", { style: "cursor:pointer", tabindex: 0, role: "button" }, svg);
+      el("circle", { cx: x, cy: y, r: 13, fill: i === 0 || i === 7 ? "#f4df9b" : i === 1 ? "#7fd8ff" : "#9cffc9" }, g);
+      const n = el("text", { x, y: y + 4, "text-anchor": "middle", "font-size": 11, "font-weight": 700, fill: "#06131c" }, g); n.textContent = i + 1;
+      const right = Math.cos(a) > 0.2, left = Math.cos(a) < -0.2;
+      const lab = el("text", { x: x + (right ? 20 : left ? -20 : 0), y: y + (right || left ? 4 : Math.sin(a) < 0 ? -20 : 30), "text-anchor": right ? "start" : left ? "end" : "middle", "font-size": 13, fill: "#eef6f2" }, g); lab.textContent = c[0];
+      g.addEventListener("click", () => pick(i)); g.addEventListener("keydown", e => { if (e.key === "Enter") pick(i); });
+      return g;
+    });
+    function pick(i) { document.getElementById("cy-title").textContent = `${i + 1}. ${CYC[i][0]}`; document.getElementById("cy-text").textContent = CYC[i][1]; groups.forEach((g, j) => g.setAttribute("opacity", j === i ? 1 : .55)); }
+    pick(0);
+    let a = 0; const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const tick = () => { a += 0.006; dot.setAttribute("cx", cx + R0 * Math.cos(a - Math.PI / 2)); dot.setAttribute("cy", cy + R0 * Math.sin(a - Math.PI / 2)); if (!reduce) requestAnimationFrame(tick); };
+    tick();
+  })();
+
+  // restore last scene
+  try { const s = +localStorage.getItem("mg-scene"); if (s >= 0 && s < scenes.length) show(s); } catch (e) {}
+})();
+</script>
+</body>
+</html>
