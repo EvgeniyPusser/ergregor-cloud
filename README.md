@@ -56,3 +56,9 @@ After that, every push to `main` deploys automatically.
 Open `buildings/thermal.html` (Russian) or `buildings/thermal-en.html` (English), or choose **Thermal calculator** inside Buildings. These pages embed the original browser calculator and weather data from `living-things-sim/calc/stend.html` and `bench.html`; only Egregor navigation was added. They work when opened directly from the IDE, without a Python server or network connection.
 
 This is a bundled copy, not an automatic sync: changes in living-things-sim require updating the two calculator pages. The research project's Python experiments are not run by the website.
+
+## Living Building Assembly (3D)
+
+Open `buildings/assembly/index.html`, or choose **Living Building** inside Buildings. It is an interactive 3D model: formation from morphogenetic centres, nervous and utility networks, stress map and integrity sensors, damage and repair, and a real architectural project laid over the scheme. It works when opened directly from disk, without a server or network connection.
+
+This is a bundled copy of the separate repository https://github.com/EvgeniyPusser/living-building-assembly (copied without `.git`, `.idea` and `_versions`; only a back link to Egregor Cloud was added). It is not an automatic sync: changes in living-building-assembly require copying the files again.
