@@ -59,6 +59,6 @@ This is a bundled copy, not an automatic sync: changes in living-things-sim requ
 
 ## Living Building Assembly (3D)
 
-Open `buildings/assembly/index.html`, or choose **Living Building** inside Buildings. It is an interactive 3D model: formation from morphogenetic centres, nervous and utility networks, stress map and integrity sensors, damage and repair, and a real architectural project laid over the scheme. It works when opened directly from disk, without a server or network connection.
+Choose **Living Building** inside Buildings. It opens the live version published by GitHub Pages: https://evgeniypusser.github.io/living-building-assembly/
 
-This is a bundled copy of the separate repository https://github.com/EvgeniyPusser/living-building-assembly (copied without `.git`, `.idea` and `_versions`; only a back link to Egregor Cloud was added). It is not an automatic sync: changes in living-building-assembly require copying the files again.
+Source: https://github.com/EvgeniyPusser/living-building-assembly. Every push to its `main` branch updates the published version within a minute or two, so the portal always shows the latest one. Needs an internet connection.
