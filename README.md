@@ -53,9 +53,11 @@ After that, every push to `main` deploys automatically.
 
 ## Thermal calculator
 
-Open `buildings/thermal.html` (Russian) or `buildings/thermal-en.html` (English), or choose **Thermal calculator** inside Buildings. These pages embed the original browser calculator and weather data from `living-things-sim/calc/stend.html` and `bench.html`; only Egregor navigation was added. They work when opened directly from the IDE, without a Python server or network connection.
+Choose **Thermal calculator** inside Buildings (or the buttons on Heat & tests). It opens the live calculator published by GitHub Pages from `living-things-sim`:
+- Russian: https://evgeniypusser.github.io/living-things-sim/calc/stend.html
+- English: https://evgeniypusser.github.io/living-things-sim/calc/bench.html
 
-This is a bundled copy, not an automatic sync: changes in living-things-sim require updating the two calculator pages. The research project's Python experiments are not run by the website.
+Source: https://github.com/EvgeniyPusser/living-things-sim (`calc/`). Every push to its `main` branch updates the published calculator within a minute or two, so the portal always shows the latest one. Needs an internet connection. The research project's Python experiments are not run by the website.
 
 ## Living Building Assembly (3D)
 
